@@ -1,0 +1,1 @@
+<Playlist Version="1.0"><Add Test="LatteTest::Updater::checkVersion" /><Add Test="LatteTest::Updater::jsonTest" /></Playlist>

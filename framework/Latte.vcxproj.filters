@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="lib">
+      <UniqueIdentifier>{db31e0b2-104e-4508-b605-0a257072174f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\base">
+      <UniqueIdentifier>{a3bb626e-65ad-4192-96eb-80b0d620c1d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\core">
+      <UniqueIdentifier>{9ed800e7-153e-416a-a140-2024ffa44655}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\net">
+      <UniqueIdentifier>{f6499299-234f-411b-b6ea-c97fa7d639ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\net\updater">
+      <UniqueIdentifier>{676c5f28-e079-49e7-96f1-9d42bb539d13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\utils">
+      <UniqueIdentifier>{b148aeaf-898d-4648-ab88-a81b01f7df85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external">
+      <UniqueIdentifier>{a5018ff7-3044-49de-92a2-a30b2608052d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external\json">
+      <UniqueIdentifier>{0db2ca3d-7e4c-4047-a8df-7d7669f84e1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lib\net\源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>lib\net\源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\core\XApplication.cpp">
+      <Filter>lib\core</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\core\XLatte.cpp">
+      <Filter>lib\core</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\core\XScheduler.cpp">
+      <Filter>lib\core</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\net\updater\XUpdater.cpp">
+      <Filter>lib\net\updater</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\net\XDownloader.cpp">
+      <Filter>lib\net</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\utils\XUtilsFile.cpp">
+      <Filter>lib\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="external\json\src\lib_json\json_reader.cpp">
+      <Filter>external\json</Filter>
+    </ClCompile>
+    <ClCompile Include="external\json\src\lib_json\json_value.cpp">
+      <Filter>external\json</Filter>
+    </ClCompile>
+    <ClCompile Include="external\json\src\lib_json\json_writer.cpp">
+      <Filter>external\json</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\utils\XUtilsMath.cpp">
+      <Filter>lib\utils</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="lib\base\global.h">
+      <Filter>lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\base\macros.h">
+      <Filter>lib\base</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\core\XApplication.h">
+      <Filter>lib\core</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\core\XLatte.h">
+      <Filter>lib\core</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\core\XScheduler.h">
+      <Filter>lib\core</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\net\updater\XUpdater.h">
+      <Filter>lib\net\updater</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\net\XDownloader.h">
+      <Filter>lib\net</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\utils\XUtilsFile.h">
+      <Filter>lib\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="external\json\src\lib_json\json_batchallocator.h">
+      <Filter>external\json</Filter>
+    </ClInclude>
+    <ClInclude Include="external\json\src\lib_json\json_tool.h">
+      <Filter>external\json</Filter>
+    </ClInclude>
+    <ClInclude Include="config.h">
+      <Filter>lib</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\utils\XUtilsMath.h">
+      <Filter>lib\utils</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+    <None Include="external\json\src\lib_json\json_internalarray.inl">
+      <Filter>external\json</Filter>
+    </None>
+    <None Include="external\json\src\lib_json\json_internalmap.inl">
+      <Filter>external\json</Filter>
+    </None>
+    <None Include="external\json\src\lib_json\json_valueiterator.inl">
+      <Filter>external\json</Filter>
+    </None>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,1 @@
+<Playlist Version="1.0"><Add Test="LatteTest::Downloader::downloadAsync" /><Add Test="LatteTest::Downloader::processCall" /><Add Test="LatteTest::Downloader::downloadSync" /><Add Test="LatteTest::Downloader::errorCall" /></Playlist>
