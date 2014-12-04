@@ -446,7 +446,7 @@ std::string XUtilsFile::formatPath(const std::string& path)
 	std::string returnPath = convertPathFormatToUnixStyle(path);
 #ifdef WIN32
 	
-	if (path.find_first_of(":") != 1 && path.find_first_of(".\/")!=0)
+	if (path.find_first_of(":") != 1 && path.find_first_of(".\/") != 0 && path.find_first_of("file:") != 0)
 	{
 		returnPath.insert(0, ".\/");
 	}

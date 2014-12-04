@@ -11,26 +11,24 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{0890DAA4-B57D-479C-A0E3-355D9674B21B}</ProjectGuid>
+    <ProjectGuid>{18D77053-A198-460A-B01E-D182EDCEF0B3}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>DownloaderTest</RootNamespace>
-    <ProjectName>LatteTest</ProjectName>
+    <RootNamespace>resUpdater</RootNamespace>
+    <ProjectName>ResUpdater</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
-    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
-    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -44,76 +42,80 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);D:\my_work\cpp\test\Updater\external\curl\prebuilt\win32;</LibraryPath>
-    <OutDir>$(ProjectDir)\bin\$(Configuration)\</OutDir>
-    <IntDir>$(ProjectDir)\obj\$(Configuration)\</IntDir>
-    <SourcePath>$(VC_SourcePath);</SourcePath>
+    <OutDir>$(ProjectDir)\dist\$(Configuration).Win32\</OutDir>
+    <SourcePath>.\src;$(SourcePath)</SourcePath>
+    <IntDir>$(ProjectDir)\build\$(Configuration).Win32\</IntDir>
+    <LibraryPath>.\libs\cef;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LinkIncremental>true</LinkIncremental>
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(ProjectDir)\dist\$(Configuration).Win32\</OutDir>
+    <IncludePath>.\libs\cef;$(IncludePath)</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);.\libs\cef</LibraryPath>
+    <IntDir>$(ProjectDir)\build\$(Configuration).Win32\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories);$(SolutionDir)\framework\external\curl\include\win32;$(SolutionDir)\framework\external\json\include</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <UseFullPaths>true</UseFullPaths>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(ProjectDir)libs\cef;$(SolutionDir)framework\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;$(SolutionDir)framework\external\curl\prebuilt\win32;$(SolutionDir)framework\obj\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libcurl_imp.lib;%(AdditionalDependencies);XLatte.obj;XScheduler.obj;XUpdater.obj;XDownloader.obj;XUtilsFile.obj;XUtilsMath.obj;XApplication.obj</AdditionalDependencies>
+      <AdditionalDependencies>wininet.lib;dnsapi.lib;version.lib;msimg32.lib;ws2_32.lib;usp10.lib;psapi.lib;dbghelp.lib;winmm.lib;shlwapi.lib;kernel32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;user32.lib;uuid.lib;odbc32.lib;odbccp32.lib;delayimp.lib;credui.lib;netapi32.lib;comctl32.lib;rpcrt4.lib;libcef.lib;libcef_dll_wrapper.lib;cef_sandbox.lib;XUtilsFile.obj;XUtilsMath.obj;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)framework\obj\Debug</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <UseFullPaths>true</UseFullPaths>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>wininet.lib;dnsapi.lib;version.lib;msimg32.lib;ws2_32.lib;usp10.lib;psapi.lib;dbghelp.lib;winmm.lib;shlwapi.lib;kernel32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;user32.lib;uuid.lib;odbc32.lib;odbccp32.lib;delayimp.lib;credui.lib;netapi32.lib;comctl32.lib;libcef.lib;libcef_dll_wrapper.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\external\json\src\lib_json\json_batchallocator.h" />
-    <ClInclude Include="..\..\external\json\src\lib_json\json_tool.h" />
-    <ClInclude Include="..\..\external\md5\md5.h" />
-    <ClInclude Include="stdafx.h" />
-    <ClInclude Include="targetver.h" />
+    <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\external\json\src\lib_json\json_reader.cpp" />
-    <ClCompile Include="..\..\external\json\src\lib_json\json_value.cpp" />
-    <ClCompile Include="..\..\external\json\src\lib_json\json_writer.cpp" />
-    <ClCompile Include="..\..\external\md5\md5.cpp" />
-    <ClCompile Include="..\..\external\md5\test.cpp" />
-    <ClCompile Include="LibTest.cpp" />
-    <ClCompile Include="stdafx.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="XDownloaderTest.cpp" />
-    <ClCompile Include="XUtilsFileTest.cpp" />
-    <ClCompile Include="XUpdaterTest.cpp" />
+    <ClCompile Include="src\binding_test.cpp" />
+    <ClCompile Include="src\client_app_delegates.cpp" />
+    <ClCompile Include="src\client_renderer.cpp" />
+    <ClCompile Include="src\resUpdater.cpp" />
+    <ClCompile Include="src\simple_app.cpp" />
+    <ClCompile Include="src\simple_handler.cpp" />
+    <ClCompile Include="src\simple_handler_win.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\external\json\src\lib_json\json_internalarray.inl" />
-    <None Include="..\..\external\json\src\lib_json\json_internalmap.inl" />
-    <None Include="..\..\external\json\src\lib_json\json_valueiterator.inl" />
+    <ClInclude Include="res\resource.h" />
+    <ClInclude Include="src\binding_test.h" />
+    <ClInclude Include="src\client_renderer.h" />
+    <ClInclude Include="src\resUpdater.h" />
+    <ClInclude Include="src\simple_app.h" />
+    <ClInclude Include="src\simple_handler.h" />
+    <ClInclude Include="src\targetver.h" />
+    <ClInclude Include="src\util.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\resUpdater.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\resUpdater.ico" />
+    <Image Include="res\small.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
