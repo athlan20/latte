@@ -129,7 +129,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam,
 			char** lppPart = { NULL };
 			//char* openUrl = "file:///";
 
-			::GetFullPathName(".\\..\\..\\..\\resUpdater\\webapp\\app\\index.html", buffSize, buffer, lppPart);
+			::GetFullPathName(".\\..\\..\\..\\helpers\\webapp\\app\\index.html", buffSize, buffer, lppPart);
 			std::string openUrl = "file:///" + std::string(buffer);
 			openUrl = XUtilsFile::formatPath(openUrl);
 			app->createBrowser(openUrl.c_str(), hWnd, rect);

@@ -42,7 +42,7 @@
     <ClInclude Include="binding_test.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="resUpdater.h">
+    <ClInclude Include="Helpers.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -68,7 +68,7 @@
     <ClCompile Include="client_app_delegates.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="resUpdater.cpp">
+    <ClCompile Include="Helpers.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -76,12 +76,12 @@
     <Image Include="small.ico">
       <Filter>资源文件</Filter>
     </Image>
-    <Image Include="resUpdater.ico">
+    <Image Include="Helpers.ico">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="resUpdater.rc">
+    <ResourceCompile Include="Helpers.rc">
       <Filter>资源文件</Filter>
     </ResourceCompile>
   </ItemGroup>
