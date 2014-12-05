@@ -1,0 +1,1 @@
+window.mainAppPath = 'modules/main/';

@@ -1,0 +1,14 @@
+{
+  "name": "resUpdater",
+  "private": true,
+  "dependencies": {
+    "jquery": "~2.1.1",
+    "jquery-qrcode":"*",
+    "jquery.lazyload":"*",
+    "angular":"*",
+    "requirejs":"*",
+    "angular-route":"*",
+    "requirejs-text":"*",
+    "bootstrap":"*"
+  }
+}

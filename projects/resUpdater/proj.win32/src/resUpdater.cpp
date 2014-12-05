@@ -10,7 +10,13 @@
 #include "include/cef_sandbox_win.h"
 #include "util.h"
 
+#include "base/global.h"
 #include "utils/XUtilsFile.h"
+
+#include "include/cef_app.h"
+
+#include <vector>
+#include <list>
 
 
 // Set to 0 to disable sandbox support.
@@ -37,6 +43,16 @@ HWND hFindDlg = NULL;  // Handle for the find dialog.
 CefRefPtr<SimpleApp> app;
 
 //pre define
+struct STab
+{
+	HWND                        hWndTab;
+	HWND                        hWndTabButton;
+	CefRefPtr<SimpleHandler>    cef_handler;
+
+	void Destroy();
+};
+
+typedef std::list<STab> LTabs;
 
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow) {
 	HWND hWnd;
@@ -77,7 +93,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam,
 	// Callback for the main window
 	switch (message) {
 		case WM_CREATE: {
-							SimpleApp::hwnd = hWnd;
+			SimpleApp::hwnd = hWnd;
 			//加一点按钮
 			RECT rect;
 			int x = 0;
@@ -126,9 +142,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam,
 			wmEvent = HIWORD(wParam);
 			switch (wmId)
 			{
-				case IDC_NAV_RELOAD:
-					app->refresh();
+			case IDC_NAV_RELOAD:
+			{
+				app->refresh();			
 				break;
+			}
 				case IDC_NAV_EXECUTE:
 				{
 					//HWND hWndEdit = ::GetDlgItem(hWnd, IDC_NAV_EXECUTE);
@@ -155,9 +173,23 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam,
 			return 0;
 
 		case WM_SIZE:
-
+		{
+			SimpleApp::hwnd = hWnd;
+			HWND cefHwnd = app->getBrowser()->GetHost()->GetWindowHandle();
+			if ( wParam != SIZE_MINIMIZED )//窗体大小发生变动。处理函数resize
+			{
+				RECT rect;
+				GetClientRect(hWnd, &rect);
+				rect.top = 35;
+				
+				SetWindowPos(cefHwnd, NULL, rect.left, rect.top,
+					rect.right - rect.left, rect.bottom - rect.top,
+					SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
+			}
 			break;
-
+		}
+		case WM_KEYUP:
+			break;
 		case WM_ERASEBKGND:
 			break;
 

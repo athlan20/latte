@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>app</title>
+    <link href="styles/topcoat-mobile-light.min.css" rel="stylesheet">
+</head>
+<style>
+  #codeico{
+    position:absolute;
+    top:50%;
+    left:50%;
+    z-index:99999997;
+    width:60px; 
+    height:60px;
+    background:url(http://c.hiphotos.baidu.com/ting/pic/item/8d5494eef01f3a297fd6a19d9a25bc315c607c42.jpg) no-repeat;
+    background-size: 60px 60px;
+    -webkit-transform: translate(-30px, -30px);
+  }
+
+</style>
+<body>
+
+<div class="topcoat-navigation-bar">
+   <div class="topcoat-navigation-bar__item left quarter">
+       <a class="topcoat-icon-button--quiet">
+         <span class="topcoat-icon topcoat-icon--menu-stack"></span>
+       </a>
+   </div>
+   <div class="topcoat-navigation-bar__item center half">
+       <h1 class="topcoat-navigation-bar__title">app</h1>
+   </div>
+   <div class="topcoat-navigation-bar__item right quarter">
+       <a class="topcoat-icon-button--quiet">
+         <span class="topcoat-icon topcoat-icon--edit"></span>
+       </a>
+   </div>
+</div>
+
+<div id="qrCode" style="position:relative;width:165px;height:165px;margin-left:50%;margin-top:20px;"><div id="codeico"></div></div>
+
+<article id="button-bar" class="component">
+    <header>
+      <h2>Button Bar</h2>
+    </header>
+    <section class="component">
+    <div class="topcoat-button-bar">
+      <div class="topcoat-button-bar__item">
+        <button class="topcoat-button--cta" onClick="onQRclick();">One</button>
+      </div>
+      <div class="topcoat-button-bar__item">
+        <button class="topcoat-button--quiet">Two</button>
+      </div>
+      <div class="topcoat-button-bar__item">
+        <button class="topcoat-button">Three</button>
+      </div>
+    </div>
+  </section>
+</article>
+
+</body>
+<script src="../bower_components/jquery/dist/jquery.min.js"></script>
+<script src="../bower_components/jquery-qrcode/jquery.qrcode.min.js"></script>
+<script>
+  
+function onQRclick(){
+  $('#qrCode').qrcode({width: 165,height: 165,text: "http://m.fat60.qa.nt.ctripcorp.com/webapp/you/dangdiren/service/1.html"});
+}
+
+</script>
+</html>

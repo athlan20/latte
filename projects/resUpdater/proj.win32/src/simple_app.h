@@ -20,6 +20,7 @@ public:
 	bool refresh();
 	bool executeScript(std::string script);
 	bool callScript(std::string scriptMethod);
+	CefRefPtr<CefBrowser> getBrowser();
 
 public:
 	// Interface for browser delegates. All BrowserDelegates must be returned via

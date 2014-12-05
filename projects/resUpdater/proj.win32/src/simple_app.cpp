@@ -113,6 +113,8 @@ bool SimpleApp::createBrowser(std::string url, HWND hWnd, RECT offsetRect)
 	this->hWnd = hWnd;
 	CefRefPtr<SimpleHandler> handler(new SimpleHandler());
 	CefWindowInfo info;
+	info.style |= WS_VISIBLE;
+	info.style |= WS_MAXIMIZE;
 	CefBrowserSettings settings;
 	info.SetAsChild(hWnd, offsetRect);
 
@@ -132,6 +134,11 @@ bool SimpleApp::executeScript(std::string script)
 bool SimpleApp::callScript(std::string scriptMethod)
 {
 	return true;
+}
+
+CefRefPtr<CefBrowser> SimpleApp::getBrowser()
+{
+	return this->browser;
 }
 
 bool SimpleApp::destroyBrwoser()

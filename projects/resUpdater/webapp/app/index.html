@@ -3,39 +3,15 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>app</title>
-    <link href="styles/topcoat-mobile-dark.min.css" rel="stylesheet">
+    <title>helpers</title>
 </head>
-
+<!-- 新 Bootstrap 核心 CSS 文件 -->
+<link rel="stylesheet" href="scripts/bower_components/bootstrap/dist/css/bootstrap.min.css">
+<!-- 可选的Bootstrap主题文件（一般不用引入） -->
+<link rel="stylesheet" href="scripts/bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
 <body>
-
-<div class="topcoat-navigation-bar">
-   <div class="topcoat-navigation-bar__item left quarter">
-       <a class="topcoat-icon-button--quiet">
-         <span class="topcoat-icon topcoat-icon--menu-stack"></span>
-       </a>
-   </div>
-   <div class="topcoat-navigation-bar__item center half">
-       <h1 class="topcoat-navigation-bar__title">app</h1>
-   </div>
-   <div class="topcoat-navigation-bar__item right quarter">
-       <a class="topcoat-icon-button--quiet">
-         <span class="topcoat-icon topcoat-icon--edit"></span>
-       </a>
-   </div>
-</div>
-
-<div class="topcoat-list__container">
-	<h3 class="topcoat-list__header">Header</h3>
-	<ul class="topcoat-list">
-		<li class="topcoat-list__item--first">Item</li>
-		<li class="topcoat-list__item">Item</li>
-		<li class="topcoat-list__item">Item</li>
-		<li class="topcoat-list__item">
-			<button class="topcoat-button--large--cta">Awesome</button>
-		</li>
-	</ul>
-</div>
-
+	<div id="main"></div>
 </body>
+<script src="./scripts/config.js"></script>
+<script src="./scripts/bower_components/requirejs/require.js" data-main="./scripts/main.js"></script>
 </html>
