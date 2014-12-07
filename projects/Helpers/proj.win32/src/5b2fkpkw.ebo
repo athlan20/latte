@@ -112,23 +112,23 @@ bool SimpleApp::OnProcessMessageReceived(
 bool SimpleApp::createBrowser(std::string url, HWND hWnd, RECT offsetRect)
 {
 	this->hWnd = hWnd;
-	this->_handler = CefRefPtr<SimpleHandler>(new SimpleHandler());
+	CefRefPtr<SimpleHandler> handler(new SimpleHandler());
 	CefWindowInfo info;
 	info.style |= WS_VISIBLE;
 	info.style |= WS_MAXIMIZE;
 	CefBrowserSettings settings;
-
-	settings.file_access_from_file_urls = STATE_ENABLED;				//允许访问本地文件
+	SET_STATE();
+	//settings.file_access_from_file_urls
 	info.SetAsChild(hWnd, offsetRect);
 
-	CefBrowserHost::CreateBrowserSync(info, _handler.get(), url, settings, NULL);
+	this->browser = CefBrowserHost::CreateBrowserSync(info, handler.get(), url, settings, NULL);
 	
 	return true;
 }
 
 bool SimpleApp::executeScript(std::string script)
 {
-	CefRefPtr<CefFrame> frame = this->getBrowser()->GetMainFrame();
+	CefRefPtr<CefFrame> frame = this->browser->GetMainFrame();
 	frame->ExecuteJavaScript("alert('ExecuteJavaScript works!');", frame->GetURL(), 0);
 
 	return true;
@@ -141,17 +141,19 @@ bool SimpleApp::callScript(std::string scriptMethod)
 
 CefRefPtr<CefBrowser> SimpleApp::getBrowser()
 {
-	return this->_handler->getBrowser();
+	return this->browser;
 }
 
 bool SimpleApp::destroyBrwoser()
 {
+	this->browser = NULL;
+
 	return true;
 }
 
 bool SimpleApp::refresh()
 {
-	this->getBrowser()->Reload();
+	this->browser->Reload();
 	return true;
 }
 

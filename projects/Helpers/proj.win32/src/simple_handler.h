@@ -8,6 +8,7 @@
 #include "include/cef_client.h"
 #include "include/cef_render_process_handler.h"
 #include "include/wrapper/cef_message_router.h"
+#include "include/cef_keyboard_handler.h"
 
 #include <list>
 #include <set>
@@ -15,6 +16,7 @@
 class SimpleHandler : public CefClient,
                       public CefDisplayHandler,
                       public CefLifeSpanHandler,
+					  public CefKeyboardHandler,
                       public CefLoadHandler{
  public:
   SimpleHandler();
@@ -34,6 +36,9 @@ class SimpleHandler : public CefClient,
   }
   virtual CefRefPtr<CefLoadHandler> GetLoadHandler() OVERRIDE {
     return this;
+  }
+  virtual CefRefPtr<CefKeyboardHandler> GetKeyboardHandler() OVERRIDE{
+	  return this;
   }
 
   // CefDisplayHandler methods:
@@ -60,6 +65,18 @@ class SimpleHandler : public CefClient,
 	  CefRefPtr<CefProcessMessage> message)
 	  OVERRIDE;
 
+  // keyboard event handler
+  virtual bool OnPreKeyEvent(CefRefPtr<CefBrowser> browser,
+	  const CefKeyEvent& event,
+	  CefEventHandle os_event,
+	  bool* is_keyboard_shortcut) OVERRIDE;
+
+  virtual bool OnKeyEvent(CefRefPtr<CefBrowser> browser,
+	  const CefKeyEvent& event,
+	  CefEventHandle os_event) OVERRIDE;
+
+  CefRefPtr<CefBrowser> getBrowser();
+
   // Request that all existing browser windows close.
   void CloseAllBrowsers(bool force_close);
 
@@ -79,6 +96,7 @@ protected:
   // List of existing browser windows. Only accessed on the CEF UI thread.
   typedef std::list<CefRefPtr<CefBrowser> > BrowserList;
   BrowserList browser_list_;
+  CefRefPtr<CefBrowser> _browser;
 
   bool is_closing_;
 

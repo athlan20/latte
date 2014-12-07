@@ -42,17 +42,6 @@ UINT uFindMsg;  // Message identifier for find events.
 HWND hFindDlg = NULL;  // Handle for the find dialog.
 CefRefPtr<SimpleApp> app;
 
-//pre define
-struct STab
-{
-	HWND                        hWndTab;
-	HWND                        hWndTabButton;
-	CefRefPtr<SimpleHandler>    cef_handler;
-
-	void Destroy();
-};
-
-typedef std::list<STab> LTabs;
 
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow) {
 	HWND hWnd;
@@ -129,11 +118,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam,
 			char** lppPart = { NULL };
 			//char* openUrl = "file:///";
 
-			::GetFullPathName(".\\..\\..\\..\\helpers\\webapp\\app\\index.html", buffSize, buffer, lppPart);
+			::GetFullPathName(".\\..\\webapp\\app\\index.html", buffSize, buffer, lppPart);
 			std::string openUrl = "file:///" + std::string(buffer);
 			openUrl = XUtilsFile::formatPath(openUrl);
 			app->createBrowser(openUrl.c_str(), hWnd, rect);
-
 			return 0;
 		}
 
@@ -152,7 +140,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam,
 					//HWND hWndEdit = ::GetDlgItem(hWnd, IDC_NAV_EXECUTE);
 					char sztextC[256];
 					GetDlgItemText(hWnd, IDC_INPUT_SCRIPT, sztextC, 256);
-					app->callScript(std::string(sztextC));
+					//app->callScript(std::string(sztextC));
+					app->getBrowser()->GetMainFrame()->LoadURL(sztextC);
 					break;
 				}
 				case IDM_EXIT:
@@ -188,8 +177,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam,
 			}
 			break;
 		}
-		case WM_KEYUP:
-			break;
 		case WM_ERASEBKGND:
 			break;
 
@@ -201,21 +188,23 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam,
 
 		case WM_CLOSE:
 			app->destroyBrwoser();
-			//DestroyWindow(hWnd); has execute by cef
+			//CefShutdown();
+			DestroyWindow(hWnd);
 			// Allow the close.
 			break;
 		case WM_QUIT:
-			
 			break;
 		case WM_DESTROY:
 			// Quitting CEF is handled in ClientHandler::OnBeforeClose().
+			//DestroyWindow(hWnd); //has execute by cef
+			//PostQuitMessage(0);
 			return 0;
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);
 	}
-
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
+
 
 ATOM MyRegisterClass(HINSTANCE hInstance) {
 	WNDCLASSEX wcex;
@@ -280,7 +269,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 #if !CEF_ENABLE_SANDBOX
 	settings.no_sandbox = true;
 #endif
-
+	settings.multi_threaded_message_loop = false;
 	// Initialize CEF.
 	CefInitialize(main_args, settings, app.get(), sandbox_info);
 
@@ -297,6 +286,17 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 	// Run the CEF message loop. This will block until CefQuitMessageLoop() is
 	// called.
 	CefRunMessageLoop();
+
+	//MSG msg;
+	//while (GetMessage(&msg, NULL, 0, 0))
+	//{
+	//	// Allow processing of find dialog messages.
+	//	if (hFindDlg && IsDialogMessage(hFindDlg, &msg))
+	//		continue;
+	//	XLOG("msg");
+	//	TranslateMessage(&msg);
+	//	DispatchMessage(&msg);
+	//}
 
 	// Shut down CEF.
 	CefShutdown();

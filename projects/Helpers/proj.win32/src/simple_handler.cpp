@@ -47,6 +47,12 @@ void SimpleHandler::OnAfterCreated(CefRefPtr<CefBrowser> browser) {
 
   // Add to the list of existing browsers.
   browser_list_.push_back(browser);
+  this->_browser = browser;
+}
+
+CefRefPtr<CefBrowser> SimpleHandler::getBrowser()
+{
+	return this->_browser;
 }
 
 bool SimpleHandler::DoClose(CefRefPtr<CefBrowser> browser) {
@@ -119,6 +125,26 @@ void SimpleHandler::CloseAllBrowsers(bool force_close) {
   for (; it != browser_list_.end(); ++it)
     (*it)->GetHost()->CloseBrowser(force_close);
 }
+
+bool SimpleHandler::OnPreKeyEvent(CefRefPtr<CefBrowser> browser,
+	const CefKeyEvent& event,
+	CefEventHandle os_event,
+	bool* is_keyboard_shortcut) {
+
+	return false;
+}
+
+bool SimpleHandler::OnKeyEvent(CefRefPtr<CefBrowser> browser,
+	const CefKeyEvent& event,
+	CefEventHandle os_event)
+{
+	if (os_event->wParam == 116)		//F5
+	{
+		this->getBrowser()->Reload();
+	}
+	return false;
+}
+
 
 bool SimpleHandler::OnProcessMessageReceived(
 	CefRefPtr<CefBrowser> browser,

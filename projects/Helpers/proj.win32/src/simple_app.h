@@ -4,8 +4,11 @@
 
 #ifndef CEF_TESTS_CEFSIMPLE_SIMPLE_APP_H_
 #define CEF_TESTS_CEFSIMPLE_SIMPLE_APP_H_
+#include "simple_handler.h"
+
 
 #include "include/cef_app.h"
+
 #include <string>
 #include <set>
 
@@ -121,7 +124,8 @@ private:
 		OVERRIDE;
 private:
 	HWND hWnd;
-	CefRefPtr<CefBrowser> browser;
+	CefRefPtr<SimpleHandler> _handler;
+	
 
 private:
 	// Creates all of the BrowserDelegate objects. Implemented in
