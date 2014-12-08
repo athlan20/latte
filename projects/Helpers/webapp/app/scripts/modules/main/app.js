@@ -2,10 +2,11 @@
 define([
     'jquery',
     'angular',
-    'angular-route'
+    'angular-route',
+    commonPath+'dialog/modalDialog'
 
-],function($,angular,ngRoute){
-    var app = angular.module("mainApp",['ngRoute']);
+],function($,angular,ngRoute,moduleModalDialog){
+    var app = angular.module("mainApp",['ngRoute',"mainApp.common.modalDialog"]);
 
     app.run(['$rootScope',function($rootScope){
 
@@ -13,8 +14,15 @@ define([
         // $rootScope.site = BlogInfo.site;
         // $rootScope.api = AppAPI.url;
         
+        setTimeout(function(){
+            //$rootScope.$emit("showModal");
+        },1000);        
 
     }]);
+
+
+
+    
     
     return app;
 });

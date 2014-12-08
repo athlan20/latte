@@ -35,11 +35,13 @@ define([
     'modules/main/app',
     'modules/main/directive',
     'modules/main/controller',
-
+    'modules/common/dialog/modalDialog'
 ],function(angular,$,bs,app){
 
     $().ready(function(){
         angular.bootstrap(document, ['mainApp']);
+
+        
     });
     
 });

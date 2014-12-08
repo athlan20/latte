@@ -114,14 +114,15 @@ bool SimpleApp::createBrowser(std::string url, HWND hWnd, RECT offsetRect)
 	this->hWnd = hWnd;
 	this->_handler = CefRefPtr<SimpleHandler>(new SimpleHandler());
 	CefWindowInfo info;
-	info.style |= WS_VISIBLE;
-	info.style |= WS_MAXIMIZE;
+	//info.style |= WS_VISIBLE;
+	//info.style |= WS_MAXIMIZE;
 	CefBrowserSettings settings;
 
 	settings.file_access_from_file_urls = STATE_ENABLED;				//允许访问本地文件
 	info.SetAsChild(hWnd, offsetRect);
+	//info.SetAsPopup(NULL, "cefsimple");
 
-	CefBrowserHost::CreateBrowserSync(info, _handler.get(), url, settings, NULL);
+	CefBrowserHost::CreateBrowser(info, _handler.get(), url, settings, NULL);
 	
 	return true;
 }
@@ -146,7 +147,20 @@ CefRefPtr<CefBrowser> SimpleApp::getBrowser()
 
 bool SimpleApp::destroyBrwoser()
 {
-	return true;
+	if (this->_handler.get() && !this->_handler->IsClosing()) {
+		CefRefPtr<CefBrowser> browser = this->getBrowser();
+		if (browser.get()) {
+			// Notify the browser window that we would like to close it. This
+			// will result in a call to ClientHandler::DoClose() if the
+			// JavaScript 'onbeforeunload' event handler allows it.
+			this->_handler->CloseAllBrowsers(true);
+			//this->_handler->Release();
+			this->_handler = NULL;
+			// Cancel the close.
+			return true;
+		}
+	}
+	return false;
 }
 
 bool SimpleApp::refresh()

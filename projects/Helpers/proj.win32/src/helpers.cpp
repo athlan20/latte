@@ -21,6 +21,7 @@
 
 // Set to 0 to disable sandbox support.
 #define CEF_ENABLE_SANDBOX 0
+#define WEBAPP_PATH ".\\..\\..\\webapp\\app\\index.html"
 
 #if CEF_ENABLE_SANDBOX
 // The cef_sandbox.lib static library is currently built with VS2010. It may not
@@ -118,7 +119,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam,
 			char** lppPart = { NULL };
 			//char* openUrl = "file:///";
 
-			::GetFullPathName(".\\..\\webapp\\app\\index.html", buffSize, buffer, lppPart);
+			::GetFullPathName(WEBAPP_PATH, buffSize, buffer, lppPart);
 			std::string openUrl = "file:///" + std::string(buffer);
 			openUrl = XUtilsFile::formatPath(openUrl);
 			app->createBrowser(openUrl.c_str(), hWnd, rect);
@@ -188,16 +189,21 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam,
 
 		case WM_CLOSE:
 			app->destroyBrwoser();
+			
 			//CefShutdown();
-			DestroyWindow(hWnd);
+			//DestroyWindow(hWnd);
 			// Allow the close.
 			break;
 		case WM_QUIT:
 			break;
 		case WM_DESTROY:
+			//CefQuitMessageLoop();
 			// Quitting CEF is handled in ClientHandler::OnBeforeClose().
+			//CefQuitMessageLoop();
 			//DestroyWindow(hWnd); //has execute by cef
+			//CefShutdown();
 			//PostQuitMessage(0);
+			
 			return 0;
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);
@@ -250,10 +256,8 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 
 	// SimpleApp implements application-level callbacks. It will create the first
 	// browser instance in OnContextInitialized() after CEF has initialized.
-	//CefRefPtr<SimpleApp> app(new SimpleApp);
-	//CefRefPtr<SimpleApp> app(new SimpleApp);
-	app = new SimpleApp;
-
+	app = new SimpleApp();
+	
 	// CEF applications have multiple sub-processes (render, plugin, GPU, etc)
 	// that share the same executable. This function checks the command-line and,
 	// if this is a sub-process, executes the appropriate logic.
@@ -269,7 +273,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 #if !CEF_ENABLE_SANDBOX
 	settings.no_sandbox = true;
 #endif
-	settings.multi_threaded_message_loop = false;
+	//settings.multi_threaded_message_loop = false;
 	// Initialize CEF.
 	CefInitialize(main_args, settings, app.get(), sandbox_info);
 
@@ -297,7 +301,6 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 	//	TranslateMessage(&msg);
 	//	DispatchMessage(&msg);
 	//}
-
 	// Shut down CEF.
 	CefShutdown();
 	//ÏûÏ¢
