@@ -32,11 +32,11 @@ define([
     'angular',
     'jquery',
     'bootstrap',
+    'config',
     'modules/main/app',
     'modules/main/directive',
-    'modules/main/controller',
-    'modules/common/dialog/modalDialog'
-],function(angular,$,bs,app){
+    'modules/main/controller'
+],function(angular,$,bs,app,config){
 
     $().ready(function(){
         angular.bootstrap(document, ['mainApp']);

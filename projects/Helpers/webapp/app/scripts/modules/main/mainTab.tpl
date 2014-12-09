@@ -3,3 +3,6 @@
   <li role="presentation"><a href="#">Profile</a></li>
   <li role="presentation"><a href="#">Messages</a></li>
 </ul>
+<div>
+	<ng-view></ng-view>
+</div>
