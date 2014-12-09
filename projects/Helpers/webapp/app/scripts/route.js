@@ -1,18 +1,17 @@
 define([
-	"config"
-],function(configData){
+	"appData"
+],function(appData){
 
-    var configFn = function($routeProvider,routeResolverServices){
-    	var route = routeResolverProvider.route;
+    var configFn = function($routeProvider){
     	
-    	for(var k in configData.routers){
-    		var router = configData.routers[k];
+    	for(var k in appData.routers){
+    		var router = appData.routers[k];
 			$routeProvider.when(router.router, {
-				templateUrl: 'scripts/modules/'+router.name+'/main.tpl', 
-				// controller: router.name+'Controller'
-				resolve: resolveController('/app/controllers/customersController.js')
+				templateUrl: '',//'scripts/modules/'+router.name+'/main.tpl', 
+				controller: router.name+'Controller'
 			});
     	}
+        $routeProvider.otherwise(appData.routers[0].router);
     };
     return configFn;
 });

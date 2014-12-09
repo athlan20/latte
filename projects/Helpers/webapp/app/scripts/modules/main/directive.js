@@ -1,8 +1,9 @@
 define([
     'jquery',
     mainAppPath+'app',
-    'angular'
-],function($,app){
+    'angular',
+    'appData'
+],function($,app,angular,appData){
     var mainDirective = app.directive("mainDirective",['$rootScope','$timeout',function($rootScope,$timeout){
 
     	return{
@@ -13,7 +14,7 @@ define([
     				event.preventDefault()
   					$(this).tab('show')
     			});
-
+                scope.routers = appData.routers;
     		}
 
     	}

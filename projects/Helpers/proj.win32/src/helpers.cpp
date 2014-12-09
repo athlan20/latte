@@ -21,7 +21,7 @@
 
 // Set to 0 to disable sandbox support.
 #define CEF_ENABLE_SANDBOX 0
-#define WEBAPP_PATH ".\\..\\..\\webapp\\app\\index.html"
+#define WEBAPP_PATH ".\\..\\webapp\\app\\index.html"
 
 #if CEF_ENABLE_SANDBOX
 // The cef_sandbox.lib static library is currently built with VS2010. It may not
