@@ -132,7 +132,7 @@ bool SimpleHandler::OnPreKeyEvent(CefRefPtr<CefBrowser> browser,
 	const CefKeyEvent& event,
 	CefEventHandle os_event,
 	bool* is_keyboard_shortcut) {
-	if (os_event->wParam == 116)		//F5
+	if (os_event && os_event->wParam == 116)		//F5
 	{
 		this->getBrowser()->Reload();
 	}

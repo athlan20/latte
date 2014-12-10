@@ -1,10 +1,10 @@
 define([
     'jquery',
-    'text!'+resUpdaterPath+'main.tpl'
-],function($,resUpdaterTpl){
+    'text!'+aboutPath+'main.tpl'
+],function($,aboutTpl){
     var controller = ['$scope','$http',function($scope,$http){
     	//alert(resUpdaterTpl);
-    	$('#moduleView').html(resUpdaterTpl);
+    	$('#moduleView').html(aboutTpl);
     }];
     return controller;
 });

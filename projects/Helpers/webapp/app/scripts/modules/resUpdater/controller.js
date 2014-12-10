@@ -2,9 +2,12 @@ define([
     'jquery',
     'text!'+resUpdaterPath+'main.tpl'
 ],function($,resUpdaterTpl){
-    var controller = ['$scope','$http',function($scope,$http){
+    var controller = ['$rootScope','$scope','$http',function($rootScope,$scope,$http){
     	//alert(resUpdaterTpl);
-    	$('#moduleView').html(resUpdaterTpl);
+    	//
+    	
+    	
+    	$('#moduleView').append(resUpdaterTpl);
     }];
     return controller;
 });
