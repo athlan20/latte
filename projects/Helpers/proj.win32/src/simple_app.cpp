@@ -165,7 +165,8 @@ bool SimpleApp::destroyBrwoser()
 
 bool SimpleApp::refresh()
 {
-	this->getBrowser()->Reload();
+	//this->getBrowser()->Reload();
+	this->getBrowser()->GetMainFrame()->LoadURL(this->getBrowser()->GetMainFrame()->GetURL());
 	return true;
 }
 

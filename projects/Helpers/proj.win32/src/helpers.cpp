@@ -136,20 +136,23 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam,
 				app->refresh();			
 				break;
 			}
-				case IDC_NAV_EXECUTE:
-				{
-					//HWND hWndEdit = ::GetDlgItem(hWnd, IDC_NAV_EXECUTE);
-					char sztextC[256];
-					GetDlgItemText(hWnd, IDC_INPUT_SCRIPT, sztextC, 256);
-					//app->callScript(std::string(sztextC));
-					app->getBrowser()->GetMainFrame()->LoadURL(sztextC);
-					break;
-				}
-				case IDM_EXIT:
-					DestroyWindow(hWnd);
-					break;
-				default:
-					return DefWindowProc(hWnd, message, wParam, lParam);
+			case IDC_NAV_EXECUTE:
+			{
+				CefRefPtr<CefFrame> frame = app->getBrowser()->GetMainFrame();
+				frame->ExecuteJavaScript("alert(123)",frame->GetURL(),0);
+				break;
+				//HWND hWndEdit = ::GetDlgItem(hWnd, IDC_NAV_EXECUTE);
+				char sztextC[256];
+				GetDlgItemText(hWnd, IDC_INPUT_SCRIPT, sztextC, 256);
+				//app->callScript(std::string(sztextC));
+				app->getBrowser()->GetMainFrame()->LoadURL(sztextC);
+				break;
+			}
+			case IDM_EXIT:
+				DestroyWindow(hWnd);
+				break;
+			default:
+				return DefWindowProc(hWnd, message, wParam, lParam);
 			}
 		}
 		case WM_PAINT:

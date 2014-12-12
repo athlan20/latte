@@ -1,13 +1,13 @@
 define([
     'jquery'
-],function($){
-    var directive = ['$rootScope','$scope','$http',function($rootScope,$scope,$http){
+],function($,mainTpl){
+    var directive = ['$rootScope','$http',function($rootScope,$http){
         return{
-
+            restrict: "E",
             scope: true,
             link:function(scope,element,attrs){
                 scope.selectDirectory=function(){
-                    alert('selectDirectory')
+                    nativeCall("selectDirectory",null);
                 }
             }
 

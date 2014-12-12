@@ -19,6 +19,17 @@ define([
 		configData.routers = routers;
 		
 		window.configData = configData;
+
+		window.getRouteObj = function(name){
+			var routeObj = null;
+			for(var k in routers){
+				routeObj = routers[k];
+				if(routeObj.name==name){
+					return routeObj;
+				}
+			}
+			return routeObj;
+		};
 	}
     
     return window.configData;

@@ -6,10 +6,11 @@ define([
     	
     	for(var k in appData.routers){
     		var router = appData.routers[k];
-
+            var tplName = router.tpl?router.tpl:"main.tpl";
 			$routeProvider.when(router.router, {
-				templateUrl: '',//'scripts/modules/'+router.name+'/main.tpl', 
-				controller: router.name+'Controller'
+				//template: router.name,//'scripts/modules/'+router.name+'/main.tpl',
+                templateUrl:"scripts/modules/"+router.name+"/"+tplName,
+				controller: router.name+"Controller"
 			});
     	}
 

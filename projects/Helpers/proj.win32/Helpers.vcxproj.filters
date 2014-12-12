@@ -4,6 +4,12 @@
     <Filter Include="res">
       <UniqueIdentifier>{c04048ff-0e67-47dd-af94-210b67f63647}</UniqueIdentifier>
     </Filter>
+    <Filter Include="external">
+      <UniqueIdentifier>{a941f5b3-1c62-47bf-8bed-775ae0f98a92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="external\lib_json">
+      <UniqueIdentifier>{43d78933-188b-4857-b2c5-d211ced357fc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\Helpers.rc">
@@ -29,6 +35,15 @@
     <ClCompile Include="src\simple_handler.cpp" />
     <ClCompile Include="src\simple_handler_win.cpp" />
     <ClCompile Include="src\helpers.cpp" />
+    <ClCompile Include="..\..\..\framework\external\json\src\lib_json\json_reader.cpp">
+      <Filter>external\lib_json</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\framework\external\json\src\lib_json\json_value.cpp">
+      <Filter>external\lib_json</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\framework\external\json\src\lib_json\json_writer.cpp">
+      <Filter>external\lib_json</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="res\resource.h" />
@@ -39,5 +54,22 @@
     <ClInclude Include="src\targetver.h" />
     <ClInclude Include="src\util.h" />
     <ClInclude Include="src\helpers.h" />
+    <ClInclude Include="..\..\..\framework\external\json\src\lib_json\json_batchallocator.h">
+      <Filter>external\lib_json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\framework\external\json\src\lib_json\json_tool.h">
+      <Filter>external\lib_json</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\framework\external\json\src\lib_json\json_internalarray.inl">
+      <Filter>external\lib_json</Filter>
+    </None>
+    <None Include="..\..\..\framework\external\json\src\lib_json\json_internalmap.inl">
+      <Filter>external\lib_json</Filter>
+    </None>
+    <None Include="..\..\..\framework\external\json\src\lib_json\json_valueiterator.inl">
+      <Filter>external\lib_json</Filter>
+    </None>
   </ItemGroup>
 </Project>

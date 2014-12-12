@@ -7,7 +7,6 @@ define([
     var mainController = app.controller("mainController",['$scope','$http',function($scope,$http){
 
     }]);
-
     $('#main').append(mainTabTpl);
     return mainController;
 });

@@ -4,7 +4,8 @@ define([
     'angular',
     'appData'
 ],function($,app,angular,appData){
-    var mainDirective = app.directive("mainDirective",['$rootScope','$timeout','$location',function($rootScope,$timeout,$location){
+    var mainDirective = app.directive("mainDirective",['$rootScope','$timeout','$location','$compile',
+        function($rootScope,$timeout,$location,$compile){
 
     	return{
 
@@ -28,6 +29,7 @@ define([
 
                     $(element).find('li[role="'+selectName+'"]').find('a').tab('show');
                 })
+
     		}
 
     	}

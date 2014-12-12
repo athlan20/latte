@@ -7,6 +7,8 @@
 #include <algorithm>
 #include <string>
 
+#include "json/json.h"
+
 #include "include/wrapper/cef_stream_resource_handler.h"
 
 namespace binding_test {
@@ -48,13 +50,18 @@ class Handler : public CefMessageRouterBrowserSide::Handler{
     //if (url.find(kTestUrl) != 0)
     //  return false;
 
-    const std::string& message_name = request;
-    if (message_name.find(kTestMessageName) == 0) {
+    const std::string& message = request;
+	Json::Value root;
+	if (message != ""){
+		Json::Reader jReader;
+		jReader.parse(message, root);
+	}
+	if (!root.isNull()) {
       // Reverse the string and return.
-      std::string result = message_name.substr(sizeof(kTestMessageName));
-      std::reverse(result.begin(), result.end());
-	  callback->Success(result);
-	  frame->ExecuteJavaScript("setTimeout(function(){alert(a)},1)","native",0);
+		std::string funcName = root["funcName"].asString();
+
+		callback->Success("success");
+		frame->ExecuteJavaScript("nativeCallJs(\"funcName\")","native",0);
       
       return true;
     }
