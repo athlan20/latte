@@ -88,8 +88,27 @@ void SimpleApp::OnContextCreated(CefRefPtr<CefBrowser> browser,
 
 	// Add the string to the window object as "window.myval". See the "JS Objects" section below.
 	object->SetValue("myval", str, V8_PROPERTY_ATTRIBUTE_NONE);
+}
 
+void SimpleApp::OnContextReleased(CefRefPtr<CefBrowser> browser,
+	CefRefPtr<CefFrame> frame,
+	CefRefPtr<CefV8Context> context)
+{
+	RenderDelegateSet::iterator it = render_delegates_.begin();
+	for (; it != render_delegates_.end(); ++it)
+		(*it)->OnContextReleased(this, browser, frame, context);
+}
 
+void SimpleApp::OnUncaughtException(CefRefPtr<CefBrowser> browser,
+	CefRefPtr<CefFrame> frame,
+	CefRefPtr<CefV8Context> context,
+	CefRefPtr<CefV8Exception> exception,
+	CefRefPtr<CefV8StackTrace> stackTrace) {
+	RenderDelegateSet::iterator it = render_delegates_.begin();
+	for (; it != render_delegates_.end(); ++it) {
+		(*it)->OnUncaughtException(this, browser, frame, context, exception,
+			stackTrace);
+	}
 }
 
 bool SimpleApp::OnProcessMessageReceived(

@@ -7,7 +7,8 @@ define([
             scope: true,
             link:function(scope,element,attrs){
                 scope.selectDirectory=function(){
-                    nativeCall("selectDirectory",null);
+                    //nativeCall("selectDirectory",null);
+                    window.cefQuery({request:"abc"});
                 }
             }
 
