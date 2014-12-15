@@ -7,6 +7,8 @@
 #include "json/json.h"
 #include "curl/curl.h"
 
+#include <functional>
+
 #include <vector>
 #include <fstream>
 #include <windows.h>
@@ -31,6 +33,21 @@ namespace LatteTest
 	int downloadProgressFunc(int a,double totalToDownload, double nowDownloaded, double totalToUpLoad, double nowUpLoaded)
 	{
 		return nowDownloaded;
+	}
+
+	void testBind(int a)
+	{
+		XLOGP("testBind:%d",a);
+	}
+
+	bool listen(std::string name, std::function<void(std::string, Json::Value json)> callBack)
+	{
+		return false;
+	}
+
+	void tsetListen(std::string a, Json::Value json=nullptr)
+	{
+		XLOG(a.c_str());
 	}
 
 	TEST_CLASS(UnitTest1)
@@ -223,6 +240,16 @@ namespace LatteTest
 			root["files"] = filesArr;
 
 			XUtilsFile::writeFileData("resource.json",root.toStyledString());
+		}
+
+		TEST_METHOD(libTestSignalSlot)
+		{
+			//std::tuple<int, int> info(1,2);
+			//auto ff = std::bind(&testBind, std::placeholders::_1);
+			//ff(2);
+			std::function<void(std::string, Json::Value json)> callBack = tsetListen;
+			listen("abc", callBack);
+			callBack("abc",nullptr);
 		}
 
 		TEST_CLASS_CLEANUP(clean)

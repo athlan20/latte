@@ -83,6 +83,7 @@
     <ClCompile Include="external\json\src\lib_json\json_writer.cpp" />
     <ClCompile Include="lib\core\XApplication.cpp" />
     <ClCompile Include="lib\core\XLatte.cpp" />
+    <ClCompile Include="lib\core\XObserver.cpp" />
     <ClCompile Include="lib\core\XScheduler.cpp" />
     <ClCompile Include="lib\net\updater\XUpdater.cpp" />
     <ClCompile Include="lib\net\XDownloader.cpp" />
@@ -98,6 +99,7 @@
     <ClInclude Include="lib\base\macros.h" />
     <ClInclude Include="lib\core\XApplication.h" />
     <ClInclude Include="lib\core\XLatte.h" />
+    <ClInclude Include="lib\core\XObserver.h" />
     <ClInclude Include="lib\core\XScheduler.h" />
     <ClInclude Include="lib\net\updater\XUpdater.h" />
     <ClInclude Include="lib\net\XDownloader.h" />

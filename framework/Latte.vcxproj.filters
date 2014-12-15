@@ -33,6 +33,9 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="lib\core\observer">
+      <UniqueIdentifier>{b13bd2e3-9f10-4a6a-9693-877714ac1836}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -67,6 +70,9 @@
     </ClCompile>
     <ClCompile Include="lib\utils\XUtilsMath.cpp">
       <Filter>lib\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\core\XObserver.cpp">
+      <Filter>lib\core\observer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -105,6 +111,9 @@
     </ClInclude>
     <ClInclude Include="lib\utils\XUtilsMath.h">
       <Filter>lib\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\core\XObserver.h">
+      <Filter>lib\core\observer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

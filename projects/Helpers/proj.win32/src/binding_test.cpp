@@ -4,12 +4,14 @@
 
 #include "binding_test.h"
 #include "simple_handler.h"
-#include <algorithm>
-#include <string>
 
 #include "json/json.h"
 
 #include "include/wrapper/cef_stream_resource_handler.h"
+
+#include <algorithm>
+#include <string>
+#include <csignal>
 
 namespace binding_test {
 
@@ -61,8 +63,7 @@ class Handler : public CefMessageRouterBrowserSide::Handler{
 		std::string funcName = root["funcName"].asString();
 
 		callback->Success("success");
-		frame->ExecuteJavaScript("nativeCallJs(\"funcName\")","native",0);
-      
+		//frame->ExecuteJavaScript("nativeCallJs(\"funcName\")","native",0);
       return true;
     }
 
