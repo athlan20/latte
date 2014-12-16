@@ -1,0 +1,14 @@
+#include "XObserver.h"
+
+
+XObserver::XObserver()
+{
+
+}
+XObserver::~XObserver()
+{
+
+}
+
+bool listen(std::string name, std::function<void(std::string)> callBack);
+bool notify(std::string name, std::string param);

@@ -1,0 +1,40 @@
+#include "stdafx.h"
+#include "../../lib/core/XObserver.h"
+
+#include <windows.h>
+
+#include <stdio.h>
+#include <fstream>
+
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+namespace XObserverTest
+{
+	TEST_CLASS(UnitTest1)
+	{
+	public:
+		TEST_CLASS_INITIALIZE(init)
+		{
+
+		}
+
+		TEST_METHOD_INITIALIZE(initMethod)
+		{
+
+		}
+
+		
+
+		TEST_METHOD_CLEANUP(notify)
+		{
+			XOBSERVER->listen("hello", [=](std::string str){XLOG("abc"); });
+			XOBSERVER->notify("hello");
+		}
+
+		TEST_CLASS_CLEANUP(clean)
+		{
+			
+		}
+
+	};
+}

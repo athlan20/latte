@@ -2,7 +2,7 @@ var cefQuery = window.cefQuery;
 function nativeCall(funcName,funcParam,successCall,failCall){
 	var requestObj = {};
 	requestObj.funcName =  funcName;
-	requestObj.funcParam = funcParam;
+	requestObj.funcParam = funcParam?funcParam:"";
 	var requestStr = JSON.stringify(requestObj);
 
 	var callObj = {};
@@ -10,7 +10,6 @@ function nativeCall(funcName,funcParam,successCall,failCall){
 	callObj.persistent = false;
 	callObj.onSuccess = function(response){
 		if(successCall){
-			JSON.parse(response)
 			successCall(response);
 		}
 	};

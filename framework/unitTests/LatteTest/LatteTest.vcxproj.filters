@@ -71,6 +71,9 @@
     <ClCompile Include="LibTest.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="XObserverTest.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\external\json\src\lib_json\json_internalarray.inl">

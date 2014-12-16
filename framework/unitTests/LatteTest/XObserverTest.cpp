@@ -1,0 +1,70 @@
+#include "stdafx.h"
+#include "../../lib/base/global.h"
+#include "../../lib/core/XObserver.h"
+
+#include <windows.h>
+
+#include <stdio.h>
+#include <fstream>
+#include <functional>
+
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+namespace XObserverTest
+{
+	TEST_CLASS(UnitTest1)
+	{
+	public:
+		TEST_CLASS_INITIALIZE(init)
+		{
+
+		}
+
+		TEST_METHOD_INITIALIZE(initMethod)
+		{
+
+		}
+
+		TEST_METHOD(observer_test_notify)
+		{
+			std::string resStr = "";
+			XOBSERVER->listen("hello", [&resStr](std::string str){resStr = str; });
+			XOBSERVER->notify("hello","testStr");
+			Assert::IsTrue(resStr.compare("testStr") == 0);
+		}
+
+		TEST_METHOD(observer_test_notifyOnce)
+		{
+			std::string resStr = "";
+			XOBSERVER->listen("hello", [&resStr](std::string str){resStr = str; });
+			int size = 1;
+			XOBSERVER->notifyOnce("hello","testStr2");
+			size = XOBSERVER->getMapSize();
+			Assert::AreEqual(0, size);
+			Assert::IsTrue(resStr.compare("testStr2") == 0);
+		}
+
+		TEST_METHOD(observer_test_notify_object)
+		{
+			std::string resStr = "";
+			class Object{
+			public:
+				int call = 0;
+				void testCall(std::string str)
+				{
+					this->call++;
+				}
+			};
+			std::shared_ptr<Object> obj = std::shared_ptr<Object>(new Object);
+			XOBSERVER->listen("hello", std::bind(&Object::testCall, obj, std::placeholders::_1));
+			XOBSERVER->notify("hello", "abc");
+			Assert::AreEqual(obj->call, 1);
+		}
+
+		TEST_CLASS_CLEANUP(clean)
+		{
+			
+		}
+
+	};
+}

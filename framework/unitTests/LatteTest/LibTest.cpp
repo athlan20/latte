@@ -2,6 +2,7 @@
 
 #include "../../lib/base/global.h"
 #include "../../lib/utils/XUtilsFile.h"
+#include "../../lib/core/XObserver.h"
 #include "../../external/md5/md5.h"
 
 #include "json/json.h"
@@ -242,14 +243,9 @@ namespace LatteTest
 			XUtilsFile::writeFileData("resource.json",root.toStyledString());
 		}
 
-		TEST_METHOD(libTestSignalSlot)
+		TEST_METHOD(libTestObserver)
 		{
-			//std::tuple<int, int> info(1,2);
-			//auto ff = std::bind(&testBind, std::placeholders::_1);
-			//ff(2);
-			std::function<void(std::string, Json::Value json)> callBack = tsetListen;
-			listen("abc", callBack);
-			callBack("abc",nullptr);
+
 		}
 
 		TEST_CLASS_CLEANUP(clean)

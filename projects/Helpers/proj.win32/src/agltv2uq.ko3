@@ -7,11 +7,12 @@
 
 #include "../lib/base/global.h"
 #include "../lib/core/XObserver.h"
+#include "../lib/"
 #include "json/json.h"
 
 #include "include/wrapper/cef_stream_resource_handler.h"
-#include <atlstr.h>
-#include <wtypes.h>  
+#include <wtypes.h>
+#include <afxwin.h>
 #include <atlbase.h>  
 #include <shlobj.h>  
 #include <algorithm>
@@ -83,39 +84,46 @@ void CreateMessageHandlers(SimpleHandler::MessageHandlerSet& handlers) {
 	//注册方法
 	XOBSERVER->listen("selectDirectory", [](std::string str){
 		XLOG("selectDirectory");
-		BROWSEINFO bi;
-		::ZeroMemory(&bi, sizeof(bi));   //将bi结构清零  
-		char szSelPath[MAX_PATH];       //被选择文件夹对象名称的缓冲区 
-		bi.pszDisplayName = szSelPath;
-		LPITEMIDLIST pNetHoodIDL;
-		//LPITEMIDLIST pNetHoodIDL;
 
-		::SHGetSpecialFolderLocation(NULL, CSIDL_DESKTOP, &pNetHoodIDL);  //根文件夹为历史文件夹 
-		bi.pidlRoot = pNetHoodIDL; bi.lpszTitle = "选择打包路径";    //提示字符串 
-		bi.ulFlags = BIF_EDITBOX |                        //显示编辑框  
-			//BIF_STATUSTEXT |                     //显示状态文本  
-			BIF_RETURNONLYFSDIRS |				//只显示文件夹
-			BIF_NEWDIALOGSTYLE |
-			BIF_VALIDATE;                       //校验编辑框中的输入   BIF_BROWSEINCLUDEFILES |    //允许选择文件对象  
-		LPITEMIDLIST pidlSel = ::SHBrowseForFolder(&bi);    //打开文件夹浏览对话框 
-		if (pNetHoodIDL != NULL)
+		LPMALLOC lpMalloc;
+		if (::SHGetMalloc(&lpMalloc) != NOERROR)
 		{
-			CString sDisplayName;
-			SHFILEINFO    sfi;
-			TCHAR szPath[MAX_PATH];
-			SHGetPathFromIDList(pNetHoodIDL, szPath);
-			ZeroMemory(&sfi, sizeof(sfi));
-			UINT uFlags = SHGFI_PIDL | SHGFI_DISPLAYNAME;
-			SHGetFileInfo((LPCTSTR)pidl, 0, &sfi, sizeof(SHFILEINFO), uFlags);
-			//SHGetFileInfo((LPCTSTR)pidlSel, 0, &sfi, sizeof(SHFILEINFO), uFlags);
-			//sDisplayName = sfi.szDisplayName;
-			//CString szDisplay;
-			//szDisplay.Format(_T(" %s  /n  /n %s"), szPath, sDisplayName);
-
-			CComPtr<IMalloc> pMalloc;
-			::SHGetMalloc(&pMalloc);
-			pMalloc->Free(pidlSel);   //释放资源 
+			AfxMessageBox("选择下载目录操作出错");
+			return;
 		}
+		char szDisplayName[_MAX_PATH];
+		char szBuffer[_MAX_PATH];
+		BROWSEINFO browseInfo;
+		browseInfo.hwndOwner = SimpleApp::hwnd;
+		browseInfo.pidlRoot = NULL;
+		browseInfo.pszDisplayName = szDisplayName;
+		browseInfo.lpszTitle = "请选择下载文件的存储路径";
+		browseInfo.ulFlags = BIF_RETURNFSANCESTORS | BIF_RETURNONLYFSDIRS;
+		browseInfo.lpfn = NULL;
+		browseInfo.lParam = 0;
+		LPITEMIDLIST lpItemIDList;
+		if ((lpItemIDList = ::SHBrowseForFolder(&browseInfo)) != NULL)
+		{
+			if (::SHGetPathFromIDList(lpItemIDList, szBuffer))
+			{
+				if (szBuffer[0] == '\0')
+				{
+					AfxMessageBox("Fail to get directory", MB_ICONSTOP | MB_OK);
+					return;
+				}
+				DownFileDirectory = szBuffer;
+			}
+			else
+			{
+				AfxMessageBox("Fail to get directory!", MB_ICONSTOP | MB_OK);
+				return;
+			}
+			lpMalloc->Free(lpItemIDList);
+			lpMalloc->Release();
+		}
+		CString strMsg;
+		strMsg.Format("选择目录为:%s", DownFileDirectory);
+		AfxMessageBox(strMsg);
 	});
 
   handlers.insert(new Handler());
