@@ -1,4 +1,4 @@
-// Copyright (c) 2012 The Chromium Embedded Framework Authors. All rights
+ï»¿// Copyright (c) 2012 The Chromium Embedded Framework Authors. All rights
 // reserved. Use of this source code is governed by a BSD-style license that
 // can be found in the LICENSE file.
 
@@ -10,6 +10,7 @@
 #include "json/json.h"
 
 #include "include/wrapper/cef_stream_resource_handler.h"
+#include "shlobj.h"
 #include <atlstr.h>
 #include <wtypes.h>  
 #include <atlbase.h>  
@@ -80,41 +81,35 @@ class Handler : public CefMessageRouterBrowserSide::Handler{
 
 void CreateMessageHandlers(SimpleHandler::MessageHandlerSet& handlers) {
 
-	//×¢²á·½·¨
+	//æ³¨å†Œæ–¹æ³•
 	XOBSERVER->listen("selectDirectory", [](std::string str){
 		XLOG("selectDirectory");
 		BROWSEINFO bi;
-		::ZeroMemory(&bi, sizeof(bi));   //½«bi½á¹¹ÇåÁã  
-		char szSelPath[MAX_PATH];       //±»Ñ¡ÔñÎÄ¼ş¼Ğ¶ÔÏóÃû³ÆµÄ»º³åÇø 
+		::ZeroMemory(&bi, sizeof(bi));	//å°†biç»“æ„æ¸…é›¶  
+		char szSelPath[MAX_PATH];       //è¢«é€‰æ‹©æ–‡ä»¶å¤¹å¯¹è±¡åç§°çš„ç¼“å†²åŒº 
 		bi.pszDisplayName = szSelPath;
 		LPITEMIDLIST pNetHoodIDL;
-		//LPITEMIDLIST pNetHoodIDL;
-
-		::SHGetSpecialFolderLocation(NULL, CSIDL_DESKTOP, &pNetHoodIDL);  //¸ùÎÄ¼ş¼ĞÎªÀúÊ·ÎÄ¼ş¼Ğ 
-		bi.pidlRoot = pNetHoodIDL; bi.lpszTitle = "Ñ¡Ôñ´ò°üÂ·¾¶";    //ÌáÊ¾×Ö·û´® 
-		bi.ulFlags = BIF_EDITBOX |                        //ÏÔÊ¾±à¼­¿ò  
-			//BIF_STATUSTEXT |                     //ÏÔÊ¾×´Ì¬ÎÄ±¾  
-			BIF_RETURNONLYFSDIRS |				//Ö»ÏÔÊ¾ÎÄ¼ş¼Ğ
+		::SHGetSpecialFolderLocation(NULL, CSIDL_DESKTOP, &pNetHoodIDL);  //æ ¹æ–‡ä»¶å¤¹ä¸ºå†å²æ–‡ä»¶å¤¹
+		bi.pidlRoot = pNetHoodIDL; 
+		bi.lpszTitle = "é€‰æ‹©æ‰“åŒ…è·¯å¾„";    //æç¤ºå­—ç¬¦ä¸² 
+		bi.ulFlags = BIF_EDITBOX |			//æ˜¾ç¤ºç¼–è¾‘æ¡†  
+			//BIF_STATUSTEXT |                     //æ˜¾ç¤ºçŠ¶æ€æ–‡æœ¬  
+			BIF_RETURNONLYFSDIRS |				//åªæ˜¾ç¤ºæ–‡ä»¶å¤¹
 			BIF_NEWDIALOGSTYLE |
-			BIF_VALIDATE;                       //Ğ£Ñé±à¼­¿òÖĞµÄÊäÈë   BIF_BROWSEINCLUDEFILES |    //ÔÊĞíÑ¡ÔñÎÄ¼ş¶ÔÏó  
-		LPITEMIDLIST pidlSel = ::SHBrowseForFolder(&bi);    //´ò¿ªÎÄ¼ş¼Ğä¯ÀÀ¶Ô»°¿ò 
+			BIF_VALIDATE;                       //æ ¡éªŒç¼–è¾‘æ¡†ä¸­çš„è¾“å…¥   BIF_BROWSEINCLUDEFILES |    //å…è®¸é€‰æ‹©æ–‡ä»¶å¯¹è±¡  
+		LPITEMIDLIST pidlSel = ::SHBrowseForFolder(&bi);    //æ‰“å¼€æ–‡ä»¶å¤¹æµè§ˆå¯¹è¯æ¡† 
 		if (pNetHoodIDL != NULL)
 		{
-			CString sDisplayName;
-			SHFILEINFO    sfi;
-			TCHAR szPath[MAX_PATH];
-			SHGetPathFromIDList(pNetHoodIDL, szPath);
-			ZeroMemory(&sfi, sizeof(sfi));
-			UINT uFlags = SHGFI_PIDL | SHGFI_DISPLAYNAME;
-			SHGetFileInfo((LPCTSTR)pidl, 0, &sfi, sizeof(SHFILEINFO), uFlags);
-			//SHGetFileInfo((LPCTSTR)pidlSel, 0, &sfi, sizeof(SHFILEINFO), uFlags);
-			//sDisplayName = sfi.szDisplayName;
-			//CString szDisplay;
-			//szDisplay.Format(_T(" %s  /n  /n %s"), szPath, sDisplayName);
+			char m_lpszDefaultDir[MAX_PATH] = { 0 };
+			char szPath[MAX_PATH];
+			if (SHGetPathFromIDList(pidlSel, szPath))
+			{
 
+			}
 			CComPtr<IMalloc> pMalloc;
 			::SHGetMalloc(&pMalloc);
-			pMalloc->Free(pidlSel);   //ÊÍ·Å×ÊÔ´ 
+			pMalloc->Free(pidlSel);   //é‡Šæ”¾èµ„æº1
+			pMalloc->Free(pNetHoodIDL);   //é‡Šæ”¾èµ„æº 2
 		}
 	});
 
