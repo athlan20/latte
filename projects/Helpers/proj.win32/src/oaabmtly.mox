@@ -7,11 +7,8 @@
 #include "simple_app.h"
 #include "simple_handler.h"
 
-#include "../lib/utils/XUtilsFile.h"
-#include "../lib/utils/XUtilsFormatter.h"
 #include "../lib/base/global.h"
 #include "../lib/core/XObserver.h"
-#include "../external/md5/md5.h"
 #include "json/json.h"
 
 #include "include/wrapper/cef_stream_resource_handler.h"
@@ -69,13 +66,12 @@ class Handler : public CefMessageRouterBrowserSide::Handler{
 	Json::Value root;
 	if (message != ""){
 		Json::Reader jReader;
-		std::string formatterStr = XUtilsFormatter::UTF82GBK(message.c_str());
-		jReader.parse(formatterStr, root);
+		jReader.parse(message, root);
 	}
 	if (!root.isNull()) {
       // Reverse the string and return.
 		std::string funcName = root["funcName"].asString();
-		XOBSERVER->notify(funcName, (void*)&(root["funcParam"]));
+		XOBSERVER->notify(funcName);
 		callback->Success("success");
 		//frame->ExecuteJavaScript("nativeCallJs(\"funcName\")","native",0);
       return true;
@@ -87,11 +83,10 @@ class Handler : public CefMessageRouterBrowserSide::Handler{
 
 }  // namespace
 
-void CreateMessageHandlers(SimpleHandler::MessageHandlerSet& handlers) 
-{
+void CreateMessageHandlers(SimpleHandler::MessageHandlerSet& handlers) {
 
 	//注册方法
-	XOBSERVER->listen("selectDirectory", [](void* str){
+	XOBSERVER->listen("selectDirectory", [](std::string str){
 		XLOG("selectDirectory");
 		BROWSEINFO bi;
 		::ZeroMemory(&bi, sizeof(bi));	//将bi结构清零  
@@ -120,7 +115,7 @@ void CreateMessageHandlers(SimpleHandler::MessageHandlerSet& handlers)
 				root["funcName"] = "selectDirectory";
 				param["path"] = XUtilsFormatter::addslashes(szPath);
 				root["param"] = param;
-				app->executeScript(writer.write(root));
+				SimpleApp::getInstance()->executeScript(writer.write(root));
 			}
 			CComPtr<IMalloc> pMalloc;
 			::SHGetMalloc(&pMalloc);
@@ -129,55 +124,7 @@ void CreateMessageHandlers(SimpleHandler::MessageHandlerSet& handlers)
 		}
 	});
 
-	XOBSERVER->listen("submitPackage", [](void* str){
-		XLOG("submitPackage");
-		Json::Value* root = (Json::Value*)(str);
-		XLOG(root->toStyledString().c_str());
-		if ((*root)["srcPath"].isNull())  //|| (*root)["destPath"].isNull())
-		{
-			CallJSAlert("请选择源文件夹");
-			return;
-		}
-		std::string version = (*root)["version"].isNull() ? "0.001" : (*root)["version"].asString();
-		std::string srcPath = (*root)["srcPath"].asString();
-		std::string destPath = (*root)["destPath"].isNull() ? srcPath : (*root)["destPath"].asString();
-
-		std::vector<std::string> files = XUtilsFile::getFilesInDir(srcPath+"\\*");
-		std::vector<std::string>::iterator iteratorFile = files.begin();
-
-		Json::Value jsonData;
-		Json::Value filesArr;
-		Json::Value fileObj;
-		jsonData["version"] = version;
-		std::string repStr = "";
-		MD5 md5;
-		for (; iteratorFile != files.end(); ++iteratorFile)
-		{
-			std::ifstream ifs(iteratorFile->c_str());
-			md5.update(ifs);
-			repStr = (*iteratorFile).replace(0, srcPath.size() + 1, ""); //+1 是为了过滤掉紧接着的\符号
-			std::string formatUrl = XUtilsFile::formatPath(repStr);
-			filesArr[formatUrl.c_str()] = md5.toString();
-		}
-		jsonData["files"] = filesArr;
-
-		XUtilsFile::writeFileData(destPath + "\\resource.json", jsonData.toStyledString());
-
-	});
-
-	handlers.insert(new Handler());
-}
-
-void CallJSAlert(std::string msg)
-{
-	Json::Value root;
-	Json::Value param;
-	Json::FastWriter writer;
-
-	root["funcName"] = "showAlert";
-	param["msg"] = msg;
-	root["param"] = param;
-	app->executeScript(writer.write(root));
+  handlers.insert(new Handler());
 }
 
 }  // namespace binding_test

@@ -3,3 +3,5 @@ window.mainAppPath = 'modules/main/';
 window.commonPath = 'modules/common/';
 window.aboutPath = 'modules/about/';
 window.resUpdaterPath = 'modules/resUpdater/';
+
+var isDebug = true;

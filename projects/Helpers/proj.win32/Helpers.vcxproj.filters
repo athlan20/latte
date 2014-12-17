@@ -13,6 +13,9 @@
     <Filter Include="cef">
       <UniqueIdentifier>{2ea0a007-54f2-4a9e-932d-d092f6b47041}</UniqueIdentifier>
     </Filter>
+    <Filter Include="external\md5">
+      <UniqueIdentifier>{4e9b4e47-eb9d-46ea-967c-7ff68187eb40}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\Helpers.rc">
@@ -59,6 +62,12 @@
     <ClCompile Include="src\simple_handler_win.cpp">
       <Filter>cef</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\framework\external\md5\md5.cpp">
+      <Filter>external\md5</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\framework\external\md5\test.cpp">
+      <Filter>external\md5</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="res\resource.h" />
@@ -84,6 +93,9 @@
     </ClInclude>
     <ClInclude Include="src\util.h">
       <Filter>cef</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\framework\external\md5\md5.h">
+      <Filter>external\md5</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

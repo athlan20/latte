@@ -74,6 +74,9 @@
     <ClCompile Include="lib\core\XObserver.cpp">
       <Filter>lib\core\observer</Filter>
     </ClCompile>
+    <ClCompile Include="lib\utils\XUtilsFormatter.cpp">
+      <Filter>lib\utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lib\base\global.h">
@@ -114,6 +117,9 @@
     </ClInclude>
     <ClInclude Include="lib\core\XObserver.h">
       <Filter>lib\core\observer</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\utils\XUtilsFormatter.h">
+      <Filter>lib\utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

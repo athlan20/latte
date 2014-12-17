@@ -48,7 +48,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow) {
 
 	hWnd = CreateWindow(szWindowClass, szTitle,
 		WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN, CW_USEDEFAULT, 0,
-		CW_USEDEFAULT, 0, NULL, NULL, hInstance, NULL);
+		400, 600, NULL, NULL, hInstance, NULL);
 
 	if (!hWnd)
 		return FALSE;
@@ -303,6 +303,8 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 	//}
 	// Shut down CEF.
 	CefShutdown();
+
+	
 	//ÏûÏ¢
 	//MSG msg;
 	//

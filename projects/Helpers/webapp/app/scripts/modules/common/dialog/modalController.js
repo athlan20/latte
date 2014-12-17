@@ -9,6 +9,12 @@ define([
     		$('.modal').modal({});
     	})
 
+    	//native用
+        $rootScope.$on("showAlert",function(target,param){
+        	$scope.content = param.msg;
+        	$scope.$digest();
+            $('.modal').modal({});
+        })
 	}]
 
     

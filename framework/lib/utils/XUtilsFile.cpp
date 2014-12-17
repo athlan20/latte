@@ -431,7 +431,7 @@ std::vector<std::string> XUtilsFile::getFilesInDir(const std::string dir)
 			}
 			else
 			{
-				allFilePath.push_back(rootDir+"\\"+str);
+				allFilePath.push_back(rootDir + "\\" + str);
 			}
 			
 			

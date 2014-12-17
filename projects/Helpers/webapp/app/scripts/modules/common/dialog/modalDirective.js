@@ -8,7 +8,8 @@ define([
 
         scope: true,
         link:function(scope,element,attrs){
-
+            scope.btnText1 = "关闭";
+            scope.btnText2 = "";
         }
 
       }

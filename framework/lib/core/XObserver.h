@@ -19,16 +19,16 @@ public:
 
 	static XObserver* getInstance();
 
-	bool listen(std::string name,std::function<void(std::string)> callBack);
+	bool listen(std::string name,std::function<void(void*)> callBack);
 	bool unListen(std::string name);
-	bool notify(std::string name, std::string param="");
-	bool notifyOnce(std::string name, std::string param = "");
+	bool notify(std::string name, void* param=NULL);
+	bool notifyOnce(std::string name, void* param = NULL);
 	int getMapSize();
 
 private:
 	static XObserver* _instance;
 
-	std::map<std::string, std::function<void(std::string)>> keyMap;
+	std::map<std::string, std::function<void(void*)>> keyMap;
 };
 
 #endif __XOBSERVER_H_

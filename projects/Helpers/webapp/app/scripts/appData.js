@@ -7,7 +7,7 @@ define([
 		var configData = {};
 		var routers = [{
 			"name":"resUpdater",
-			"title":"资源更新器",
+			"title":"资源打包器",
 			"router":"/resUpdater",
 			"inTab":true
 		},{

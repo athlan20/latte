@@ -88,6 +88,7 @@
     <ClCompile Include="lib\net\updater\XUpdater.cpp" />
     <ClCompile Include="lib\net\XDownloader.cpp" />
     <ClCompile Include="lib\utils\XUtilsFile.cpp" />
+    <ClCompile Include="lib\utils\XUtilsFormatter.cpp" />
     <ClCompile Include="lib\utils\XUtilsMath.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -104,6 +105,7 @@
     <ClInclude Include="lib\net\updater\XUpdater.h" />
     <ClInclude Include="lib\net\XDownloader.h" />
     <ClInclude Include="lib\utils\XUtilsFile.h" />
+    <ClInclude Include="lib\utils\XUtilsFormatter.h" />
     <ClInclude Include="lib\utils\XUtilsMath.h" />
   </ItemGroup>
   <ItemGroup>

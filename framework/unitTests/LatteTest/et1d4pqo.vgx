@@ -28,7 +28,7 @@ namespace XObserverTest
 		TEST_METHOD(observer_test_notify)
 		{
 			std::string resStr = "";
-			XOBSERVER->listen("hello", [&resStr](void* str){ resStr = (std::string)(char*)(str); });
+			XOBSERVER->listen("hello", [&resStr](void* str){ resStr = (std::string)(*str); });
 			XOBSERVER->notify("hello","testStr");
 			Assert::IsTrue(resStr.compare("testStr") == 0);
 		}
@@ -36,7 +36,7 @@ namespace XObserverTest
 		TEST_METHOD(observer_test_notifyOnce)
 		{
 			std::string resStr = "";
-			XOBSERVER->listen("hello", [&resStr](void* str){ resStr = (std::string)(char*)(str); });
+			XOBSERVER->listen("hello", [&resStr](std::string str){resStr = str; });
 			int size = 1;
 			XOBSERVER->notifyOnce("hello","testStr2");
 			size = XOBSERVER->getMapSize();
@@ -50,7 +50,7 @@ namespace XObserverTest
 			class Object{
 			public:
 				int call = 0;
-				void testCall(void* str)
+				void testCall(std::string str)
 				{
 					this->call++;
 				}

@@ -1,8 +1,9 @@
-// Copyright (c) 2013 The Chromium Embedded Framework Authors. All rights
+ï»¿// Copyright (c) 2013 The Chromium Embedded Framework Authors. All rights
 // reserved. Use of this source code is governed by a BSD-style license that
 // can be found in the LICENSE file.
 
 #include "simple_app.h"
+#include "../lib/utils/XUtilsFormatter.h"
 
 #include <string>
 #include <set>
@@ -137,7 +138,7 @@ bool SimpleApp::createBrowser(std::string url, HWND hWnd, RECT offsetRect)
 	//info.style |= WS_MAXIMIZE;
 	CefBrowserSettings settings;
 
-	settings.file_access_from_file_urls = STATE_ENABLED;				//ÔÊĞí·ÃÎÊ±¾µØÎÄ¼ş
+	settings.file_access_from_file_urls = STATE_ENABLED;				//å…è®¸è®¿é—®æœ¬åœ°æ–‡ä»¶
 	info.SetAsChild(hWnd, offsetRect);
 	//info.SetAsPopup(NULL, "cefsimple");
 
@@ -149,7 +150,9 @@ bool SimpleApp::createBrowser(std::string url, HWND hWnd, RECT offsetRect)
 bool SimpleApp::executeScript(std::string script)
 {
 	CefRefPtr<CefFrame> frame = this->getBrowser()->GetMainFrame();
-	frame->ExecuteJavaScript("alert('ExecuteJavaScript works!');", frame->GetURL(), 0);
+	script = script.substr(0, script.size() - 1);
+	script = XUtilsFormatter::GBK2UTF8(script.c_str());
+	frame->ExecuteJavaScript("nativeCallJs('"+script+"');", frame->GetURL(), 0);
 
 	return true;
 }

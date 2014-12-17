@@ -20,7 +20,7 @@
       <UniqueIdentifier>{ba27af44-3134-4ed3-9943-0ba4536feec9}</UniqueIdentifier>
     </Filter>
     <Filter Include="源文件\libs\md5">
-      <UniqueIdentifier>{1e64f6a8-2b36-4f17-ab4f-c51284715588}</UniqueIdentifier>
+      <UniqueIdentifier>{40d359b5-64d7-4d3e-ad0f-3b3c7265d8d3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -62,17 +62,20 @@
     <ClCompile Include="..\..\external\json\src\lib_json\json_writer.cpp">
       <Filter>源文件\libs\json</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\external\md5\md5.cpp">
-      <Filter>源文件\libs\md5</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\external\md5\test.cpp">
-      <Filter>源文件\libs\md5</Filter>
-    </ClCompile>
     <ClCompile Include="LibTest.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="XObserverTest.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="XUtilsFormatter.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\md5\md5.cpp">
+      <Filter>源文件\libs\md5</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\external\md5\test.cpp">
+      <Filter>源文件\libs\md5</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

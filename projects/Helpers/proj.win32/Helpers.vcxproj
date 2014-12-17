@@ -67,7 +67,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>wininet.lib;dnsapi.lib;version.lib;msimg32.lib;ws2_32.lib;usp10.lib;psapi.lib;dbghelp.lib;winmm.lib;shlwapi.lib;kernel32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;user32.lib;uuid.lib;odbc32.lib;odbccp32.lib;delayimp.lib;credui.lib;netapi32.lib;comctl32.lib;rpcrt4.lib;libcef.lib;libcef_dll_wrapper.lib;cef_sandbox.lib;XUtilsFile.obj;XUtilsMath.obj;XObserver.obj;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>wininet.lib;dnsapi.lib;version.lib;msimg32.lib;ws2_32.lib;usp10.lib;psapi.lib;dbghelp.lib;winmm.lib;shlwapi.lib;kernel32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;user32.lib;uuid.lib;odbc32.lib;odbccp32.lib;delayimp.lib;credui.lib;netapi32.lib;comctl32.lib;rpcrt4.lib;libcef.lib;libcef_dll_wrapper.lib;cef_sandbox.lib;XUtilsFile.obj;XUtilsMath.obj;XObserver.obj;XUtilsFormatter.obj;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)framework\obj\Debug</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -96,6 +96,8 @@
     <ClCompile Include="..\..\..\framework\external\json\src\lib_json\json_reader.cpp" />
     <ClCompile Include="..\..\..\framework\external\json\src\lib_json\json_value.cpp" />
     <ClCompile Include="..\..\..\framework\external\json\src\lib_json\json_writer.cpp" />
+    <ClCompile Include="..\..\..\framework\external\md5\md5.cpp" />
+    <ClCompile Include="..\..\..\framework\external\md5\test.cpp" />
     <ClCompile Include="src\binding_test.cpp" />
     <ClCompile Include="src\client_app_delegates.cpp" />
     <ClCompile Include="src\client_renderer.cpp" />
@@ -107,6 +109,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\framework\external\json\src\lib_json\json_batchallocator.h" />
     <ClInclude Include="..\..\..\framework\external\json\src\lib_json\json_tool.h" />
+    <ClInclude Include="..\..\..\framework\external\md5\md5.h" />
     <ClInclude Include="res\resource.h" />
     <ClInclude Include="src\binding_test.h" />
     <ClInclude Include="src\client_renderer.h" />

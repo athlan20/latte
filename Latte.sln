@@ -6,8 +6,14 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Latte", "framework\Latte.vcxproj", "{CDD24B18-98C5-429C-B6A1-BAD12BFC4E02}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LatteTest", "framework\unitTests\LatteTest\LatteTest.vcxproj", "{0890DAA4-B57D-479C-A0E3-355D9674B21B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CDD24B18-98C5-429C-B6A1-BAD12BFC4E02} = {CDD24B18-98C5-429C-B6A1-BAD12BFC4E02}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Helpers", "projects\Helpers\proj.win32\Helpers.vcxproj", "{18D77053-A198-460A-B01E-D182EDCEF0B3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CDD24B18-98C5-429C-B6A1-BAD12BFC4E02} = {CDD24B18-98C5-429C-B6A1-BAD12BFC4E02}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "joker", "..\app\joker\proj.win32\joker.vcxproj", "{5A96DC52-2F8B-4B0A-AE25-989E74951E7D}"
 EndProject
