@@ -78,11 +78,12 @@ std::string XUpdater::getMainVersion(std::string mainVersionUrl)
 {
 	mainVersionUrl = mainVersionUrl == "" ? this->_resVersionUrl : mainVersionUrl;
 	std::shared_ptr<XDownloader> downloader = std::shared_ptr<XDownloader>(new XDownloader);
-	downloader->downloadSync(mainVersionUrl.c_str(),"tempMainVersion");
+	downloader->downloadSync(mainVersionUrl.c_str(),this->_storagePath+"tempMainVersion");
 	//json 文档
 	Json::Value root;
 	Json::Reader jReader;
-	std::string data = XUtilsFile::getFileData("tempMainVersion");
+	std::string data = XUtilsFile::getFileData(this->_storagePath + "tempMainVersion");
+	XUtilsFile::renameFile("tempMainVersion", "resource.json", this->_storagePath);
 	if (data != "")
 	{
 		jReader.parse(data, root);
@@ -136,8 +137,8 @@ void XUpdater::upgrade(std::string resourcePath)
 				|| !XUtilsFile::isFileExist(serverFileKey))	//不存在或者不一样
 			{
 				XDownloader::XDownloadUnit unit;
-				unit.srcUrl = DEF_RES_SERVER + serverFileKey;
-				unit.storagePath = serverFileKey;
+				unit.srcUrl = this->_packageUrl + serverFileKey;
+				unit.storagePath = this->_storagePath + serverFileKey;
 				units[serverFileKey] = unit;
 			}
 		}
@@ -146,8 +147,5 @@ void XUpdater::upgrade(std::string resourcePath)
 			this->_downloader = std::shared_ptr<XDownloader>(new XDownloader());
 			this->_downloader->queueDownloadSync(units);
 		}
-
-		
 	}
-
 }

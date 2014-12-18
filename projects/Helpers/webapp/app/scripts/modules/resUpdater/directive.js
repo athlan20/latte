@@ -19,12 +19,21 @@ define([
                 scope.submitPackage = function(){
                     nativeCall("submitPackage",{srcPath:scope.packageSrcPath,destPath:scope.packageDestPath,version:scope.packageVersion})
                 };
+                scope.selectUpdateDirectory = function(){
+                    dirSelectType=2;
+                    nativeCall("selectDirectory");
+                };
+                scope.update = function(){
+                    nativeCall("update",{updateSrcPath:scope.updateSrcPath})
+                };
 
                 $rootScope.$on('selectDirectory',function(target,param){
                     if(dirSelectType==0){
                         scope.packageSrcPath = param.path;
-                    }else{
+                    }else if(dirSelectType==1){
                         scope.packageDestPath = param.path;
+                    }else{
+                        scope.updateSrcPath = param.path;
                     }
                     scope.$digest();
                 })

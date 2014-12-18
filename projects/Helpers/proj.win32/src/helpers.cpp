@@ -85,25 +85,25 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam,
 			RECT rect;
 			int x = 0;
 			GetClientRect(hWnd, &rect);
-			reloadWnd = CreateWindow("BUTTON", "Refresh",
-				WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, x, 0, 80,
-				30, hWnd, (HMENU)IDC_NAV_RELOAD,hInst, 0);
+			//reloadWnd = CreateWindow("BUTTON", "Refresh",
+			//	WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, x, 0, 80,
+			//	30, hWnd, (HMENU)IDC_NAV_RELOAD,hInst, 0);
 
-			//input
-			editWnd = CreateWindow("EDIT", 0,
-				WS_CHILD | WS_VISIBLE | WS_BORDER | ES_LEFT |
-				ES_AUTOVSCROLL | ES_AUTOHSCROLL,
-				100, 0, 200, 20, hWnd, (HMENU)IDC_INPUT_SCRIPT, hInst, 0);
-			reloadWnd = CreateWindow("BUTTON", "Execute",
-				WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,300, 0, 80,
-				30, hWnd, (HMENU)IDC_NAV_EXECUTE,hInst, 0);
+			////input
+			//editWnd = CreateWindow("EDIT", 0,
+			//	WS_CHILD | WS_VISIBLE | WS_BORDER | ES_LEFT |
+			//	ES_AUTOVSCROLL | ES_AUTOHSCROLL,
+			//	100, 0, 200, 20, hWnd, (HMENU)IDC_INPUT_SCRIPT, hInst, 0);
+			//reloadWnd = CreateWindow("BUTTON", "Execute",
+			//	WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,300, 0, 80,
+			//	30, hWnd, (HMENU)IDC_NAV_EXECUTE,hInst, 0);
 
 			//editWndOldProc =
 			//	reinterpret_cast<WNDPROC>(GetWindowLongPtr(editWnd, GWLP_WNDPROC));
 			//SetWindowLongPtr(editWnd, GWLP_WNDPROC,
 			//	reinterpret_cast<LONG_PTR>(WndProc));
 
-			rect.top = 35;
+			rect.top = 0;
 
 			// Creat the new child browser window
 			//CefWindowInfo info;

@@ -17,7 +17,7 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace LatteTest
 {
-	const std::string packageUrl = "";
+	const std::string packageUrl = "http://www.latte.com/php/test/";
 	const std::string versionUrl = "http://www.my_work.com/php/test/resource.json";
 	const std::string versionFilePath = "resource.json";
 	const std::string storagePath = "";

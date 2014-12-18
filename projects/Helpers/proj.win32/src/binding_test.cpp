@@ -11,6 +11,7 @@
 #include "../lib/utils/XUtilsFormatter.h"
 #include "../lib/base/global.h"
 #include "../lib/core/XObserver.h"
+#include "../lib/net/updater/XUpdater.h"
 #include "../external/md5/md5.h"
 #include "json/json.h"
 
@@ -75,8 +76,15 @@ class Handler : public CefMessageRouterBrowserSide::Handler{
 	if (!root.isNull()) {
       // Reverse the string and return.
 		std::string funcName = root["funcName"].asString();
-		XOBSERVER->notify(funcName, (void*)&(root["funcParam"]));
-		callback->Success("success");
+		bool ret = XOBSERVER->notify(funcName, (void*)&(root["funcParam"]));
+		if (ret)
+		{
+			callback->Success("success");
+		}
+		else
+		{
+			XLOGP("native has no method call: %s ", funcName.c_str());
+		}
 		//frame->ExecuteJavaScript("nativeCallJs(\"funcName\")","native",0);
       return true;
     }
@@ -162,7 +170,15 @@ void CreateMessageHandlers(SimpleHandler::MessageHandlerSet& handlers)
 		jsonData["files"] = filesArr;
 
 		XUtilsFile::writeFileData(destPath + "\\resource.json", jsonData.toStyledString());
+	});
 
+	XOBSERVER->listen("update", [](void* param){
+		XLOG("update");
+		Json::Value* root = (Json::Value*)(param);
+		std::string updateSrcPath = (*root)["updateSrcPath"].asString()+"\\";
+		std::shared_ptr<XUpdater> updater = std::shared_ptr<XUpdater>(new XUpdater("http://www.my_work.com/php/test/", "http://www.my_work.com/php/test/resource.json", updateSrcPath.c_str()));
+		updater->upgrade(updateSrcPath+"./resource.json");
+		CallJSAlert("更新完成");
 	});
 
 	handlers.insert(new Handler());

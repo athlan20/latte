@@ -38,7 +38,8 @@ bool XObserver::unListen(std::string name)
 bool XObserver::notify(std::string name, void* param)
 {
 	std::map<std::string, std::function<void(void*)>>::iterator it = this->keyMap.find(name);
-	if (it->first != "")
+	
+	if (it != this->keyMap.end() && it->first != "")
 	{
 		std::function<void(void*)> callBack = it->second;
 		callBack(param);

@@ -1,0 +1,25 @@
+{
+   "files" : {
+      "./resource/Dangdiren/Common/common.js" : "10f2c8a98f548ed34f33684fc8a8e97a",
+      "./resource/Dangdiren/Common/ddrImageSlider.js" : "15f5390352207926448f977b4028af79",
+      "./resource/Dangdiren/Common/ddrModel.js" : "19ad97b69894ecc5a64965f63f8eef8a",
+      "./resource/Dangdiren/Common/ddrPageView.js" : "80f69ad75b249bdb3282392d6c321ab6",
+      "./resource/Dangdiren/Common/ddrParser.js" : "538301213b1b114737d11d7e5c1a0670",
+      "./resource/Dangdiren/Common/header.js" : "f6e9a67b0013c0466b4501ea3cbae172",
+      "./resource/Dangdiren/Common/imgUpload.js" : "4eea1c4e33b1965e0928ead1272b7441",
+      "./resource/Dangdiren/Common/iscroll.js" : "81eb0c03c1c05fbc2e0be078ae5ada6b",
+      "./resource/Dangdiren/Common/zepto.picLazyLoad.min.js" : "479a93f730f35f83f44ca825e95a8d4d",
+      "./resource/Dangdiren/Models/CommentModel.js" : "b2f49c06be9d61e30023cae04d556ba9",
+      "./resource/Dangdiren/Models/CountryListModel.js" : "0e1f9ab6ed128e9387e8c107b7f254c9",
+      "./resource/Dangdiren/Models/MerchantModel.js" : "1a9ab8ba3b80a5c29730bfffd1560463",
+      "./resource/Dangdiren/Models/PropagandaModel.js" : "f3b33be00cf16caf6d09285f5a16405b",
+      "./resource/Dangdiren/Models/PublishServiceModel.js" : "e4e2378699bc1a65030a8cdd5ce02487",
+      "./resource/Dangdiren/Models/ServiceCategoryModel.js" : "01c684cf4c6e5522e3fa21afc189e0a3",
+      "./resource/Dangdiren/Models/ServiceListModel.js" : "c83d6d5df121c937b99ab92a7a88c214",
+      "./resource/Dangdiren/Models/UserInformationModel.js" : "76e044ca802d5e073da58e473d8cf69a",
+      "./resource/Dangdiren/Models/hongbaoIndexModel.js" : "32c6246e55bc2bd061ba94576ea99daf",
+      "./resource/Dangdiren/iscroll.js" : "aac79c643b48db2547b220caf33ee6ae",
+      "./resource/Dangdiren/zepto.picLazyLoad.min.js" : "15db09d66800ead8834f48b7bdd5d4ce"
+   },
+   "version" : "0.0001"
+}

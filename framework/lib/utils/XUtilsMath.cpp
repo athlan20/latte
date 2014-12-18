@@ -4,7 +4,7 @@
 
 int XUtilsMath::getRand(int randMin, int randMax)
 {
-	int u = (int)rand() / (RAND_MAX + 1) * (randMax - randMin) + randMin;
+	int u = (int)((double)rand() / (RAND_MAX + 1) * (randMax - randMin) + randMin);
 	return u;
 }
 
