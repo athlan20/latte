@@ -146,7 +146,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam,
 				break;
 			}
 			case IDM_EXIT:
-				DestroyWindow(hWnd);
+				//DestroyWindow(hWnd);
+				PostMessage(hWnd, WM_CLOSE, NULL, NULL);
 				break;
 			default:
 				return DefWindowProc(hWnd, message, wParam, lParam);
