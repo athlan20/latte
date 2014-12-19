@@ -29,17 +29,17 @@
     <Filter Include="external\json">
       <UniqueIdentifier>{0db2ca3d-7e4c-4047-a8df-7d7669f84e1d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="lib\net\源文件">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
     <Filter Include="lib\core\observer">
       <UniqueIdentifier>{b13bd2e3-9f10-4a6a-9693-877714ac1836}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>lib\net\源文件</Filter>
+      <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="lib\core\XApplication.cpp">
       <Filter>lib\core</Filter>

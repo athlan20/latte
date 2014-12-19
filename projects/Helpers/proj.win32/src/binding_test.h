@@ -15,6 +15,8 @@ void CreateMessageHandlers(SimpleHandler::MessageHandlerSet& handlers);
 
 void CallJSAlert(std::string msg);
 
+void CallJsLog(std::string msg);
+
 }  // namespace binding_test
 
 #endif  // CEF_TESTS_CEFCLIENT_BINDING_TEST_H_

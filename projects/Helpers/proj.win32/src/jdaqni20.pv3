@@ -177,26 +177,22 @@ void CreateMessageHandlers(SimpleHandler::MessageHandlerSet& handlers)
 		XLOG("update");
 		Json::Value* root = (Json::Value*)(param);
 		std::string updateSrcPath = (*root)["updateSrcPath"].asString()+"\\";
-		updater = std::shared_ptr<XUpdater>(new XUpdater("http://116.236.150.110/test/", "http://116.236.150.110/test/resource.json", updateSrcPath.c_str()));
+		updater = std::shared_ptr<XUpdater>(new XUpdater("http://www.my_work.com/php/test/", "http://www.my_work.com/php/test/resource.json", updateSrcPath.c_str()));
 
-		int loadNum = updater->upgrade(updateSrcPath + "./resource.json", 
-		[=](int totalNum){
-			Json::Value dataRoot;
-			Json::Value param;
-			Json::FastWriter writer;
-			dataRoot["funcName"] = "startLoad";
-			param["totalNum"] = totalNum;
-			dataRoot["param"] = param;
-			app->executeScript(writer.write(dataRoot));
-		},
+		Json::Value root;
+		Json::Value param;
+		Json::FastWriter writer;
+		root["funcName"] = "startLoad";
+		app->executeScript(writer.write(root));
+		updater->upgrade(updateSrcPath + "./resource.json", 
 		[=](double totalToDownload, double nowDownloaded, const std::string & url, const std::string & customId){
 			Json::Value root;
 			Json::Value param;
 			Json::FastWriter writer;
 
 			root["funcName"] = "onLoading";
-			param["nowLoaded"] = nowDownloaded;
-			param["totalLoaded"] = totalToDownload;
+			param["loaded"] = nowDownloaded;
+			param["total"] = totalToDownload;
 			param["url"] = url;
 			root["param"] = param;
 			app->executeScript(writer.write(root));
@@ -211,7 +207,7 @@ void CreateMessageHandlers(SimpleHandler::MessageHandlerSet& handlers)
 			root["param"] = param;
 			app->executeScript(writer.write(root));
 		});
-		//CallJSAlert("更新完成");
+		CallJSAlert("更新完成");
 	});
 
 	handlers.insert(new Handler());

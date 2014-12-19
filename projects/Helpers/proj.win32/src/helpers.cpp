@@ -8,12 +8,15 @@
 #include "util.h"
 
 #include "base/global.h"
+#include "core/XApplication.h"
 #include "utils/XUtilsFile.h"
 
 #include "include/cef_app.h"
 
 #include <vector>
 #include <list>
+#include <memory>
+#include <thread>
 
 
 // Set to 0 to disable sandbox support.
@@ -39,6 +42,7 @@ char szWorkingDir[MAX_PATH];  // The current working directory
 UINT uFindMsg;  // Message identifier for find events.
 HWND hFindDlg = NULL;  // Handle for the find dialog.
 CefRefPtr<SimpleApp> app;
+std::shared_ptr<std::thread> t_back;
 
 
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow) {
@@ -48,7 +52,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow) {
 
 	hWnd = CreateWindow(szWindowClass, szTitle,
 		WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN, CW_USEDEFAULT, 0,
-		400, 600, NULL, NULL, hInstance, NULL);
+		400, 680, NULL, NULL, hInstance, NULL);
 
 	if (!hWnd)
 		return FALSE;
@@ -115,6 +119,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam,
 			char buffer[512] = { '\0' };
 			char** lppPart = { NULL };
 			//char* openUrl = "file:///";
+			//开一个框架背后线程
+			XUtilsFile::init();
+			XApplication::getInstance()->setAnimationInterval(1.0 / 30);
+			t_back = std::shared_ptr<std::thread>(new std::thread(&XApplication::run, (XApplication::getInstance())));
+			t_back->detach();
 
 			::GetFullPathName(WEBAPP_PATH, buffSize, buffer, lppPart);
 			std::string openUrl = "file:///" + std::string(buffer);

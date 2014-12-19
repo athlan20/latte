@@ -23,12 +23,13 @@ function nativeCall(funcName,funcParam,successCall,failCall){
 	// window.cefQueryCancel(queryId);
 }
 function nativeCallJs(param){
-	console.log(param.funcName);
 	if(rootScope){
 		if(isDebug){
 			console.log(param)
 		}
 		var call = JSON.parse(param);
+		if(!call.hasOwnProperty("param"))
+			call.param = "";
 		rootScope.$emit(call.funcName,call.param)
 	}else{
 		console.log("error no rootScope");

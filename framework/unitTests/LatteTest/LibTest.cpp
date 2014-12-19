@@ -67,7 +67,7 @@ namespace LatteTest
 			XLOG( md5.toString().c_str());
 		}
 
-		TEST_METHOD(libTestCurl)
+		TEST_METHOD(libTestCurlHeader)
 		{
 			CURL* curl = curl_easy_init();
 			curl_easy_setopt(curl, CURLOPT_URL, curlTestDownloadUrl.c_str());

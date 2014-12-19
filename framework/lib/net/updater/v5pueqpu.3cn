@@ -24,7 +24,7 @@ public:
 
 	virtual bool init();
 	virtual int upgrade(std::string resourcePath = "resource.json",
-		std::function<void(int)> startLoad = nullptr,
+		std::function<void(double, double, const std::string &, const std::string &)> startLoad = nullptr,
 		std::function<void(double, double, const std::string &, const std::string &)> progressCall = nullptr,
 		std::function<void(const std::string &, const std::string &, const std::string &)> successCall = nullptr,
 		std::function<void(double, double, const std::string &, const std::string &)> errorCall = nullptr

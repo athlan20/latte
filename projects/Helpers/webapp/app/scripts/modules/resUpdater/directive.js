@@ -8,6 +8,14 @@ define([
             link:function(scope,element,attrs){
                 var dirSelectType = 0;
                 scope.packageVersion="";
+                scope.updateSrcPath = "d:\\Users\\l_xi\\Desktop\\mine";
+                scope.nowLoaded = 0;
+                scope.totalLoaded = 1;
+                scope.loadedNum = 0;
+                scope.totalNum = 1;
+                scope.loadingPercent = 0;
+                scope.loadedPercent = 0;
+
                 scope.selectSrcDirectory=function(){
                     dirSelectType=0;
                     nativeCall("selectDirectory");
@@ -39,6 +47,36 @@ define([
                 })
                 $rootScope.$on("submitPackage",function(target,param){
 
+                })
+
+                //native开始加载
+                $rootScope.$on('startLoad',function(target,param){
+                    scope.nowLoaded = 0;
+                    scope.totalLoaded = 100;
+                    scope.loadedNum = 0;
+                    scope.totalNum = param.totalNum;
+
+                    scope.loadingPercent = 0;
+                    scope.loadedPercent = 0;
+
+                    scope.$digest();
+                })
+                $rootScope.$on('onLoading',function(target,param){
+                    scope.nowLoaded = param.nowLoaded;
+                    scope.totalLoaded = param.totalLoaded;
+                    scope.loadingPercent = (scope.nowLoaded / scope.totalLoaded *100)>>0;
+
+                    scope.$digest();
+                })
+                $rootScope.$on('onLoaded',function(target,param){
+                    scope.nowLoaded = 0;
+                    scope.totalLoaded = 100;
+                    scope.loadedNum = scope.loadedNum+1;
+
+                    scope.loadingPercent = 0;
+                    scope.loadedPercent = (scope.loadedNum/scope.totalNum*100)>>0;
+                    
+                    scope.$digest();
                 })
             }
 

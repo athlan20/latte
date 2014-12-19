@@ -26,7 +26,6 @@ define([
 
                 //事件注册
                 $rootScope.$on("evtSelectTab",function(param,selectName){
-
                     $(element).find('li[role="'+selectName+'"]').find('a').tab('show');
                 })
 

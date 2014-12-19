@@ -122,7 +122,6 @@ void XUpdater::reset()
 }
 
 int XUpdater::upgrade(std::string resourcePath,
-	std::function<void(int)> startLoad,
 	std::function<void(double, double, const std::string &, const std::string &)> progressCall,
 	std::function<void(const std::string &, const std::string &, const std::string &)> successCall,
 	std::function<void(double, double, const std::string &, const std::string &)> errorCall)
@@ -157,10 +156,6 @@ int XUpdater::upgrade(std::string resourcePath,
 		loadedNum = units.size();
 		if (loadedNum > 0)
 		{
-			if (startLoad)
-			{
-				startLoad(loadedNum);
-			}
 			this->_downloader = std::shared_ptr<XDownloader>(new XDownloader());
 			this->_downloader->setProgressCallback([=](double totalToDownload, double nowDownloaded, const std::string & url, const std::string & customId){
 				//this->
