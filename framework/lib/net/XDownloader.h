@@ -91,6 +91,7 @@ public:
 	void downloadAsync(const std::string &srcUrl, const std::string &storagePath, const std::string &customId = "default");
 	void downloadSync(const std::string &srcUrl, const std::string &storagePath, const std::string &customId = "default");
 	void queueDownloadSync(std::unordered_map<std::string, XDownloadUnit> units); //队列加载
+	void queueDownloadASync(std::unordered_map<std::string, XDownloadUnit> units);	//队列异步加载
     void setErrorCallback(const ErrorCallback &callback) { _errorCall = callback; };
     void setProgressCallback(const ProgressCallback &callback) { _progressCall = callback; };
     void setSuccessCallback(const SuccessCallback &callback) { _successCall = callback; };

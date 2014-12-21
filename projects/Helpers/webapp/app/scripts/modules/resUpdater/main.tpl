@@ -55,14 +55,14 @@
 			<div class="container">
 				<div class="row col-sm-8">
 					<div class="progress">
-					  <div class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar" aria-valuenow="{{loadingPercent}}" aria-valuemin="0" aria-valuemax="100" style="width: {{loadingPercent}}%">
+					  <div class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar" aria-valuenow="{{loadingPercent}}" aria-valuemin="0" aria-valuemax="100" style="transition: none;width: {{loadingPercent}}%">
 					    <span class="sr-only">{{loadingPercent}}% Complete (warning)</span>
 					  </div>
 					</div>
 				</div>
 				<div class="row col-sm-8">
 					<div class="progress">
-					  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="{{loadedPercent}}" aria-valuemin="0" aria-valuemax="100" style="transition: width .1s ease; width: {{loadedPercent}}%">
+					  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="{{loadedPercent}}" aria-valuemin="0" aria-valuemax="100" style="transition: none; width: {{loadedPercent}}%">
 					    <span class="sr-only">{{loadedPercent}}% Complete</span>
 					  </div>
 					</div>

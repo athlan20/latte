@@ -137,7 +137,8 @@ bool SimpleApp::createBrowser(std::string url, HWND hWnd, RECT offsetRect)
 	//info.style |= WS_VISIBLE;
 	//info.style |= WS_MAXIMIZE;
 	CefBrowserSettings settings;
-
+	settings.webgl = STATE_ENABLED;
+	settings.accelerated_compositing = STATE_ENABLED;
 	settings.file_access_from_file_urls = STATE_ENABLED;				//允许访问本地文件
 	info.SetAsChild(hWnd, offsetRect);
 	//info.SetAsPopup(NULL, "cefsimple");

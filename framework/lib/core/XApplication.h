@@ -8,6 +8,8 @@ class XApplication
 {
 public:
 	void run();
+	//循环体交给宿主程序,每次循环俩调用process
+	void process();
 	void stop();
 	void init();
 	void destroy();
@@ -28,6 +30,9 @@ private:
 	bool _stop;
 	XLatte* _latte;	
 	LARGE_INTEGER       _animationInterval;
+	LARGE_INTEGER _nFreq;
+	LARGE_INTEGER _nLast;
+	LARGE_INTEGER _nNow;
 };
 
 

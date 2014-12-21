@@ -122,7 +122,7 @@ int XDownloader::download(const std::string &srcUrl, const std::string &customId
 	curl_easy_setopt(curl, CURLOPT_PROGRESSFUNCTION, downloadProgressFunc);
 	curl_easy_setopt(curl, CURLOPT_PROGRESSDATA, &data);
 	curl_easy_setopt(curl, CURLOPT_FAILONERROR, true);
-	curl_easy_setopt(curl, CURLOPT_MAX_RECV_SPEED_LARGE, (curl_off_t)1500);
+	//curl_easy_setopt(curl, CURLOPT_MAX_RECV_SPEED_LARGE, (curl_off_t)1000);
 	if (_connectionTimeout) curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, _connectionTimeout);
 	curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1L);
 	//curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1);
@@ -197,6 +197,15 @@ void XDownloader::queueDownloadSync(std::unordered_map<std::string, XDownloadUni
 	for (; it != units.end(); ++it)
 	{
 		this->downloadSync(it->second.srcUrl, it->second.storagePath);
+	}
+}
+
+void XDownloader::queueDownloadASync(std::unordered_map<std::string, XDownloadUnit> units)
+{
+	std::unordered_map<std::string, XDownloadUnit>::iterator it = units.begin();
+	for (; it != units.end(); ++it)
+	{
+		this->downloadAsync(it->second.srcUrl, it->second.storagePath);
 	}
 }
 

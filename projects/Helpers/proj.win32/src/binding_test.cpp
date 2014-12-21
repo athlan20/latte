@@ -13,6 +13,7 @@
 #include "../lib/core/XObserver.h"
 #include "../lib/net/updater/XUpdater.h"
 #include "../external/md5/md5.h"
+#include "../lib/core/XApplication.h"
 #include "json/json.h"
 
 #include "include/wrapper/cef_stream_resource_handler.h"
@@ -177,39 +178,41 @@ void CreateMessageHandlers(SimpleHandler::MessageHandlerSet& handlers)
 		XLOG("update");
 		Json::Value* root = (Json::Value*)(param);
 		std::string updateSrcPath = (*root)["updateSrcPath"].asString()+"\\";
-		updater = std::shared_ptr<XUpdater>(new XUpdater("http://116.236.150.110/test/", "http://116.236.150.110/test/resource.json", updateSrcPath.c_str()));
+		
+		XLatte::getInstance()->getScheduler()->performFunctionInLatteThread([=](){
+			int i = 0;
+			updater = std::shared_ptr<XUpdater>(new XUpdater("http://www.latte.com/php/test/", "http://www.latte.com/php/test/resource.json", updateSrcPath.c_str()));
+			int loadNum = updater->upgrade(updateSrcPath + "./resource.json",
+				[=](int totalNum){
+				Json::Value dataRoot;
+				Json::Value param;
+				Json::FastWriter writer;
+				dataRoot["funcName"] = "startLoad";
+				param["totalNum"] = totalNum;
+				dataRoot["param"] = param;
+				app->executeScript(writer.write(dataRoot));
+			},
+				[=](double totalToDownload, double nowDownloaded, const std::string & url, const std::string & customId){
+				Json::Value root;
+				Json::Value param;
+				Json::FastWriter writer;
+				root["funcName"] = "onLoading";
+				param["nowLoaded"] = nowDownloaded;
+				param["totalLoaded"] = totalToDownload;
+				param["url"] = url;
+				root["param"] = param;
+				app->executeScript(writer.write(root));
+			},
+				[=](const std::string & url, const std::string & localPathName, const std::string & customId){
+				Json::Value root;
+				Json::Value param;
+				Json::FastWriter writer;
 
-		int loadNum = updater->upgrade(updateSrcPath + "./resource.json", 
-		[=](int totalNum){
-			Json::Value dataRoot;
-			Json::Value param;
-			Json::FastWriter writer;
-			dataRoot["funcName"] = "startLoad";
-			param["totalNum"] = totalNum;
-			dataRoot["param"] = param;
-			app->executeScript(writer.write(dataRoot));
-		},
-		[=](double totalToDownload, double nowDownloaded, const std::string & url, const std::string & customId){
-			Json::Value root;
-			Json::Value param;
-			Json::FastWriter writer;
-
-			root["funcName"] = "onLoading";
-			param["nowLoaded"] = nowDownloaded;
-			param["totalLoaded"] = totalToDownload;
-			param["url"] = url;
-			root["param"] = param;
-			app->executeScript(writer.write(root));
-		},
-		[=](const std::string & url, const std::string & localPathName, const std::string & customId){
-			Json::Value root;
-			Json::Value param;
-			Json::FastWriter writer;
-
-			root["funcName"] = "onLoaded";
-			param["url"] = url;
-			root["param"] = param;
-			app->executeScript(writer.write(root));
+				root["funcName"] = "onLoaded";
+				param["url"] = url;
+				root["param"] = param;
+				app->executeScript(writer.write(root));
+			});
 		});
 		//CallJSAlert("更新完成");
 	});

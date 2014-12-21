@@ -25,7 +25,7 @@ function nativeCall(funcName,funcParam,successCall,failCall){
 function nativeCallJs(param){
 	if(rootScope){
 		if(isDebug){
-			console.log(param)
+			//console.log(param)
 		}
 		var call = JSON.parse(param);
 		if(!call.hasOwnProperty("param"))

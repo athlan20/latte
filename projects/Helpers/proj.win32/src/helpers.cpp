@@ -121,7 +121,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam,
 			//char* openUrl = "file:///";
 			//开一个框架背后线程
 			XUtilsFile::init();
-			XApplication::getInstance()->setAnimationInterval(1.0 / 30);
+			XApplication::getInstance()->setAnimationInterval(1.0 / 60);
 			t_back = std::shared_ptr<std::thread>(new std::thread(&XApplication::run, (XApplication::getInstance())));
 			t_back->detach();
 
@@ -283,7 +283,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 #if !CEF_ENABLE_SANDBOX
 	settings.no_sandbox = true;
 #endif
-	//settings.multi_threaded_message_loop = false;
+	settings.multi_threaded_message_loop = false;
 	// Initialize CEF.
 	CefInitialize(main_args, settings, app.get(), sandbox_info);
 
@@ -299,7 +299,39 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 
 	// Run the CEF message loop. This will block until CefQuitMessageLoop() is
 	// called.
-	CefRunMessageLoop();
+	int result = 0;
+	if (!settings.multi_threaded_message_loop) {
+		// Run the CEF message loop. This function will block until the application
+		// recieves a WM_QUIT message.
+		CefRunMessageLoop();
+	}
+	else {
+		// Create a hidden window for message processing.
+		//hMessageWnd = CreateMessageWindow(hInstance);
+		//ASSERT(hMessageWnd);
+
+		MSG msg;
+		HACCEL hAccelTable;
+		hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_HELP));
+
+		// Run the application message loop.
+		while (GetMessage(&msg, NULL, 0, 0)) {
+			// Allow processing of find dialog messages.
+			if (hFindDlg && IsDialogMessage(hFindDlg, &msg))
+				continue;
+
+			if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg)) {
+				
+				TranslateMessage(&msg);
+				DispatchMessage(&msg);
+			}
+		}
+
+		//DestroyWindow(hMessageWnd);
+		//hMessageWnd = NULL;
+
+		result = static_cast<int>(msg.wParam);
+	}
 
 	//MSG msg;
 	//while (GetMessage(&msg, NULL, 0, 0))

@@ -18,6 +18,9 @@ void XApplication::init()
 {
 	this->_stop = false;
 	this->_latte = XLatte::getInstance();
+
+	QueryPerformanceFrequency(&this->_nFreq);
+	QueryPerformanceCounter(&this->_nLast);
 }
 
 void XApplication::setAnimationInterval(double interval)
@@ -52,10 +55,28 @@ void XApplication::run()
 		}
 		else
 		{
-			Sleep(0);
+			continue;//Sleep(0);
 		}
 	}
 	XLOG("app end");
+}
+void XApplication::process()
+{
+	QueryPerformanceCounter(&this->_nNow);
+	if (this->_stop)			//study 作为子线程的循环，需要做好退出逻辑，不然主线程退出后，会出问题
+	{
+		return;
+	}
+	if (this->_nNow.QuadPart - this->_nLast.QuadPart > _animationInterval.QuadPart)
+	{
+		this->_nLast.QuadPart = this->_nNow.QuadPart;
+
+		this->_latte->update();
+	}
+	else
+	{
+		return;
+	}
 }
 void XApplication::stop()
 {

@@ -9,6 +9,7 @@
 #include "json/json.h"
 #include <iostream>
 #include <cstdio>
+#include <thread>
 
 #if (CC_TARGET_PLATFORM != CC_PLATFORM_WIN32)
 #include <dirent.h>
@@ -127,6 +128,7 @@ int XUpdater::upgrade(std::string resourcePath,
 	std::function<void(const std::string &, const std::string &, const std::string &)> successCall,
 	std::function<void(double, double, const std::string &, const std::string &)> errorCall)
 {
+	resourcePath = resourcePath == "" ? "resource.json" : resourcePath;
 	bool isSame = this->checkVersion(resourcePath);
 	int loadedNum = 0;
 	if (!isSame)
@@ -177,8 +179,11 @@ int XUpdater::upgrade(std::string resourcePath,
 					successCall(url, localPathName, customId);
 				}
 			});
-			this->_downloader->queueDownloadSync(units);
-			
+			//这里需要分线程出去,不然会卡住调用线程
+			auto t = std::thread(&XDownloader::queueDownloadSync, this->_downloader, units);
+			t.detach();
+			//this->_downloader->queueDownloadSync(units);
+			//this->_downloader->queueDownloadASync(units);
 			//测试时候不改名，方便重复下载
 			//XUtilsFile::renameFile("tempMainVersion", "resource.json", this->_storagePath);
 		}

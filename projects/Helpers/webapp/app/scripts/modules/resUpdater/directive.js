@@ -64,16 +64,20 @@ define([
                 $rootScope.$on('onLoading',function(target,param){
                     scope.nowLoaded = param.nowLoaded;
                     scope.totalLoaded = param.totalLoaded;
-                    scope.loadingPercent = (scope.nowLoaded / scope.totalLoaded *100)>>0;
-
-                    scope.$digest();
+                    var percent = (scope.nowLoaded / scope.totalLoaded *100)>>0;
+                    if(percent != scope.loadingPercent)
+                    {
+                        scope.loadingPercent = percent;
+                        scope.$digest();
+                    }
+                    
                 })
                 $rootScope.$on('onLoaded',function(target,param){
                     scope.nowLoaded = 0;
                     scope.totalLoaded = 100;
                     scope.loadedNum = scope.loadedNum+1;
 
-                    scope.loadingPercent = 0;
+                    scope.loadingPercent = 100;
                     scope.loadedPercent = (scope.loadedNum/scope.totalNum*100)>>0;
                     
                     scope.$digest();

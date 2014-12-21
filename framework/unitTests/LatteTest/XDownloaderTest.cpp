@@ -25,7 +25,7 @@ namespace LatteTest
 {
 	std::shared_ptr<XDownloader> downloader;
 	std::shared_ptr<std::thread> t_back;
-	const std::string localNetworkAddr = "http://www.latte.com/php/test/cocos2dx-update-temp-package.zip";
+	const std::string localNetworkAddr = "http://www.latte.com/php/test/github_xpgod.rar";// "http://116.236.150.110/test/web.zip";
 	const std::string localNetworkErrAddr = "http://www.latte.com/php/test/cocos2dx-update-temp-package123.zip";
 	const std::string resServerRoot = "http://www.latte.com/php/test/";
 	const std::string storagePathAddr = "./download_package.zip";
@@ -90,6 +90,7 @@ namespace LatteTest
 				hasProcessCall = true;
 				totalDownloaded = a;
 				hasDownloaded = b;
+				XLOGP("hasDownloaded:%d %d",b,a);
 			});
 			downloader->setSuccessCallback([](const std::string &a, const std::string &b, const std::string &c){
 				hasAsysFinish = true;

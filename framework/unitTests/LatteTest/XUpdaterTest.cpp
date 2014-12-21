@@ -3,6 +3,7 @@
 #include "../../lib/utils/XUtilsFile.h"
 #include "../../lib/utils/XUtilsMath.h"
 #include "../../lib/net/updater/XUpdater.h"
+#include "../../lib/core/XApplication.h"
 
 #include "json/json.h"
 
@@ -11,6 +12,7 @@
 #include <iostream>
 #include <fstream>
 #include <memory>
+#include <thread>
 #include <unordered_map>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -18,11 +20,13 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 namespace LatteTest
 {
 	const std::string packageUrl = "http://www.latte.com/php/test/";
-	const std::string versionUrl = "http://www.my_work.com/php/test/resource.json";
+	const std::string versionUrl = "http://www.latte.com/php/test/resource.json";
 	const std::string versionFilePath = "resource.json";
 	const std::string storagePath = "";
 	const std::string destVersion = "1.0.0";
 	std::shared_ptr<XUpdater> updater;
+	std::shared_ptr<std::thread> t_back_updater;
+
 	TEST_CLASS(Updater)
 	{
 	private:
@@ -32,6 +36,8 @@ namespace LatteTest
 		{
 			updater = std::shared_ptr<XUpdater>(new XUpdater(packageUrl.c_str(), versionUrl.c_str(), storagePath.c_str()));
 			XUtilsFile::init();
+			t_back_updater = std::shared_ptr<std::thread>(new std::thread(&XApplication::run, (XApplication::getInstance())));
+			t_back_updater->detach();
 		}
 
 		TEST_METHOD(checkVersion)
@@ -94,7 +100,16 @@ namespace LatteTest
 			int serverFileSize = root["files"].size();
 
 			//4. 去更新
-			updater->upgrade();
+			updater->upgrade("", 
+			[=](int totalNum){
+				XLOGP("totalNum:%d", totalNum);
+			}, 
+			[=](double totalToDownload, double nowDownloaded, const std::string & url, const std::string & customId){
+				XLOGP("loading:%d %d", (int)nowDownloaded, (int)totalToDownload);
+			},
+			[=](const std::string & url, const std::string & localPathName, const std::string & customId){
+				XLOG("loading complete");
+			});
 
 			//5. 在算一下本地文件数量
 			files = XUtilsFile::getFilesInDir(".\\resource\\*");
