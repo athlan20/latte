@@ -27,6 +27,7 @@ public:
 		std::function<void(int)> startLoad = nullptr,
 		std::function<void(double, double, const std::string &, const std::string &)> progressCall = nullptr,
 		std::function<void(const std::string &, const std::string &, const std::string &)> successCall = nullptr,
+		std::function<void()> allCompleteCall = nullptr,
 		std::function<void(double, double, const std::string &, const std::string &)> errorCall = nullptr
 		);		//检查版本更新
 	virtual void onStart();		//开始下载回调，已经拿到文件大小已经所有文件的总大小

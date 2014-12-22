@@ -56,7 +56,7 @@ namespace LatteTest
 		{
 			srand((unsigned)time(NULL));
 			
-
+			bool hasLoaded = false;
 			//1. 先随机删除或者更改md5文件
 			//拿到本地resource
 			std::string localResStr = XUtilsFile::getFileData("resource.json");
@@ -100,16 +100,31 @@ namespace LatteTest
 			int serverFileSize = root["files"].size();
 
 			//4. 去更新
-			updater->upgrade("", 
+			int curDownloadNum = 0;
+			int needDownloadNum = updater->upgrade("", 
 			[=](int totalNum){
 				XLOGP("totalNum:%d", totalNum);
 			}, 
 			[=](double totalToDownload, double nowDownloaded, const std::string & url, const std::string & customId){
 				XLOGP("loading:%d %d", (int)nowDownloaded, (int)totalToDownload);
 			},
-			[=](const std::string & url, const std::string & localPathName, const std::string & customId){
+			[=, &hasLoaded, &needDownloadNum, &curDownloadNum](const std::string & url, const std::string & localPathName, const std::string & customId){
+				++curDownloadNum;
+				if (needDownloadNum == curDownloadNum)
+				{
+
+				}
+
+			},
+			[=, &hasLoaded](){
 				XLOG("loading complete");
-			});
+				hasLoaded = true;
+			}
+			);
+
+			while (!hasLoaded){
+				continue;
+			}
 
 			//5. 在算一下本地文件数量
 			files = XUtilsFile::getFilesInDir(".\\resource\\*");
