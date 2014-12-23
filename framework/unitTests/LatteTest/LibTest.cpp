@@ -4,6 +4,7 @@
 #include "../../lib/utils/XUtilsFile.h"
 #include "../../lib/core/XObserver.h"
 #include "../../external/md5/md5.h"
+#include "DynamicMath.h"
 
 #include "json/json.h"
 #include "curl/curl.h"
@@ -57,6 +58,15 @@ namespace LatteTest
 		TEST_CLASS_INITIALIZE(init)
 		{
 			XUtilsFile::init();
+		}
+
+		TEST_METHOD(libTestDll)
+		{
+			int answer1 = DynamicMath::staticAdd(1, 2);
+			Assert::AreEqual(answer1, 3);
+			DynamicMath math1;
+			int answer2 = math1.add(2, 3);
+			Assert::AreEqual(answer2, 5);
 		}
 
 		TEST_METHOD(libTestMd5)

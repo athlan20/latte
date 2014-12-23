@@ -17,6 +17,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Helpers", "projects\Helpers
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cefclient", "..\cef\cef_binary_3.1750.1738_windows32\cefclient.vcxproj", "{6617FED9-C5D4-4907-BF55-A90062A6683F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dllSample", "samples\dllSample\dllSample.vcxproj", "{8B11BFCD-48AD-49AC-854C-25DD7A76CB8B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -51,6 +53,12 @@ Global
 		{6617FED9-C5D4-4907-BF55-A90062A6683F}.Release|Win32.Build.0 = Release|Win32
 		{6617FED9-C5D4-4907-BF55-A90062A6683F}.Release|x64.ActiveCfg = Release|x64
 		{6617FED9-C5D4-4907-BF55-A90062A6683F}.Release|x64.Build.0 = Release|x64
+		{8B11BFCD-48AD-49AC-854C-25DD7A76CB8B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{8B11BFCD-48AD-49AC-854C-25DD7A76CB8B}.Debug|Win32.Build.0 = Debug|Win32
+		{8B11BFCD-48AD-49AC-854C-25DD7A76CB8B}.Debug|x64.ActiveCfg = Debug|Win32
+		{8B11BFCD-48AD-49AC-854C-25DD7A76CB8B}.Release|Win32.ActiveCfg = Release|Win32
+		{8B11BFCD-48AD-49AC-854C-25DD7A76CB8B}.Release|Win32.Build.0 = Release|Win32
+		{8B11BFCD-48AD-49AC-854C-25DD7A76CB8B}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
