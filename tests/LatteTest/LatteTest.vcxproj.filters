@@ -20,7 +20,7 @@
       <UniqueIdentifier>{ba27af44-3134-4ed3-9943-0ba4536feec9}</UniqueIdentifier>
     </Filter>
     <Filter Include="源文件\libs\md5">
-      <UniqueIdentifier>{40d359b5-64d7-4d3e-ad0f-3b3c7265d8d3}</UniqueIdentifier>
+      <UniqueIdentifier>{e05db7af-3a3b-44c0-86b3-7ba696d46a6c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -30,14 +30,14 @@
     <ClInclude Include="targetver.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\external\json\src\lib_json\json_batchallocator.h">
-      <Filter>源文件\libs\json</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\external\json\src\lib_json\json_tool.h">
-      <Filter>源文件\libs\json</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\external\md5\md5.h">
+    <ClInclude Include="..\..\framework\external\md5\md5.h">
       <Filter>源文件\libs\md5</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\framework\external\json\src\lib_json\json_batchallocator.h">
+      <Filter>源文件\libs\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\framework\external\json\src\lib_json\json_tool.h">
+      <Filter>源文件\libs\json</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -53,15 +53,6 @@
     <ClCompile Include="XUtilsFileTest.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\external\json\src\lib_json\json_reader.cpp">
-      <Filter>源文件\libs\json</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\external\json\src\lib_json\json_value.cpp">
-      <Filter>源文件\libs\json</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\external\json\src\lib_json\json_writer.cpp">
-      <Filter>源文件\libs\json</Filter>
-    </ClCompile>
     <ClCompile Include="LibTest.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -71,21 +62,30 @@
     <ClCompile Include="XUtilsFormatter.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\external\md5\md5.cpp">
+    <ClCompile Include="..\..\framework\external\md5\md5.cpp">
       <Filter>源文件\libs\md5</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\external\md5\test.cpp">
+    <ClCompile Include="..\..\framework\external\md5\test.cpp">
       <Filter>源文件\libs\md5</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\framework\external\json\src\lib_json\json_reader.cpp">
+      <Filter>源文件\libs\json</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\framework\external\json\src\lib_json\json_value.cpp">
+      <Filter>源文件\libs\json</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\framework\external\json\src\lib_json\json_writer.cpp">
+      <Filter>源文件\libs\json</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\external\json\src\lib_json\json_internalarray.inl">
+    <None Include="..\..\framework\external\json\src\lib_json\json_internalarray.inl">
       <Filter>源文件\libs\json</Filter>
     </None>
-    <None Include="..\..\external\json\src\lib_json\json_internalmap.inl">
+    <None Include="..\..\framework\external\json\src\lib_json\json_internalmap.inl">
       <Filter>源文件\libs\json</Filter>
     </None>
-    <None Include="..\..\external\json\src\lib_json\json_valueiterator.inl">
+    <None Include="..\..\framework\external\json\src\lib_json\json_valueiterator.inl">
       <Filter>源文件\libs\json</Filter>
     </None>
   </ItemGroup>

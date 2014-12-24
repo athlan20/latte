@@ -44,10 +44,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);D:\my_work\cpp\test\Updater\external\curl\prebuilt\win32;</LibraryPath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
     <OutDir>$(ProjectDir)\bin\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)\obj\$(Configuration)\</IntDir>
     <SourcePath>$(VC_SourcePath);</SourcePath>
+    <IncludePath>$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -57,17 +58,25 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories);$(SolutionDir)\framework\external\curl\include\win32;$(SolutionDir)\framework\external\json\include;$(SolutionDir)\samples\dllSample</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories);$(SolutionDir)framework\external\curl\include\win32;$(SolutionDir)framework\external\json\include;$(SolutionDir)samples\dllSample;$(SolutionDir)framework</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <CompileAsManaged>
+      </CompileAsManaged>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;$(SolutionDir)framework\external\curl\prebuilt\win32;$(SolutionDir)framework\obj\Debug;$(SolutionDir)samples\dllSample\dist\Debug.Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies);libcurl_imp.lib;XLatte.obj;XScheduler.obj;XUpdater.obj;XDownloader.obj;XUtilsFile.obj;XUtilsMath.obj;XApplication.obj;XObserver.obj;XUtilsFormatter.obj;dllSample.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);$(VCInstallDir)UnitTest\lib;$(SolutionDir)framework\external\curl\prebuilt\win32;$(SolutionDir)framework\obj\Debug</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies);libcurl_imp.lib;XLatte.obj;XScheduler.obj;XUpdater.obj;XDownloader.obj;XUtilsFile.obj;XUtilsMath.obj;XApplication.obj;XObserver.obj;XUtilsFormatter.obj</AdditionalDependencies>
     </Link>
+    <ProjectReference>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <PreBuildEvent>
+      <Command>copy "$(SolutionDir)samples\dll\$(Configuration).Win32\dllSample.dll" "$(OutDir)"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -89,18 +98,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\external\json\src\lib_json\json_batchallocator.h" />
-    <ClInclude Include="..\..\external\json\src\lib_json\json_tool.h" />
-    <ClInclude Include="..\..\external\md5\md5.h" />
+    <ClInclude Include="..\..\framework\external\json\src\lib_json\json_batchallocator.h" />
+    <ClInclude Include="..\..\framework\external\json\src\lib_json\json_tool.h" />
+    <ClInclude Include="..\..\framework\external\md5\md5.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\external\json\src\lib_json\json_reader.cpp" />
-    <ClCompile Include="..\..\external\json\src\lib_json\json_value.cpp" />
-    <ClCompile Include="..\..\external\json\src\lib_json\json_writer.cpp" />
-    <ClCompile Include="..\..\external\md5\md5.cpp" />
-    <ClCompile Include="..\..\external\md5\test.cpp" />
+    <ClCompile Include="..\..\framework\external\json\src\lib_json\json_reader.cpp" />
+    <ClCompile Include="..\..\framework\external\json\src\lib_json\json_value.cpp" />
+    <ClCompile Include="..\..\framework\external\json\src\lib_json\json_writer.cpp" />
+    <ClCompile Include="..\..\framework\external\md5\md5.cpp" />
+    <ClCompile Include="..\..\framework\external\md5\test.cpp" />
     <ClCompile Include="LibTest.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -113,9 +122,14 @@
     <ClCompile Include="XUtilsFormatter.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\external\json\src\lib_json\json_internalarray.inl" />
-    <None Include="..\..\external\json\src\lib_json\json_internalmap.inl" />
-    <None Include="..\..\external\json\src\lib_json\json_valueiterator.inl" />
+    <None Include="..\..\framework\external\json\src\lib_json\json_internalarray.inl" />
+    <None Include="..\..\framework\external\json\src\lib_json\json_internalmap.inl" />
+    <None Include="..\..\framework\external\json\src\lib_json\json_valueiterator.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\samples\dllSample\dllSample.vcxproj">
+      <Project>{8b11bfcd-48ad-49ac-854c-25dd7a76cb8b}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

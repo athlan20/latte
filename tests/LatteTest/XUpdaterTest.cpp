@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include "../../lib/base/global.h"
-#include "../../lib/utils/XUtilsFile.h"
-#include "../../lib/utils/XUtilsMath.h"
-#include "../../lib/net/updater/XUpdater.h"
-#include "../../lib/core/XApplication.h"
+#include "lib/base/global.h"
+#include "lib/utils/XUtilsFile.h"
+#include "lib/utils/XUtilsMath.h"
+#include "lib/net/updater/XUpdater.h"
+#include "lib/core/XApplication.h"
 
 #include "json/json.h"
 

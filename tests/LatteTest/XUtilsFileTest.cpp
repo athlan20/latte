@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "../../lib/utils/XUtilsFile.h"
+#include "lib/utils/XUtilsFile.h"
 
 #include <windows.h>
 

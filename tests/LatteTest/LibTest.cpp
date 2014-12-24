@@ -1,9 +1,9 @@
 ﻿#include "stdafx.h"
 
-#include "../../lib/base/global.h"
-#include "../../lib/utils/XUtilsFile.h"
-#include "../../lib/core/XObserver.h"
-#include "../../external/md5/md5.h"
+#include "lib/base/global.h"
+#include "lib/utils/XUtilsFile.h"
+#include "lib/core/XObserver.h"
+#include "external/md5/md5.h"
 #include "DynamicMath.h"
 
 #include "json/json.h"

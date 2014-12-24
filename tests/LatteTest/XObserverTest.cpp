@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "../../lib/base/global.h"
-#include "../../lib/core/XObserver.h"
+#include "lib/base/global.h"
+#include "lib/core/XObserver.h"
 
 #include <windows.h>
 

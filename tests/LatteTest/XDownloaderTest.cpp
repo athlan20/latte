@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "../../lib/base/global.h"
-#include "../../lib/utils/XUtilsFile.h"
-#include "../../lib/net/XDownloader.h"
-#include "../../lib/core/XApplication.h"
+#include "lib/base/global.h"
+#include "lib/utils/XUtilsFile.h"
+#include "lib/net/XDownloader.h"
+#include "lib/core/XApplication.h"
 
 #include "json/json.h"
 

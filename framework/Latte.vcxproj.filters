@@ -59,15 +59,6 @@
     <ClCompile Include="lib\utils\XUtilsFile.cpp">
       <Filter>lib\utils</Filter>
     </ClCompile>
-    <ClCompile Include="external\json\src\lib_json\json_reader.cpp">
-      <Filter>external\json</Filter>
-    </ClCompile>
-    <ClCompile Include="external\json\src\lib_json\json_value.cpp">
-      <Filter>external\json</Filter>
-    </ClCompile>
-    <ClCompile Include="external\json\src\lib_json\json_writer.cpp">
-      <Filter>external\json</Filter>
-    </ClCompile>
     <ClCompile Include="lib\utils\XUtilsMath.cpp">
       <Filter>lib\utils</Filter>
     </ClCompile>
@@ -76,6 +67,15 @@
     </ClCompile>
     <ClCompile Include="lib\utils\XUtilsFormatter.cpp">
       <Filter>lib\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="external\json\src\lib_json\json_reader.cpp">
+      <Filter>external\json</Filter>
+    </ClCompile>
+    <ClCompile Include="external\json\src\lib_json\json_value.cpp">
+      <Filter>external\json</Filter>
+    </ClCompile>
+    <ClCompile Include="external\json\src\lib_json\json_writer.cpp">
+      <Filter>external\json</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -103,12 +103,6 @@
     <ClInclude Include="lib\utils\XUtilsFile.h">
       <Filter>lib\utils</Filter>
     </ClInclude>
-    <ClInclude Include="external\json\src\lib_json\json_batchallocator.h">
-      <Filter>external\json</Filter>
-    </ClInclude>
-    <ClInclude Include="external\json\src\lib_json\json_tool.h">
-      <Filter>external\json</Filter>
-    </ClInclude>
     <ClInclude Include="config.h">
       <Filter>lib</Filter>
     </ClInclude>
@@ -120,6 +114,12 @@
     </ClInclude>
     <ClInclude Include="lib\utils\XUtilsFormatter.h">
       <Filter>lib\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="external\json\src\lib_json\json_batchallocator.h">
+      <Filter>external\json</Filter>
+    </ClInclude>
+    <ClInclude Include="external\json\src\lib_json\json_tool.h">
+      <Filter>external\json</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
