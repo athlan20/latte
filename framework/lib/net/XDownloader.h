@@ -1,6 +1,7 @@
 #ifndef _XDOWNLOADER_H_
 #define _XDOWNLOADER_H_
 
+#include "../base/macros.h"
 #include "curl/curl.h"
 
 #include <unordered_map>
@@ -13,11 +14,11 @@ class XDownloader:public std::enable_shared_from_this<XDownloader>
 {
 
 public:
-	XDownloader();
-	~XDownloader();
+	X_DLL XDownloader();
+	X_DLL ~XDownloader();
 
 public:
-	struct ProgressData
+	X_DLL struct ProgressData
 	{
 		std::weak_ptr<XDownloader> downloader;
 		std::string customId;
@@ -28,14 +29,14 @@ public:
 		double totalToDownload;
 	};
 
-	struct FileDescriptor
+	X_DLL struct FileDescriptor
 	{
 		FILE *fp;
 		void *curl;
 	};
 
 	//enum
-	enum class ErrorCode
+	X_DLL enum class ErrorCode
 	{
 		CREATE_FILE,
 
@@ -56,7 +57,7 @@ public:
 		INVALID_STORAGE_PATH
 	};
 
-	struct Error
+	X_DLL struct Error
 	{
 		ErrorCode code;
 		int curlm_code;
@@ -66,7 +67,7 @@ public:
 		std::string url;
 	};
 
-	struct XDownloadUnit
+	X_DLL struct XDownloadUnit
 	{
 		std::string srcUrl;
 		std::string storagePath;
@@ -88,16 +89,16 @@ protected:
 	};
 
 public:
-	void downloadAsync(const std::string &srcUrl, const std::string &storagePath, const std::string &customId = "default");
-	void downloadSync(const std::string &srcUrl, const std::string &storagePath, const std::string &customId = "default");
-	void queueDownloadSync(std::unordered_map<std::string, XDownloadUnit> units); //队列加载
-	void queueDownloadASync(std::unordered_map<std::string, XDownloadUnit> units);	//队列异步加载
-    void setErrorCallback(const ErrorCallback &callback) { _errorCall = callback; };
-    void setProgressCallback(const ProgressCallback &callback) { _progressCall = callback; };
-    void setSuccessCallback(const SuccessCallback &callback) { _successCall = callback; };
-    ErrorCallback getErrorCallback() const { return _errorCall; };
-    ProgressCallback getProgressCallback() const { return _progressCall; };
-    SuccessCallback getSuccessCallback() const { return _successCall; };
+	X_DLL void downloadAsync(const std::string &srcUrl, const std::string &storagePath, const std::string &customId = "default");
+	X_DLL void downloadSync(const std::string &srcUrl, const std::string &storagePath, const std::string &customId = "default");
+	X_DLL void queueDownloadSync(std::unordered_map<std::string, XDownloadUnit> units); //队列加载
+	X_DLL void queueDownloadASync(std::unordered_map<std::string, XDownloadUnit> units);	//队列异步加载
+	void X_DLL setErrorCallback(const ErrorCallback &callback) { _errorCall = callback; };
+	void X_DLL setProgressCallback(const ProgressCallback &callback) { _progressCall = callback; };
+	void X_DLL setSuccessCallback(const SuccessCallback &callback) { _successCall = callback; };
+	X_DLL ErrorCallback getErrorCallback() const { return _errorCall; };
+	X_DLL ProgressCallback getProgressCallback() const { return _progressCall; };
+	X_DLL SuccessCallback getSuccessCallback() const { return _successCall; };
 private:
 	void prepareDownload(const std::string &srcUrl, const std::string &storagePath, const std::string &customId, bool resumeDownload, FileDescriptor *fDesc, ProgressData *pData);
 	int download(const std::string &srcUrl, const std::string &customId, const FileDescriptor &fDesc, const ProgressData &data);

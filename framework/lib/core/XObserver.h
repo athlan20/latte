@@ -2,7 +2,7 @@
 #define __XOBSERVER_H_
 
 #include "json/json.h"
-
+#include "../base/macros.h"
 #include <vector>
 #include <mutex>
 #include <memory>
@@ -14,16 +14,16 @@
 class XObserver
 {
 public:
-	XObserver();
-	~XObserver();
+	X_DLL XObserver();
+	X_DLL ~XObserver();
 
-	static XObserver* getInstance();
+	static X_DLL XObserver* getInstance();
 
-	bool listen(std::string name,std::function<void(void*)> callBack);
-	bool unListen(std::string name);
-	bool notify(std::string name, void* param=NULL);
-	bool notifyOnce(std::string name, void* param = NULL);
-	int getMapSize();
+	X_DLL bool listen(std::string name, std::function<void(void*)> callBack);
+	X_DLL bool unListen(std::string name);
+	X_DLL bool notify(std::string name, void* param = NULL);
+	X_DLL bool notifyOnce(std::string name, void* param = NULL);
+	X_DLL int getMapSize();
 
 private:
 	static XObserver* _instance;

@@ -1,38 +1,40 @@
 #ifndef __XSCHEDULER_H_
 #define __XSCHEDULER_H_
 
+#include "../base/macros.h"
+
 #include <vector>
 #include <mutex>
 
 class XScheduler
 {
 public:
-	XScheduler();
-	~XScheduler();
+	X_DLL XScheduler();
+	X_DLL ~XScheduler();
 
 public:
-	void update();
+	X_DLL void update();
 
 	/**
 	 * 保证在主线程中调用该函数
 	 * @param
 	 * @return
 	 */
-	void performFunctionInLatteThread(const std::function<void()> &function);
+	X_DLL void performFunctionInLatteThread(const std::function<void()> &function);
 	
 	/**
 	 * 设置tick刷新间隔
 	 * @param
 	 * @return
 	 */
-	void setInterval(float interval);
+	X_DLL void setInterval(float interval);
 
 	/**
 	 * 增加默认更新函数
 	 * @param
 	 * @return
 	 */
-	void addDefaultPerform(const std::function<void()> &function);
+	X_DLL void addDefaultPerform(const std::function<void()> &function);
 
 protected:
 	std::vector<std::function<void()>> _functionsToPerform;

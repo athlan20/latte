@@ -1,13 +1,16 @@
 #ifndef __XUTILSMATH_H_
 #define __XUTILSMATH_H_
+
+#include "../base/macros.h"
+
 class XUtilsMath
 {
 public:
-	XUtilsMath();
-	~XUtilsMath();
+	X_DLL XUtilsMath();
+	X_DLL ~XUtilsMath();
 
 public:
-	static int getRand(int randMin, int randMax);
+	X_DLL static int getRand(int randMin, int randMax);
 };
 
 #endif

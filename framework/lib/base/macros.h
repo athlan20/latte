@@ -47,7 +47,14 @@ _ASSERT(cond);	\
 #define X_PLATFORM_WINRT             14
 
 // win32
-#if defined(_WIN32) && defined(_WINDOWS)
+#if defined(WIN32)
 #undef  X_TARGET_PLATFORM
 #define X_TARGET_PLATFORM	X_PLATFORM_WIN32
+
+#if defined(LATTE_DLL)
+#define X_DLL     __declspec(dllexport)
+#else         /* use a DLL library */
+#define X_DLL     
+#endif
+
 #endif

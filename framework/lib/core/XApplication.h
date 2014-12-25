@@ -2,29 +2,30 @@
 #define _XAPPLICATION_H_
 
 #include "XLatte.h"
+#include "../base/macros.h"
 #include <windows.h>
 
 class XApplication
 {
 public:
-	void run();
+	X_DLL void run();
 	//循环体交给宿主程序,每次循环俩调用process
-	void process();
-	void stop();
-	void init();
-	void destroy();
+	X_DLL void process();
+	X_DLL void stop();
+	X_DLL void init();
+	X_DLL void destroy();
 
-	XApplication()
+	X_DLL XApplication()
 	{
 	}
 
-	~XApplication()
+	X_DLL ~XApplication()
 	{
 	}
 
 public:
-	static XApplication* getInstance();
-	void setAnimationInterval(double interval);
+	X_DLL static XApplication* getInstance();
+	X_DLL void setAnimationInterval(double interval);
 private:
 	static XApplication* _instance;
 	bool _stop;

@@ -61,7 +61,7 @@
       <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories);$(SolutionDir)framework\external\curl\include\win32;$(SolutionDir)framework\external\json\include;$(SolutionDir)samples\dllSample;$(SolutionDir)framework</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <CompileAsManaged>
       </CompileAsManaged>
     </ClCompile>
@@ -69,13 +69,13 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);$(VCInstallDir)UnitTest\lib;$(SolutionDir)framework\external\curl\prebuilt\win32;$(SolutionDir)framework\obj\Debug</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies);libcurl_imp.lib;XLatte.obj;XScheduler.obj;XUpdater.obj;XDownloader.obj;XUtilsFile.obj;XUtilsMath.obj;XApplication.obj;XObserver.obj;XUtilsFormatter.obj</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies);libcurl_imp.lib</AdditionalDependencies>
     </Link>
     <ProjectReference>
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
     <PreBuildEvent>
-      <Command>copy "$(SolutionDir)samples\dll\$(Configuration).Win32\dllSample.dll" "$(OutDir)"</Command>
+      <Command>copy "$(SolutionDir)framework\bin\$(Configuration)\Latte.dll" "$(OutDir)"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -127,8 +127,8 @@
     <None Include="..\..\framework\external\json\src\lib_json\json_valueiterator.inl" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\samples\dllSample\dllSample.vcxproj">
-      <Project>{8b11bfcd-48ad-49ac-854c-25dd7a76cb8b}</Project>
+    <ProjectReference Include="..\..\framework\Latte.vcxproj">
+      <Project>{cdd24b18-98c5-429c-b6a1-bad12bfc4e02}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

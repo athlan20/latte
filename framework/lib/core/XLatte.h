@@ -2,16 +2,17 @@
 #define __XLATTE_H_
 
 #include "XScheduler.h"
+#include "../base/macros.h"
 
 class XLatte
 {
 public:
-	static XLatte* getInstance();
+	X_DLL static XLatte* getInstance();
 
-	void init();
-	void update();
-	void setAnimationInterval(double interval);
-	XScheduler* getScheduler();
+	X_DLL void init();
+	X_DLL void update();
+	X_DLL void setAnimationInterval(double interval);
+	X_DLL XScheduler* getScheduler();
 protected:
 private:
 	static XLatte* _instance;

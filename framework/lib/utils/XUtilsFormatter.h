@@ -1,21 +1,23 @@
 #ifndef __XUTILSFORMATTER_H_
 #define __XUTILSFORMATTER_H_
+
+#include "../base/macros.h"
 #include <string>
 #include <sstream>
 
 class XUtilsFormatter
 {
 public:
-	XUtilsFormatter();
-	~XUtilsFormatter();
+	X_DLL XUtilsFormatter();
+	X_DLL ~XUtilsFormatter();
 
 public:
-	static std::string addslashes(std::string strIn);
-	static std::string GBK2UTF8(const char *szGbk);
-	static std::string UTF82GBK(const char *szUtf8);
+	X_DLL static std::string addslashes(std::string strIn);
+	X_DLL static std::string GBK2UTF8(const char *szGbk);
+	X_DLL static std::string UTF82GBK(const char *szUtf8);
 
 	template <class T>
-	static std::string ConvertToString(T value) {
+	X_DLL static std::string ConvertToString(T value) {
 		std::stringstream ss;
 		ss << value;
 		return ss.str();

@@ -1,6 +1,7 @@
 #ifndef __XUtilsFile_H__
 #define __XUtilsFile_H__
 
+#include "../base/macros.h"
 #include <string>
 #include <vector>
 #include <functional>
@@ -9,8 +10,8 @@
 class XUtilsFile
 {
 public:
-	XUtilsFile();
-	~XUtilsFile();
+	X_DLL XUtilsFile();
+	X_DLL ~XUtilsFile();
 
 public:
 	/**
@@ -18,13 +19,13 @@ public:
 	 * @param
 	 * @return
 	 */
-	static void init();
+	X_DLL static void init();
 	/**
 	*  Checks whether a file exists without considering search paths and resolution orders.
 	*  @param The file (with absolute path) to look up for
 	*  @return Returns true if the file found at the given absolute path, otherwise returns false
 	*/
-	static bool isFileExistInternal(const std::string& filename);
+	X_DLL static bool isFileExistInternal(const std::string& filename);
 
 	/**
 	*  Checks whether the path is an absolute path.
@@ -35,7 +36,7 @@ public:
 	*  @param strPath The path that needs to be checked.
 	*  @return true if it's an absolute path, otherwise it will return false.
 	*/
-	static bool isAbsolutePath(const std::string& path);
+	X_DLL static bool isAbsolutePath(const std::string& path);
 
 	/**
 	*  Checks whether a file exists.
@@ -44,9 +45,9 @@ public:
 	*  @param strFilePath The path of the file, it could be a relative or absolute path.
 	*  @return true if the file exists, otherwise it will return false.
 	*/
-	static bool isFileExist(const std::string& filename);
+	X_DLL static bool isFileExist(const std::string& filename);
 
-	static std::string fullPathForFilename(const std::string &filename);
+	X_DLL static std::string fullPathForFilename(const std::string &filename);
 
 	/**
 	*  Returns the fullpath for a given filename.
@@ -56,7 +57,7 @@ public:
 	*  @param filename The file name to look up for
 	*  @return The full path for the file, if not found, the return value will be an empty string
 	*/
-	static std::string searchFullPathForFilename(const std::string& filename);
+	X_DLL static std::string searchFullPathForFilename(const std::string& filename);
 
 	/**
 	*  Gets the new filename from the filename lookup dictionary.
@@ -65,7 +66,7 @@ public:
 	*  @return The new filename after searching in the filename lookup dictionary.
 	*          If the original filename wasn't in the dictionary, it will return the original filename.
 	*/
-	static std::string XUtilsFile::getNewFilename(const std::string &filename);
+	X_DLL static std::string XUtilsFile::getNewFilename(const std::string &filename);
 
 	/**
 	*  Gets full path for filename, resolution directory and search path.
@@ -75,7 +76,7 @@ public:
 	*  @param searchPath The search path.
 	*  @return The full path of the file. It will return an empty string if the full path of the file doesn't exist.
 	*/
-	static std::string getPathForFilename(const std::string& filename, const std::string& searchPath);
+	X_DLL static std::string getPathForFilename(const std::string& filename, const std::string& searchPath);
 
 	/**
 	*  Gets full path for the directory and the filename.
@@ -87,7 +88,7 @@ public:
 	*  @param strFilename  The name of the file.
 	*  @return The full path of the file, if the file can't be found, it will return an empty string.
 	*/
-	static std::string getFullPathForDirectoryAndFilename(const std::string& directory, const std::string& filename);
+	X_DLL static std::string getFullPathForDirectoryAndFilename(const std::string& directory, const std::string& filename);
 
 	/**
 	*  Gets resource file data
@@ -95,46 +96,46 @@ public:
 	*  @param[in]  filename The resource file name which contains the path.
 	*  @param[in]  pszMode The read mode of the file.
 	*/
-	static std::string getFileData(const std::string& filename, const char* mode = "r");
+	static X_DLL std::string getFileData(const std::string& filename, const char* mode = "r");
 
 	/**
 	 * 判断是否是存在的目录
 	 * @param
 	 * @return
 	 */
-	static bool isDirectoryExistInternal(const std::string& dirPath);
+	X_DLL static bool isDirectoryExistInternal(const std::string& dirPath);
 	
 	/**
 	 * 递归式访问文件夹里的所有文件
 	 * @param
 	 * @return
 	 */
-	static std::vector<std::string> getFilesInDir(const std::string dir);
+	X_DLL static std::vector<std::string> getFilesInDir(const std::string dir);
 
 	/**
 	 * 
 	 * @param
 	 * @return
 	 */
-	static bool writeFileData(const std::string& fileName, const std::string& data);
+	X_DLL static bool writeFileData(const std::string& fileName, const std::string& data);
 
-	static bool renameFile(const std::string &oldname, const std::string &name, const std::string &path=".\/");
+	X_DLL static bool renameFile(const std::string &oldname, const std::string &name, const std::string &path = ".\/");
 
 	/**
 	* 格式化路径字符串，使之变为合法路径表示方法
 	*
 	*/
-	static std::string formatPath(const std::string& path);
+	X_DLL static std::string formatPath(const std::string& path);
 
 	//检查路径目录是否存在，没有的话，就一级级创建好目录
-	static void checkDirAndCreate(std::string path);
+	X_DLL static void checkDirAndCreate(std::string path);
 
 	/**
 	 * 删除文件
 	 * @param
 	 * @return
 	 */
-	static bool deleteFile(const std::string &path);
+	X_DLL static bool deleteFile(const std::string &path);
 private:
 	/**
 	*  The full path cache. When a file is found, it will be added into this cache.
