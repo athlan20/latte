@@ -25,7 +25,7 @@ public:
 
 		int len = sprintf(logStr, format, args);
 		strcat(logStr, "\n");
-		OutputDebugStringA(logStr);
+		//OutputDebugStringA(logStr);
 		va_end(args);
 
 	}
