@@ -5,8 +5,10 @@
 #include <wtypes.h>
 #include <stdarg.h>
 #include <windows.h>
-#include <WinSock2.h>
 
+#ifdef _WIN32_WCE
+#include <WinSock2.h>
+#endif
 /**
  *  简单日志类
  * @param

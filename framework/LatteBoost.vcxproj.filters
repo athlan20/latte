@@ -69,6 +69,9 @@
     <ClInclude Include="libBoost\core\XScheduler.h">
       <Filter>源文件\libBoost\utils</Filter>
     </ClInclude>
+    <ClInclude Include="libBoost\utils\XUtilsFormatter.h">
+      <Filter>源文件\libBoost\utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="libBoost\utils\XUtilsMath.cpp">
@@ -96,6 +99,9 @@
       <Filter>external\json</Filter>
     </ClCompile>
     <ClCompile Include="libBoost\core\XScheduler.cpp">
+      <Filter>源文件\libBoost\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="libBoost\utils\XUtilsFormatter.cpp">
       <Filter>源文件\libBoost\utils</Filter>
     </ClCompile>
   </ItemGroup>

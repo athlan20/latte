@@ -20,6 +20,7 @@
     <ClInclude Include="libBoost\net\updater\XUpdater.h" />
     <ClInclude Include="libBoost\net\XDownloader.h" />
     <ClInclude Include="libBoost\utils\XUtilsFile.h" />
+    <ClInclude Include="libBoost\utils\XUtilsFormatter.h" />
     <ClInclude Include="libBoost\utils\XUtilsMath.h" />
   </ItemGroup>
   <ItemGroup>
@@ -31,6 +32,7 @@
     <ClCompile Include="libBoost\net\updater\XUpdater.cpp" />
     <ClCompile Include="libBoost\net\XDownloader.cpp" />
     <ClCompile Include="libBoost\utils\XUtilsFile.cpp" />
+    <ClCompile Include="libBoost\utils\XUtilsFormatter.cpp" />
     <ClCompile Include="libBoost\utils\XUtilsMath.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -48,7 +50,7 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
-    <CharacterSet>NotSet</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -69,8 +71,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>bin/$(Configuration)/</OutDir>
-    <IntDir>obj/$(Configuration)/</IntDir>
+    <OutDir>libBoost/bin/$(Configuration)/</OutDir>
+    <IntDir>libBoost/obj/$(Configuration)/</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -81,9 +83,9 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>LATTE_DLL;WIN32;_DEBUG;_WINDOWS;_USRDLL;LATTEBOOST_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>LATTE_DLL;WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_USRDLL;LATTEBOOST_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)framework\external\curl\include\win32;$(SolutionDir)\framework\external\json\include;D:\my_work\cpp\boost_1_57_0</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)framework\external\curl\include\wince;$(SolutionDir)\framework\external\json\include;$(SolutionDir)..\boost_1_57_0</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

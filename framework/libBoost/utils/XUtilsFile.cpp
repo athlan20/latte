@@ -60,24 +60,33 @@ static inline std::string convertPathFormatToUnixStyle(const std::string& path)
 	return ret;
 }
 
-static inline void _checkPath()
+static inline std::string _checkPath(std::string path)
 {
-	if (0 == s_resourcePath.length())
+	std::string filePath = "";
+	if(!XUtilsFile::isAbsolutePath(path))
 	{
-		WCHAR utf16Path[X_MAX_PATH] = { 0 };
-//		GetCurrentDirectoryW(sizeof(utf16Path)-1, utf16Path);
-
-		char utf8Path[X_MAX_PATH] = { 0 };
-		int nNum = WideCharToMultiByte(CP_UTF8, 0, utf16Path, -1, utf8Path, sizeof(utf8Path), NULL, NULL);
-
-		s_resourcePath = convertPathFormatToUnixStyle(utf8Path);
-		s_resourcePath.append("/");
+		filePath = s_resourcePath+path;
 	}
+	else
+	{
+		filePath = path;
+	}
+	return filePath;
 }
 
 void XUtilsFile::init()
 {
-	_checkPath();
+	if (0 == s_resourcePath.length())
+	{
+		//WCHAR utf16Path[X_MAX_PATH] = { 0 };
+		//GetCurrentDirectoryW(sizeof(utf16Path)-1, utf16Path);
+
+		//char utf8Path[X_MAX_PATH] = { 0 };
+		//int nNum = WideCharToMultiByte(CP_UTF8, 0, utf16Path, -1, utf8Path, sizeof(utf8Path), NULL, NULL);
+
+		s_resourcePath = XUtilsFile::getWorkPath();
+		s_resourcePath.append("\\");
+	}
 	_defaultResRootPath = s_resourcePath;
 	_searchPathArray.push_back(_defaultResRootPath);
 }
@@ -96,11 +105,12 @@ bool XUtilsFile::isFileExistInternal(const std::string& strFilePath)
 	if (!XUtilsFile::isAbsolutePath(strPath))
 	{
 		std::string defaultResRootPath = "";
-		WCHAR utf16Path[X_MAX_PATH] = { 0 };
-//		GetCurrentDirectoryW(sizeof(utf16Path)-1, utf16Path);
-		char utf8Path[X_MAX_PATH] = { 0 };
-		int nNum = WideCharToMultiByte(CP_UTF8, 0, utf16Path, -1, utf8Path, sizeof(utf8Path), NULL, NULL);
-		defaultResRootPath = convertPathFormatToUnixStyle(utf8Path);
+		//WCHAR utf16Path[X_MAX_PATH] = { 0 };
+		//GetCurrentDirectory(sizeof(utf16Path)-1, utf16Path);
+		//char utf8Path[X_MAX_PATH] = { 0 };
+		//int nNum = WideCharToMultiByte(CP_UTF8, 0, utf16Path, -1, utf8Path, sizeof(utf8Path), NULL, NULL);
+		std::string workPath = getWorkPath();
+		defaultResRootPath = workPath;//convertPathFormatToUnixStyle(workPath);
 		// Not absolute path, add the default root path at the beginning.
 		strPath.insert(0, defaultResRootPath);
 	}
@@ -151,8 +161,8 @@ std::string XUtilsFile::getFullPathForDirectoryAndFilename(const std::string& di
 {
 	// get directory+filename, safely adding '/' as necessary 
 	std::string ret = directory;
-	if (directory.size() && directory[directory.size() - 1] != '/'){
-		ret += '/';
+	if (directory.size() && directory[directory.size() - 1] != '\\'){
+		ret += '\\';
 	}
 	ret += filename;
 
@@ -249,7 +259,16 @@ std::string XUtilsFile::searchFullPathForFilename(const std::string& filename)
 
 bool XUtilsFile::isAbsolutePath(const std::string& path)
 {
-#ifdef WIN32
+#ifdef _WIN32_WCE
+	if (path.length() > 2 && (path[0]=='\\'))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+#elif defined WIN32
 	if (path.length() > 2
 		&& ((path[0] >= 'a' && path[0] <= 'z') || (path[0] >= 'A' && path[0] <= 'Z'))
 		&& path[1] == ':')
@@ -306,16 +325,18 @@ bool XUtilsFile::deleteFile(const std::string &path)
 	}
 	if (!absolutePath.empty())
 	{
-		if (DeleteFile(LPCWSTR(absolutePath.c_str()))) {
-			return false;
-		}
-		else {
-
+		std::wstring wStr = XUtilsFormatter::UT2WC(absolutePath.c_str());
+		if (DeleteFile(wStr.c_str())) {
 			if (needCheckRelativeCache)
 			{
 				_fullPathCache.erase(path);
 			}
 			return true;
+		}
+		else {
+
+			return false;
+			
 		}
 	}
 	return false;
@@ -324,8 +345,9 @@ bool XUtilsFile::deleteFile(const std::string &path)
 std::string XUtilsFile::getFileData(const std::string& filename, const char* mode)
 {
     XASSERT(!filename.empty() && mode != NULL, "Invalid parameters.");
+	std::string filePath = _checkPath(filename);
 	std::string data = "";
-	std::ifstream ifs(filename.c_str());
+	std::ifstream ifs(filePath.c_str());
 	if (ifs)
 	{
 		std::stringstream buffer;
@@ -341,7 +363,8 @@ std::string XUtilsFile::getFileData(const std::string& filename, const char* mod
 
 bool XUtilsFile::writeFileData(const std::string& fileName,const std::string& data)
 {
-	std::ofstream of(fileName.c_str());
+	std::string filePath = _checkPath(fileName);
+	std::ofstream of(filePath.c_str());
 	if (of.good())
 	{
 		of << data;
@@ -350,7 +373,7 @@ bool XUtilsFile::writeFileData(const std::string& fileName,const std::string& da
 	}
 	else
 	{
-		XASSERT(0,fileName+" error in XUtilsFile::writeFileData");
+		XASSERT(0,filePath+" error in XUtilsFile::writeFileData");
 	}
 	return false;
 }
@@ -442,6 +465,29 @@ void XUtilsFile::checkDirAndCreate(std::string path)
 			//}
 		}
 	}
+}
+
+std::string XUtilsFile::getWorkPath()
+{
+	std::string returnPath = "";
+#ifdef _WIN32_WCE
+	
+	TCHAR szPath[X_MAX_PATH];
+	int nSize = X_MAX_PATH;
+	GetModuleFileName( NULL, szPath, nSize );
+	TCHAR *p = wcsrchr(szPath, '\\');
+	*p = 0;
+	returnPath = XUtilsFormatter::WC2UT(szPath);
+#else
+	WCHAR utf16Path[X_MAX_PATH] = { 0 };
+	GetCurrentDirectory(sizeof(utf16Path)-1, utf16Path);
+	char utf8Path[X_MAX_PATH] = { 0 };
+	int nNum = WideCharToMultiByte(CP_UTF8, 0, utf16Path, -1, utf8Path, sizeof(utf8Path), NULL, NULL);
+	returnPath = std::string(utf8Path);
+#endif
+
+
+	return returnPath;
 }
 
 XUtilsFile::XUtilsFile()

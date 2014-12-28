@@ -137,6 +137,8 @@ public:
 	 * @return
 	 */
 	X_DLL static bool deleteFile(const std::string &path);
+
+	X_DLL static std::string getWorkPath();
 private:
 	/**
 	*  The full path cache. When a file is found, it will be added into this cache.
