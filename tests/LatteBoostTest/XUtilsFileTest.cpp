@@ -36,8 +36,6 @@ namespace LatteTest
 			// TODO:  在此输入测试代码
 			//std::string fileName = "D:\\my_work\\cpp\\test\\Updater\\unitTests\\DownloaderTest\\bin\\Debug\\testFileExit2";
 
-
-
 			std::ifstream f(fileExistFileName.c_str());
 			bool acturalExist = f.good();
 

@@ -259,7 +259,6 @@ std::string XUtilsFile::searchFullPathForFilename(const std::string& filename)
 
 bool XUtilsFile::isAbsolutePath(const std::string& path)
 {
-#ifdef _WIN32_WCE
 	if (path.length() > 2 && (path[0]=='\\'))
 	{
 		return true;
@@ -268,18 +267,6 @@ bool XUtilsFile::isAbsolutePath(const std::string& path)
 	{
 		return false;
 	}
-#elif defined WIN32
-	if (path.length() > 2
-		&& ((path[0] >= 'a' && path[0] <= 'z') || (path[0] >= 'A' && path[0] <= 'Z'))
-		&& path[1] == ':')
-	{
-		return true;
-	}
-	return false;
-#else
-	return (path[0] == '/');
-#endif // WIN32
-	
 }
 
 bool XUtilsFile::isFileExist(const std::string& filename)
@@ -470,21 +457,14 @@ void XUtilsFile::checkDirAndCreate(std::string path)
 std::string XUtilsFile::getWorkPath()
 {
 	std::string returnPath = "";
-#ifdef _WIN32_WCE
-	
 	TCHAR szPath[X_MAX_PATH];
 	int nSize = X_MAX_PATH;
 	GetModuleFileName( NULL, szPath, nSize );
 	TCHAR *p = wcsrchr(szPath, '\\');
-	*p = 0;
+	*p = '\\';
+	++p;
+	*p = '\0';
 	returnPath = XUtilsFormatter::WC2UT(szPath);
-#else
-	WCHAR utf16Path[X_MAX_PATH] = { 0 };
-	GetCurrentDirectory(sizeof(utf16Path)-1, utf16Path);
-	char utf8Path[X_MAX_PATH] = { 0 };
-	int nNum = WideCharToMultiByte(CP_UTF8, 0, utf16Path, -1, utf8Path, sizeof(utf8Path), NULL, NULL);
-	returnPath = std::string(utf8Path);
-#endif
 
 
 	return returnPath;

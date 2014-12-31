@@ -18,8 +18,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Windows CE 5.0 (ARMV4I)"
-			OutputDirectory="$(ProjectDir)bin/$(Configuration)/"
-			IntermediateDirectory="$(ProjectDir)bin/$(Configuration)/"
+			OutputDirectory="$(ProjectDir)bin/$(ConfigurationName)/"
+			IntermediateDirectory="$(ProjectDir)obj/$(ConfigurationName)/"
 			ConfigurationType="2"
 			CharacterSet="1"
 			>
@@ -66,9 +66,9 @@
 				Name="VCLinkerTool"
 				AdditionalOptions=" /subsystem:windowsce,5.00"
 				AdditionalDependencies="libcurl_imp.lib"
-				OutputFile="$(ProjectDir)bin/$(Configuration)/libWince.dll"
+				OutputFile="$(ProjectDir)bin/$(ConfigurationName)/libWince.dll"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="E:\cpp\latte\framework\external\curl\prebuilt\wince"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)framework\external\curl\prebuilt\wince&quot;"
 				DelayLoadDLLs="$(NOINHERIT)"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(OutDir)/libWince.pdb"
@@ -205,83 +205,83 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\libBoost\base\global.h"
+				RelativePath=".\src\base\global.h"
 				>
 			</File>
 			<File
-				RelativePath="..\libBoost\base\macros.h"
+				RelativePath=".\src\base\macros.h"
 				>
 			</File>
 			<File
-				RelativePath="..\libBoost\core\XApplication.cpp"
+				RelativePath=".\src\core\XApplication.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\libBoost\core\XApplication.h"
+				RelativePath=".\src\core\XApplication.h"
 				>
 			</File>
 			<File
-				RelativePath="..\libBoost\net\XDownloader.cpp"
+				RelativePath=".\src\net\XDownloader.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\libBoost\net\XDownloader.h"
+				RelativePath=".\src\net\XDownloader.h"
 				>
 			</File>
 			<File
-				RelativePath="..\libBoost\core\XLatte.cpp"
+				RelativePath=".\src\core\XLatte.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\libBoost\core\XLatte.h"
+				RelativePath=".\src\core\XLatte.h"
 				>
 			</File>
 			<File
-				RelativePath="..\libBoost\core\XObserver.cpp"
+				RelativePath=".\src\core\XObserver.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\libBoost\core\XObserver.h"
+				RelativePath=".\src\core\XObserver.h"
 				>
 			</File>
 			<File
-				RelativePath="..\libBoost\core\XScheduler.cpp"
+				RelativePath=".\src\core\XScheduler.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\libBoost\core\XScheduler.h"
+				RelativePath=".\src\core\XScheduler.h"
 				>
 			</File>
 			<File
-				RelativePath="..\libBoost\net\updater\XUpdater.cpp"
+				RelativePath=".\src\net\updater\XUpdater.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\libBoost\net\updater\XUpdater.h"
+				RelativePath=".\src\net\updater\XUpdater.h"
 				>
 			</File>
 			<File
-				RelativePath="..\libBoost\utils\XUtilsFile.cpp"
+				RelativePath=".\src\utils\XUtilsFile.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\libBoost\utils\XUtilsFile.h"
+				RelativePath=".\src\utils\XUtilsFile.h"
 				>
 			</File>
 			<File
-				RelativePath="..\libBoost\utils\XUtilsFormatter.cpp"
+				RelativePath=".\src\utils\XUtilsFormatter.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\libBoost\utils\XUtilsFormatter.h"
+				RelativePath=".\src\utils\XUtilsFormatter.h"
 				>
 			</File>
 			<File
-				RelativePath="..\libBoost\utils\XUtilsMath.cpp"
+				RelativePath=".\src\utils\XUtilsMath.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\libBoost\utils\XUtilsMath.h"
+				RelativePath=".\src\utils\XUtilsMath.h"
 				>
 			</File>
 			<Filter
@@ -330,12 +330,20 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\resource.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="资源文件"
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
+			<File
+				RelativePath=".\libWince.rc"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

@@ -14,6 +14,7 @@
     <ProjectGuid>{AB25F0BD-BD4B-4DA7-818E-50981752D068}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>LatteBoostTest</RootNamespace>
+    <ProjectName>LatteWinceTest</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -97,11 +98,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="XUtilsFileTest.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\framework\LatteBoost.vcxproj">
-      <Project>{a72a418e-c7d8-4b3f-9945-973bdf7d05e9}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

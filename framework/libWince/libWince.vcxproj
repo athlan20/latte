@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ClInclude Include="..\libBoost\base\global.h" />
+    <ClInclude Include="..\libBoost\base\macros.h" />
+    <ClInclude Include="..\libBoost\core\XApplication.h" />
+    <ClInclude Include="..\libBoost\net\XDownloader.h" />
+    <ClInclude Include="..\libBoost\core\XLatte.h" />
+    <ClInclude Include="..\libBoost\core\XObserver.h" />
+    <ClInclude Include="..\libBoost\core\XScheduler.h" />
+    <ClInclude Include="..\libBoost\net\updater\XUpdater.h" />
+    <ClInclude Include="..\libBoost\utils\XUtilsFile.h" />
+    <ClInclude Include="..\libBoost\utils\XUtilsFormatter.h" />
+    <ClInclude Include="..\libBoost\utils\XUtilsMath.h" />
+    <ClInclude Include="..\external\json\src\lib_json\json_batchallocator.h" />
+    <ClInclude Include="..\external\json\src\lib_json\json_tool.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{ACC575E0-F08E-40B5-8209-4984D76D697C}</ProjectGuid>
+    <RootNamespace>libWince</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>12.0.21005.1</_ProjectFileVersion>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\libBoost\core\XApplication.cpp" />
+    <ClCompile Include="..\libBoost\net\XDownloader.cpp" />
+    <ClCompile Include="..\libBoost\core\XLatte.cpp" />
+    <ClCompile Include="..\libBoost\core\XObserver.cpp" />
+    <ClCompile Include="..\libBoost\core\XScheduler.cpp" />
+    <ClCompile Include="..\libBoost\net\updater\XUpdater.cpp" />
+    <ClCompile Include="..\libBoost\utils\XUtilsFile.cpp" />
+    <ClCompile Include="..\libBoost\utils\XUtilsFormatter.cpp" />
+    <ClCompile Include="..\libBoost\utils\XUtilsMath.cpp" />
+    <ClCompile Include="..\external\json\src\lib_json\json_reader.cpp" />
+    <ClCompile Include="..\external\json\src\lib_json\json_value.cpp" />
+    <ClCompile Include="..\external\json\src\lib_json\json_writer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\external\json\src\lib_json\json_internalarray.inl" />
+    <None Include="..\external\json\src\lib_json\json_internalmap.inl" />
+    <None Include="..\external\json\src\lib_json\json_valueiterator.inl" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
