@@ -51,16 +51,6 @@ public:
 	X_DLL static std::string fullPathForFilename(const std::string &filename);
 
 	/**
-	*  Returns the fullpath for a given filename.
-	*  This is an alternative for fullPathForFilename, there are two main differences:
-	*  First, it returns empty string instead of the original filename when no file found for the given name.
-	*  Secondly, it's a const function.
-	*  @param filename The file name to look up for
-	*  @return The full path for the file, if not found, the return value will be an empty string
-	*/
-	X_DLL static std::string searchFullPathForFilename(const std::string& filename);
-
-	/**
 	*  Gets the new filename from the filename lookup dictionary.
 	*  It is possible to have a override names.
 	*  @param filename The original filename.
@@ -111,7 +101,7 @@ public:
 	 * @param
 	 * @return
 	 */
-	X_DLL static std::vector<std::string> getFilesInDir(const std::string dir);
+	X_DLL static std::vector<std::string> getFilesInDir(const std::string dir="*");
 
 	/**
 	 * 
@@ -120,13 +110,20 @@ public:
 	 */
 	X_DLL static bool writeFileData(const std::string& fileName, const std::string& data);
 
-	X_DLL static bool renameFile(const std::string &oldname, const std::string &name, const std::string &path = ".\/");
+	X_DLL static bool renameFile(const std::string &oldname, const std::string &name, const std::string &path = "");
 
 	/**
 	* 格式化路径字符串，使之变为合法路径表示方法
 	*
 	*/
 	X_DLL static std::string formatPath(const std::string& path);
+	
+	/**
+	 * 获取绝对路径
+	 * @param
+	 * @return
+	 */
+	X_DLL static std::string getAbsolutePath(std::string path);
 
 	//检查路径目录是否存在，没有的话，就一级级创建好目录
 	X_DLL static void checkDirAndCreate(std::string path);

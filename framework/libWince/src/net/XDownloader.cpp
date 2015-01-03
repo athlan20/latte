@@ -3,8 +3,12 @@
 #include "../core/XLatte.h"
 #include "../utils/XUtilsFile.h"
 
+#include <boost/function.hpp>
+#include <boost/bind.hpp>
+
 #include <cstdio>
 #include <iostream>
+#include <string>
 
 #define TEMP_EXT            ".temp"
 #define LOW_SPEED_LIMIT     1L
@@ -12,6 +16,8 @@
 #define MAX_REDIRS          2
 #define DEFAULT_TIMEOUT     5
 #define HTTP_CODE_SUPPORT_RESUME    206
+
+
 
 void XDownloader::prepareDownload(const std::string &srcUrl, const std::string &storagePath, const std::string &customId, bool resumeDownload, FileDescriptor *fDesc, ProgressData *pData)
 {
@@ -30,7 +36,7 @@ void XDownloader::prepareDownload(const std::string &srcUrl, const std::string &
 
 	// Asserts
 	// Find file name and file extension
-	std::string _storagePath = XUtilsFile::formatPath(storagePath);
+	std::string _storagePath = XUtilsFile::getAbsolutePath(storagePath);
 	unsigned long found = _storagePath.find_last_of("/\\");
 	if (found != std::string::npos)
 	{
@@ -81,7 +87,7 @@ int downloadProgressFunc(XDownloader::ProgressData *ptr, double totalToDownload,
 		std::cout << int(ptr->downloaded/ptr->totalToDownload*100) << std::endl;
 
 		XDownloader::ProgressData data = *ptr;
-
+		//XLatte::getInstance()->getScheduler()->performFunctionInLatteThread(()());
 		//XLatte::getInstance()->getScheduler()->performFunctionInLatteThread([=](){
 		//	//study 为什么这里会有expired
 		//	if (!data.downloader.expired())
@@ -138,6 +144,7 @@ int XDownloader::download(const std::string &srcUrl, const std::string &customId
 	if (res == CURLE_OK)
 	{
 		this->finishDownload(data);
+		XLatte::getInstance()->getScheduler()->performFunctionInLatteThread(boost::bind(&XDownloader::successCall,this,data));
 		//XLatte::getInstance()->getScheduler()->performFunctionInLatteThread([=](){
 		//	//std::cout << "complete" << std::endl;
 		//	XLOG("complete");
@@ -248,7 +255,36 @@ void XDownloader::notifyError(const std::string &msg/* ="" */, const std::string
 	});*/
 }
 
-XDownloader::XDownloader() :_connectionTimeout(5000)
+void XDownloader::processCall(const ProgressData & data)
+{
+	if(this->_progressCall)
+	{
+		this->_progressCall(data.totalToDownload,data.downloaded,data.url,data.customId);
+	}
+}
+void XDownloader::successCall(const ProgressData & data)
+{
+	if(data.downloader)
+	{
+		boost::shared_ptr<XDownloader> downloader = data.downloader;
+		SuccessCallback _success = downloader->getSuccessCallback();
+		//		boost::shared_ptr<XDownloader> downloader = data.downloader.lock();
+		//		auto callback = downloader->getSuccessCallback();
+		if(_success)
+		{
+			_success(data.url,data.name,data.customId);
+		}
+	}
+}
+void XDownloader::errorCall(const XDownloader::Error & e)
+{
+	if(this->_errorCall)
+	{
+		this->_errorCall(e);
+	}
+}
+
+XDownloader::XDownloader() :_connectionTimeout(50000)
 {
 
 }

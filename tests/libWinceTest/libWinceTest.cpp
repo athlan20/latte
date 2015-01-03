@@ -1,4 +1,6 @@
+#include "utils/XUtilsFile.h"
 #include "UtilsFileTest.hpp"
+#include "DownloaderTest.hpp"
 
 #include <stdlib.h>
 #include <cstdlib>
@@ -8,8 +10,11 @@
 #pragma comment(lib, "winceUnitTestLib.lib")
 //pragma_comment(lib, "##/##/mine.lib")
 
+void TestInit();
+
 int _tmain(int argc, _TCHAR* argv[])
 {
+	TestInit();
 	TestResult tr;
 	TestRegistry::runAllTests(tr);
 	int a=0;
@@ -18,9 +23,11 @@ int _tmain(int argc, _TCHAR* argv[])
 	return 0;
 }
 
-SimpleString StringFrom(const std::string& value)
+
+
+void TestInit()
 {
-	return SimpleString(value.c_str());
+	XUtilsFile::init();
 }
 
 //TEST( Stack, test_simple )

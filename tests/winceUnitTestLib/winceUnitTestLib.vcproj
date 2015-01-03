@@ -95,8 +95,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Windows CE 5.0 (ARMV4I)"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="$(ProjectDir)bin/$(ConfigurationName)"
+			IntermediateDirectory="$(ProjectDir)obj/$(ConfigurationName)"
 			ConfigurationType="4"
 			CharacterSet="1"
 			>

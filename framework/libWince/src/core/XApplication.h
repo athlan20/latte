@@ -14,6 +14,7 @@ public:
 	X_DLL void stop();
 	X_DLL void init();
 	X_DLL void destroy();
+	X_DLL void runInBack();
 
 	X_DLL XApplication()
 	{
@@ -34,6 +35,8 @@ private:
 	LARGE_INTEGER _nFreq;
 	LARGE_INTEGER _nLast;
 	LARGE_INTEGER _nNow;
+
+	static DWORD ThreadProc(LPVOID pParam);
 };
 
 

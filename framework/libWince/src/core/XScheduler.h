@@ -38,7 +38,7 @@ public:
 
 protected:
 	std::vector<boost::function<void()>> _functionsToPerform;
-	//boost::mutex _performMutex;
+	HANDLE _performMutex; //使用手动重置为无信号状态，初始化时有信号状态
 	std::vector<boost::function<void()>> _defaultPerform;
 	float _delay;
 	float _interval;

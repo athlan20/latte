@@ -7,10 +7,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Latte", "framework\Latte.vc
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LatteTest", "tests\LatteTest\LatteTest.vcxproj", "{0890DAA4-B57D-479C-A0E3-355D9674B21B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LatteBoost", "framework\LatteBoost.vcxproj", "{A72A418E-C7D8-4B3F-9945-973BDF7D05E9}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LatteBoostTest", "tests\LatteBoostTest\LatteBoostTest.vcxproj", "{AB25F0BD-BD4B-4DA7-818E-50981752D068}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -31,18 +27,6 @@ Global
 		{0890DAA4-B57D-479C-A0E3-355D9674B21B}.Release|Win32.ActiveCfg = Release|Win32
 		{0890DAA4-B57D-479C-A0E3-355D9674B21B}.Release|Win32.Build.0 = Release|Win32
 		{0890DAA4-B57D-479C-A0E3-355D9674B21B}.Release|x64.ActiveCfg = Release|Win32
-		{A72A418E-C7D8-4B3F-9945-973BDF7D05E9}.Debug|Win32.ActiveCfg = Debug|Win32
-		{A72A418E-C7D8-4B3F-9945-973BDF7D05E9}.Debug|Win32.Build.0 = Debug|Win32
-		{A72A418E-C7D8-4B3F-9945-973BDF7D05E9}.Debug|x64.ActiveCfg = Debug|Win32
-		{A72A418E-C7D8-4B3F-9945-973BDF7D05E9}.Release|Win32.ActiveCfg = Release|Win32
-		{A72A418E-C7D8-4B3F-9945-973BDF7D05E9}.Release|Win32.Build.0 = Release|Win32
-		{A72A418E-C7D8-4B3F-9945-973BDF7D05E9}.Release|x64.ActiveCfg = Release|Win32
-		{AB25F0BD-BD4B-4DA7-818E-50981752D068}.Debug|Win32.ActiveCfg = Debug|Win32
-		{AB25F0BD-BD4B-4DA7-818E-50981752D068}.Debug|Win32.Build.0 = Debug|Win32
-		{AB25F0BD-BD4B-4DA7-818E-50981752D068}.Debug|x64.ActiveCfg = Debug|Win32
-		{AB25F0BD-BD4B-4DA7-818E-50981752D068}.Release|Win32.ActiveCfg = Release|Win32
-		{AB25F0BD-BD4B-4DA7-818E-50981752D068}.Release|Win32.Build.0 = Release|Win32
-		{AB25F0BD-BD4B-4DA7-818E-50981752D068}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

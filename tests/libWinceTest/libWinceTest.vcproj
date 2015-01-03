@@ -65,10 +65,10 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions=" /subsystem:windowsce,5.00"
-				AdditionalDependencies="libcurl_imp.lib"
+				AdditionalDependencies="libcurl.lib"
 				OutputFile="$(OutDir)/libWinceTest.exe"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;$(SolutionDir)framework\libWince\bin\$(ConfigurationName)&quot;;&quot;$(SolutionDir)tests\winceUnitTestLib\bin\$(ConfigurationName)&quot;;&quot;$(SolutionDir)framework\external\curl\prebuilt\wince&quot;"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)framework\libWince\bin\$(ConfigurationName)&quot;;&quot;$(SolutionDir)tests\winceUnitTestLib\bin\$(ConfigurationName)&quot;;&quot;$(SolutionDir)framework\external\curl\prebuilt\wince\$(ConfigurationName)&quot;"
 				DelayLoadDLLs="$(NOINHERIT)"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(OutDir)/libWinceTest.pdb"
@@ -101,7 +101,7 @@
 				ForceDirty="-1"
 				RemoteDirectory=""
 				RegisterOutput="0"
-				AdditionalFiles="libWince.dll|$(SolutionDir)framework\libWince\bin\$($ConfigurationName)|%CSIDL_PROGRAM_FILES%\libWinceTest|0;libcurl.dll|$(SolutionDir)framework\external\curl\prebuilt\wince|%CSIDL_PROGRAM_FILES%\libWinceTest|0"
+				AdditionalFiles="libWince.dll|$(SolutionDir)framework\libWince\bin\$(ConfigurationName)|%CSIDL_PROGRAM_FILES%\libWinceTest|0;libcurl.dll|$(SolutionDir)framework\external\curl\prebuilt\wince\$(ConfigurationName)|%CSIDL_PROGRAM_FILES%\libWinceTest|0"
 			/>
 			<DebuggerTool
 			/>
@@ -133,9 +133,10 @@
 				ExecutionBucket="7"
 				Optimization="2"
 				FavorSizeOrSpeed="2"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)framework\libWince\src&quot;;&quot;$(SolutionDir)tests\winceUnitTestLib&quot;;&quot;$(ProjectDir)..\..\..\boost_1_57_0&quot;;&quot;$(SolutionDir)framework\external\curl\include\winCE&quot;;&quot;$(SolutionDir)framework\external\json\include&quot;"
 				PreprocessorDefinitions="NDEBUG;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_CONSOLE;$(ARCHFAM);$(_ARCHFAM_);_UNICODE;UNICODE"
 				RuntimeLibrary="0"
-				UsePrecompiledHeader="2"
+				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="3"
 			/>
@@ -154,8 +155,10 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions=" /subsystem:windowsce,5.00"
+				AdditionalDependencies="libcurl.lib"
 				OutputFile="$(OutDir)/libWinceTest.exe"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)framework\libWince\bin\$(ConfigurationName)&quot;;&quot;$(SolutionDir)tests\winceUnitTestLib\bin\$(ConfigurationName)&quot;;&quot;$(SolutionDir)framework\external\curl\prebuilt\wince\$(ConfigurationName)&quot;"
 				DelayLoadDLLs="$(NOINHERIT)"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(OutDir)/libWinceTest.pdb"
@@ -190,7 +193,7 @@
 				ForceDirty="-1"
 				RemoteDirectory=""
 				RegisterOutput="0"
-				AdditionalFiles=""
+				AdditionalFiles="libWince.dll|$(SolutionDir)framework\libWince\bin\$(ConfigurationName)|%CSIDL_PROGRAM_FILES%\libWinceTest|0;libcurl.dll|$(SolutionDir)framework\external\curl\prebuilt\wince\$(ConfigurationName)|%CSIDL_PROGRAM_FILES%\libWinceTest|0"
 			/>
 			<DebuggerTool
 			/>
@@ -204,6 +207,10 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
+			<File
+				RelativePath=".\DownloaderTest.hpp"
+				>
+			</File>
 			<File
 				RelativePath=".\libWinceTest.cpp"
 				>
@@ -227,6 +234,10 @@
 						UsePrecompiledHeader="1"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\testGlobal.hpp"
+				>
 			</File>
 			<File
 				RelativePath=".\UtilsFileTest.hpp"

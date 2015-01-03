@@ -30,6 +30,10 @@ void XApplication::setAnimationInterval(double interval)
 	_animationInterval.QuadPart = (LONGLONG)(interval * nFreq.QuadPart);
 	XLatte::getInstance()->setAnimationInterval(interval);
 }
+void XApplication::runInBack()
+{
+	CreateThread(NULL,NULL,&XApplication::ThreadProc,NULL,NULL,NULL);
+}
 void XApplication::run()
 {
 	// Main message loop:
@@ -50,12 +54,11 @@ void XApplication::run()
 		if (nNow.QuadPart - nLast.QuadPart > _animationInterval.QuadPart)
 		{
 			nLast.QuadPart = nNow.QuadPart;
-
 			this->_latte->update();
 		}
 		else
 		{
-			continue;//Sleep(0);
+			Sleep(0);			//wince环境下一定要调用,不然会很卡
 		}
 	}
 	XLOG("app end");
@@ -85,4 +88,11 @@ void XApplication::stop()
 void XApplication::destroy()
 {
 	this->stop();
+}
+
+DWORD XApplication::ThreadProc(LPVOID pParam)
+{
+	XLOG("start in application in back thread");
+	XApplication::getInstance()->run();
+	return 0;
 }

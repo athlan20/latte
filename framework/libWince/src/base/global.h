@@ -5,6 +5,7 @@
 #include <wtypes.h>
 #include <stdarg.h>
 #include <windows.h>
+#include <string>
 
 #ifdef _WIN32_WCE
 #include <WinSock2.h>
@@ -27,6 +28,7 @@ public:
 
 		int len = sprintf(logStr, format, args);
 		strcat(logStr, "\n");
+		std::cout<<logStr<<std::endl;
 		//OutputDebugStringA(logStr);
 		va_end(args);
 

@@ -22,7 +22,7 @@ public:
 public:
 	X_DLL struct ProgressData
 	{
-		boost::weak_ptr<XDownloader> downloader;
+		boost::shared_ptr<XDownloader> downloader;
 		std::string customId;
 		std::string url;
 		std::string path;
@@ -105,6 +105,10 @@ private:
 	void prepareDownload(const std::string &srcUrl, const std::string &storagePath, const std::string &customId, bool resumeDownload, FileDescriptor *fDesc, ProgressData *pData);
 	int download(const std::string &srcUrl, const std::string &customId, const FileDescriptor &fDesc, const ProgressData &data);
 	int finishDownload(const ProgressData &data);
+
+	void processCall(const ProgressData & data);
+	void successCall(const ProgressData & data);
+	void errorCall(const XDownloader::Error & e);
 
 	void notifyError(const std::string &msg);
 	void notifyError(const std::string &msg/* ="" */, const std::string &customId/* ="" */, int curle_code/* = CURLE_OK*/, int curlm_code/* = CURLM_OK*/);

@@ -74,6 +74,18 @@ static inline std::string _checkPath(std::string path)
 	return filePath;
 }
 
+std::string XUtilsFile::getAbsolutePath(std::string path)
+{
+	if(isAbsolutePath(path))
+	{
+		return path;
+	}
+	else
+	{
+		return _checkPath(path);
+	}
+}
+
 void XUtilsFile::init()
 {
 	if (0 == s_resourcePath.length())
@@ -85,7 +97,6 @@ void XUtilsFile::init()
 		//int nNum = WideCharToMultiByte(CP_UTF8, 0, utf16Path, -1, utf8Path, sizeof(utf8Path), NULL, NULL);
 
 		s_resourcePath = XUtilsFile::getWorkPath();
-		s_resourcePath.append("\\");
 	}
 	_defaultResRootPath = s_resourcePath;
 	_searchPathArray.push_back(_defaultResRootPath);
@@ -239,24 +250,6 @@ std::string XUtilsFile::fullPathForFilename(const std::string &filename)
 	return filename;
 }
 
-std::string XUtilsFile::searchFullPathForFilename(const std::string& filename)
-{
-	if (isAbsolutePath(filename))
-	{
-		return filename;
-	}
-	std::string path = XUtilsFile::fullPathForFilename(filename);
-	//std::string path = const_cast<XUtilsFile*>(this)->fullPathForFilename(filename);
-	if (0 == path.compare(filename))
-	{
-		return "";
-	}
-	else
-	{
-		return path;
-	}
-}
-
 bool XUtilsFile::isAbsolutePath(const std::string& path)
 {
 	if (path.length() > 2 && (path[0]=='\\'))
@@ -271,59 +264,50 @@ bool XUtilsFile::isAbsolutePath(const std::string& path)
 
 bool XUtilsFile::isFileExist(const std::string& filename)
 {
-	if (isAbsolutePath(filename))
-	{
-		return isFileExistInternal(filename);
-	}
-	else
-	{
-		std::string fullpath = searchFullPathForFilename(filename);
-		if (fullpath.empty())
-			return false;
-		else
-			return true;
-	}
+	std::string filePath = _checkPath(filename);
+	return isFileExistInternal(filename);
 }
 
 bool XUtilsFile::renameFile(const std::string &oldname, const std::string &name, const std::string &path)
 {
-	std::string oldPath = path + oldname;
-	std::string newPath = path + name;
+	std::string oldPath = _checkPath(path + oldname);
+	std::string newPath = _checkPath(path + name);
+
+	if(XUtilsFile::isFileExist(newPath))
+	{
+		XUtilsFile::deleteFile(newPath);
+	}
 
 	// Rename a file
-	int errorCode = MoveFile( (LPCWSTR)(oldPath.c_str()),  (LPCWSTR)(newPath.c_str()));
+	int errorCode = MoveFile( (XUtilsFormatter::UT2WC(oldPath.c_str())).c_str(),  (XUtilsFormatter::UT2WC(newPath.c_str())).c_str());
 
-	if (0 != errorCode)
+	if (0 == errorCode)
 	{
 		XLOGP("Fail to rename file %s to %s !Error code is %d", oldPath.c_str(), newPath.c_str(), errorCode);
+		int err = GetLastError();
 		return false;
 	}
-	return true;
+	else 
+	{
+		return true;
+	}
+	return false;
 }
 
 bool XUtilsFile::deleteFile(const std::string &path)
 {
-	std::string absolutePath = path;
-	bool needCheckRelativeCache = false;
-	if (!isAbsolutePath(path))
+	std::string filePath = _checkPath(path);
+	if (!filePath.empty())
 	{
-		needCheckRelativeCache = true;
-		absolutePath = searchFullPathForFilename(path);
-	}
-	if (!absolutePath.empty())
-	{
-		std::wstring wStr = XUtilsFormatter::UT2WC(absolutePath.c_str());
-		if (DeleteFile(wStr.c_str())) {
-			if (needCheckRelativeCache)
-			{
-				_fullPathCache.erase(path);
-			}
+		std::wstring wStr = XUtilsFormatter::UT2WC(filePath.c_str());
+		if (DeleteFile(wStr.c_str()))
+		{
 			return true;
 		}
-		else {
-
+		else 
+		{
+			int err = GetLastError();
 			return false;
-			
 		}
 	}
 	return false;
@@ -367,12 +351,16 @@ bool XUtilsFile::writeFileData(const std::string& fileName,const std::string& da
 
 std::vector<std::string> XUtilsFile::getFilesInDir(const std::string dir)
 {
+	
 	std::vector<std::string> allFilePath;
 
 	WIN32_FIND_DATA findFileData;
-	HANDLE hFind = FindFirstFile(LPCWSTR(dir.c_str()), &findFileData);
+	
 	std::string rootDir = "";
 	rootDir.assign(dir);
+	rootDir = _checkPath(rootDir);
+	std::string findStr = rootDir;
+	HANDLE hFind = FindFirstFile(XUtilsFormatter::UT2WC(findStr.c_str()).c_str(), &findFileData);
 	if (rootDir.find_last_of("*") != std::string::npos)
 	{
 		rootDir = rootDir.substr(0, rootDir.size() - 1);
@@ -384,7 +372,7 @@ std::vector<std::string> XUtilsFile::getFilesInDir(const std::string dir)
 	std::string str = "";
 	if (hFind != INVALID_HANDLE_VALUE)
 	{
-		while (::FindNextFile(hFind, &findFileData))
+		do
 		{
 			str = XUtilsFormatter::WC2UT(findFileData.cFileName);
 			if (FILE_ATTRIBUTE_DIRECTORY & findFileData.dwFileAttributes)
@@ -395,7 +383,6 @@ std::vector<std::string> XUtilsFile::getFilesInDir(const std::string dir)
 				}
 				else
 				{
-
 					std::vector<std::string> bunchV = XUtilsFile::getFilesInDir(rootDir + "\\" + str + "\\*");
 					allFilePath.insert(allFilePath.end(), bunchV.begin(), bunchV.end());
 				}
@@ -406,7 +393,7 @@ std::vector<std::string> XUtilsFile::getFilesInDir(const std::string dir)
 			}
 			
 			
-		}
+		}while (::FindNextFile(hFind, &findFileData));
 		::FindClose(hFind);
 	}
 	return allFilePath;

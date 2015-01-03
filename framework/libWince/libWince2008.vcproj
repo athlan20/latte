@@ -108,8 +108,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Windows CE 5.0 (ARMV4I)"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			OutputDirectory="$(ProjectDir)bin/$(ConfigurationName)/"
+			IntermediateDirectory="$(ProjectDir)obj/$(ConfigurationName)/"
 			ConfigurationType="2"
 			CharacterSet="1"
 			>
@@ -133,6 +133,7 @@
 				ExecutionBucket="7"
 				Optimization="2"
 				FavorSizeOrSpeed="2"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)..\external\curl\include\winCE&quot;;&quot;$(ProjectDir)..\..\..\boost_1_57_0&quot;;&quot;$(ProjectDir)..\external\json\include&quot;"
 				PreprocessorDefinitions="NDEBUG;_WIN32_WCE=$(CEVER);UNDER_CE;WINCE;_WINDOWS;_USRDLL;LIBWINCE_EXPORTS;$(ARCHFAM);$(_ARCHFAM_);_UNICODE;UNICODE"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
@@ -154,8 +155,10 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions=" /subsystem:windowsce,5.00"
+				AdditionalDependencies="libcurl_imp.lib"
 				OutputFile="$(OutDir)/libWince.dll"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)framework\external\curl\prebuilt\wince&quot;"
 				DelayLoadDLLs="$(NOINHERIT)"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(OutDir)/libWince.pdb"
