@@ -108,18 +108,20 @@ private:
 
 	void processCall(const ProgressData & data);
 	void successCall(const ProgressData & data);
-	void errorCall(const XDownloader::Error & e);
+	void errorCall(const XDownloader::Error & e,const ProgressData & data);
 
 	void notifyError(const std::string &msg);
-	void notifyError(const std::string &msg/* ="" */, const std::string &customId/* ="" */, int curle_code/* = CURLE_OK*/, int curlm_code/* = CURLM_OK*/);
+	void notifyError(int curle_code/* = CURLE_OK*/,const ProgressData &data);
 
 	ProgressCallback _progressCall;
 	ErrorCallback _errorCall;
 	SuccessCallback _successCall;
 
+	static DWORD doanloadAsyncProc(LPVOID pParam);
+
 
 private:
-	int _connectionTimeout;
+	long _connectionTimeout;
 };
 
 #endif // !_XDOWNLOADER_H_

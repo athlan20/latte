@@ -118,7 +118,7 @@ int XDownloader::download(const std::string &srcUrl, const std::string &customId
 		//this->notifyError(ErrorCode::CURL_EASY_ERROR, "Can not init curl with curl_easy_init", customId);
 		return -1;
 	}
-
+	long timeout = this->_connectionTimeout;
 	// Download pacakge
 	curl_easy_setopt(curl, CURLOPT_URL, srcUrl.c_str());
 	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, fileWriteFunc);
@@ -128,7 +128,7 @@ int XDownloader::download(const std::string &srcUrl, const std::string &customId
 	curl_easy_setopt(curl, CURLOPT_PROGRESSDATA, &data);
 	curl_easy_setopt(curl, CURLOPT_FAILONERROR, true);
 	//curl_easy_setopt(curl, CURLOPT_MAX_RECV_SPEED_LARGE, (curl_off_t)1000);
-	if (_connectionTimeout) curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, _connectionTimeout);
+	if (_connectionTimeout) curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, timeout);
 	curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1L);
 	//curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1);
 	
@@ -145,23 +145,10 @@ int XDownloader::download(const std::string &srcUrl, const std::string &customId
 	{
 		this->finishDownload(data);
 		XLatte::getInstance()->getScheduler()->performFunctionInLatteThread(boost::bind(&XDownloader::successCall,this,data));
-		//XLatte::getInstance()->getScheduler()->performFunctionInLatteThread([=](){
-		//	//std::cout << "complete" << std::endl;
-		//	XLOG("complete");
-		//	if (!data.downloader.expired())
-		//	{
-		//		boost::shared_ptr<XDownloader> downloader = data.downloader.lock();
-		//		auto callback = downloader->getSuccessCallback();
-		//		if (callback != nullptr)
-		//		{
-		//			callback(data.url,data.path+data.name,data.customId);
-		//		}
-		//	}
-		//});
 	}
 	else
 	{
-		this->notifyError("error","00001",res,res);
+		this->notifyError(res,data);
 	}
 
 	return 0;
@@ -176,14 +163,12 @@ int XDownloader::finishDownload(const ProgressData &data)
 
 void XDownloader::downloadAsync(const std::string &srcUrl, const std::string &storagePath, const std::string &customId/* = ""*/)
 {
-	FileDescriptor fDesc;
-	ProgressData pData;
-	prepareDownload(srcUrl, storagePath, customId, false, &fDesc, &pData);
-	if (fDesc.fp != NULL)
-	{
-		//auto t = std::thread(&XDownloader::download, this, srcUrl, customId, fDesc, pData);
-		//t.detach();
-	}
+	ProgressData* pData = new ProgressData();
+	pData->url = srcUrl;
+	pData->path = storagePath;
+	pData->customId = customId;
+	pData->downloader = shared_from_this();
+	CreateThread(NULL,NULL,&XDownloader::doanloadAsyncProc,pData,NULL,NULL);
 }
 
 void XDownloader::downloadSync(const std::string &srcUrl, const std::string &storagePath, const std::string &customId/* = ""*/)
@@ -215,16 +200,26 @@ void XDownloader::queueDownloadASync(boost::unordered_map<std::string, XDownload
 	}
 }
 
+DWORD XDownloader::doanloadAsyncProc(LPVOID pParam)
+{
+	ProgressData* data = (ProgressData*)pParam;
+	boost::shared_ptr<XDownloader> downloader = data->downloader;
+	downloader->downloadSync(data->url,data->path,data->customId);
+	delete data;
+	return 0;
+}
 
 void XDownloader::notifyError(const std::string &msg)
 {
 	std::cout << " message:" << msg << std::endl;
 }
 
-void XDownloader::notifyError(const std::string &msg/* ="" */, const std::string &customId/* ="" */, int curle_code/* = CURLE_OK*/, int curlm_code/* = CURLM_OK*/)
+void XDownloader::notifyError(int curle_code/* = CURLE_OK*/,const ProgressData &data)
 {
-	std::cout << " message:"<<msg<< std::endl;
-	boost::weak_ptr<XDownloader> ptr = shared_from_this();
+	Error errorObj;
+	errorObj.curle_code = curle_code;
+	XLatte::getInstance()->getScheduler()->performFunctionInLatteThread(boost::bind(&XDownloader::errorCall,this,errorObj,data));
+	//boost::weak_ptr<XDownloader> ptr = shared_from_this();
 	/*XLatte::getInstance()->getScheduler()->performFunctionInLatteThread([=]{
 		if (!ptr.expired())
 		{
@@ -276,15 +271,20 @@ void XDownloader::successCall(const ProgressData & data)
 		}
 	}
 }
-void XDownloader::errorCall(const XDownloader::Error & e)
+void XDownloader::errorCall(const XDownloader::Error & e,const ProgressData & data)
 {
-	if(this->_errorCall)
+	if(data.downloader)
 	{
-		this->_errorCall(e);
+		boost::shared_ptr<XDownloader> downloader = data.downloader;
+		ErrorCallback _error = downloader->getErrorCallback();
+		if(_error)
+		{
+			_error(e);
+		}
 	}
 }
 
-XDownloader::XDownloader() :_connectionTimeout(50000)
+XDownloader::XDownloader() :_connectionTimeout(10)
 {
 
 }

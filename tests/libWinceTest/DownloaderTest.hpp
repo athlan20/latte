@@ -20,24 +20,64 @@ const std::string localNetworkAddr = "http://116.236.150.110/test/resource.json"
 const std::string localNetworkErrAddr = "http://www.latte.com/php/test/resource.json";
 const std::string resServerRoot = "http://www.latte.com/php/test/";
 const std::string storagePathAddr = "resource.json";
+bool hasAsysFinish = false;
 
 void downloadSyncSuccess(const std::string & url, const std::string & localPathName, const std::string & customId)
 {
 	XLOG("success download");
 }
+void downloadError(const XDownloader::Error& e)
+{
+	XLOG("download error");
+}
+
+void downloadASyncSuccess(const std::string & url, const std::string & localPathName, const std::string & customId)
+{
+	hasAsysFinish=true;
+}
 
 TEST(XDownloader,testEnd)
 {
-	XLOG("downloader end");
+
 }
 
 TEST(XDownloader,downloadSync)
 {
 	boost::shared_ptr<XDownloader> downloader = boost::shared_ptr<XDownloader>(new XDownloader());
 	downloader->setSuccessCallback(downloadSyncSuccess);
+	downloader->setErrorCallback(downloadError);
 	downloader->downloadSync(localNetworkAddr, storagePathAddr.c_str(), "00001");
 	bool isExist = XUtilsFile::isFileExist(storagePathAddr);
-	downloader.reset();
+	XUtilsFile::deleteFile("resource.json");
+	XUtilsFile::deleteFile("resource");
+	CHECK_EQUAL(true,isExist);
+}
+
+TEST(XDownloader,downloadASync)
+{
+	
+	boost::shared_ptr<XDownloader> downloader = boost::shared_ptr<XDownloader>(new XDownloader());
+	downloader->setSuccessCallback(downloadASyncSuccess);
+	downloader->downloadAsync(localNetworkAddr, storagePathAddr.c_str(), "00001");
+	while (!hasAsysFinish)
+	{
+		Sleep(0);
+	}
+	bool isExist = XUtilsFile::isFileExist(storagePathAddr);
+	//Sleep(1000);//等待线程先退出完毕
+	XUtilsFile::deleteFile("resource.json");
+	XUtilsFile::deleteFile("resource");
+	if (hasAsysFinish)
+	{
+		//检查是否下载到文件
+		
+		CHECK_EQUAL(true,isExist);
+	}
+	else
+	{
+		CHECK_EQUAL(true,false);
+	}
+
 }
 
 TEST(XDownloader,testInit)

@@ -155,10 +155,10 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions=" /subsystem:windowsce,5.00"
-				AdditionalDependencies="libcurl_imp.lib"
+				AdditionalDependencies="libcurl.lib"
 				OutputFile="$(OutDir)/libWince.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(SolutionDir)framework\external\curl\prebuilt\wince&quot;"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)framework\external\curl\prebuilt\wince\$(ConfigurationName)&quot;"
 				DelayLoadDLLs="$(NOINHERIT)"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(OutDir)/libWince.pdb"
