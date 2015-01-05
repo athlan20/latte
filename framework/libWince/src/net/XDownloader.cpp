@@ -85,8 +85,8 @@ int downloadProgressFunc(XDownloader::ProgressData *ptr, double totalToDownload,
 	{
 		ptr->downloaded = nowDownloaded;
 		std::cout << int(ptr->downloaded/ptr->totalToDownload*100) << std::endl;
-
-		XDownloader::ProgressData data = *ptr;
+		XLatte::getInstance()->getScheduler()->performFunctionInLatteThread(boost::bind(&XDownloader::processCall,ptr->downloader,*ptr));
+		//XDownloader::ProgressData data = *ptr;
 		//XLatte::getInstance()->getScheduler()->performFunctionInLatteThread(()());
 		//XLatte::getInstance()->getScheduler()->performFunctionInLatteThread([=](){
 		//	//study 为什么这里会有expired

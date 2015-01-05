@@ -101,14 +101,14 @@ public:
 	X_DLL ErrorCallback getErrorCallback() const { return _errorCall; };
 	X_DLL ProgressCallback getProgressCallback() const { return _progressCall; };
 	X_DLL SuccessCallback getSuccessCallback() const { return _successCall; };
-private:
-	void prepareDownload(const std::string &srcUrl, const std::string &storagePath, const std::string &customId, bool resumeDownload, FileDescriptor *fDesc, ProgressData *pData);
-	int download(const std::string &srcUrl, const std::string &customId, const FileDescriptor &fDesc, const ProgressData &data);
-	int finishDownload(const ProgressData &data);
 
 	void processCall(const ProgressData & data);
 	void successCall(const ProgressData & data);
 	void errorCall(const XDownloader::Error & e,const ProgressData & data);
+private:
+	void prepareDownload(const std::string &srcUrl, const std::string &storagePath, const std::string &customId, bool resumeDownload, FileDescriptor *fDesc, ProgressData *pData);
+	int download(const std::string &srcUrl, const std::string &customId, const FileDescriptor &fDesc, const ProgressData &data);
+	int finishDownload(const ProgressData &data);
 
 	void notifyError(const std::string &msg);
 	void notifyError(int curle_code/* = CURLE_OK*/,const ProgressData &data);

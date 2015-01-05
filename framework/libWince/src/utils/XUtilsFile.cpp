@@ -433,11 +433,22 @@ void XUtilsFile::checkDirAndCreate(std::string path)
 			strcpy(buf, fileName);
 			buf[strlen(fileName) - strlen(tag) + 1] = NULL;
 			strcpy(path, buf);
-			//if (ACCESS(path, 6) == -1)
-			//{
-			//	_mkdir(path);
-			//}
+			XUtilsFile::checkFolderExistOrNot(path);
 		}
+	}
+}
+BOOL XUtilsFile::checkFolderExistOrNot(std::string strFolderPath)
+{
+	std::wstring str = XUtilsFormatter::UT2WC(strFolderPath.c_str());
+	DWORD FileAttributeValue = ::GetFileAttributes(str.c_str());
+	if(FileAttributeValue == 0xFFFFFFFF)
+	{
+		CreateDirectory(str.c_str(),NULL);
+		return FALSE;
+	}
+	else
+	{
+		return TRUE;
 	}
 }
 

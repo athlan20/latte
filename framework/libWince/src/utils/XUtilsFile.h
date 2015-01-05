@@ -127,7 +127,7 @@ public:
 
 	//检查路径目录是否存在，没有的话，就一级级创建好目录
 	X_DLL static void checkDirAndCreate(std::string path);
-
+	X_DLL static BOOL checkFolderExistOrNot(std::string path);
 	/**
 	 * 删除文件
 	 * @param

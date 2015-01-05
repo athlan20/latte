@@ -25,12 +25,12 @@ public:
 		char logStr[512] = { '\0' };
 		va_list args;
 		va_start(args, format);
+		
+		int len = vsprintf(logStr, format, args);
 
-		int len = sprintf(logStr, format, args);
-		strcat(logStr, "\n");
 		std::cout<<logStr<<std::endl;
-		//OutputDebugStringA(logStr);
 		va_end(args);
+		
 
 	}
 protected:
