@@ -49,18 +49,6 @@ TEST(XDownloader,testEnd)
 
 }
 
-TEST(XDownloader,downloadSync)
-{
-	boost::shared_ptr<XDownloader> downloader = boost::shared_ptr<XDownloader>(new XDownloader());
-	downloader->setSuccessCallback(downloadSyncSuccess);
-	downloader->setErrorCallback(downloadError);
-	downloader->downloadSync(localNetworkAddr, storagePathAddr.c_str(), "00001");
-	bool isExist = XUtilsFile::isFileExist(storagePathAddr);
-	XUtilsFile::deleteFile("resource.json");
-	XUtilsFile::deleteFile("package");
-	CHECK_EQUAL(true,isExist);
-}
-
 TEST(XDownloader,downloadASync)
 {
 	
@@ -108,6 +96,17 @@ TEST(XDownloader,queueDownloadCall)
 		units[fileKey] = unit;
 	}
 	downloader->queueDownloadSync(units);
+}
+
+TEST(XDownloader,downloadSync)
+{
+	boost::shared_ptr<XDownloader> downloader = boost::shared_ptr<XDownloader>(new XDownloader());
+	downloader->setSuccessCallback(downloadSyncSuccess);
+	downloader->setErrorCallback(downloadError);
+	downloader->downloadSync(localNetworkAddr, "res.json", "00001");
+	bool isExist = XUtilsFile::isFileExist("res.json");
+	XUtilsFile::deleteFile("resource.json");
+	CHECK_EQUAL(true,isExist);
 }
 
 TEST(XDownloader,testInit)
