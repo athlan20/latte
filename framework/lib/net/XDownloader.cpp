@@ -31,7 +31,9 @@ void XDownloader::prepareDownload(const std::string &srcUrl, const std::string &
 
 	// Asserts
 	// Find file name and file extension
-	std::string _storagePath = XUtilsFile::formatPath(storagePath);
+	std::string _storagePath = "";
+	_storagePath.assign(storagePath.c_str());
+	XUtilsFile::formatPath(_storagePath);
 	unsigned long found = _storagePath.find_last_of("/\\");
 	if (found != std::string::npos)
 	{

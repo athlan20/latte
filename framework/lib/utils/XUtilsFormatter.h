@@ -12,15 +12,15 @@ public:
 	X_DLL ~XUtilsFormatter();
 
 public:
-	X_DLL static std::string addslashes(std::string strIn);
-	X_DLL static std::string GBK2UTF8(const char *szGbk);
-	X_DLL static std::string UTF82GBK(const char *szUtf8);
+	X_DLL static void addslashes(std::string& out_str);
+	X_DLL static void GBK2UTF8(const char *szGbk, char* szUtf8);
+	X_DLL static void UTF82GBK(const char *szUtf8, char* szGBK);
 
 	template <class T>
-	X_DLL static std::string ConvertToString(T value) {
+	X_DLL static void ConvertToString(T value,std::string& out_str) {
 		std::stringstream ss;
 		ss << value;
-		return ss.str();
+		out_str = ss.str();
 	}
 
 };

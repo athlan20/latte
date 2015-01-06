@@ -62,14 +62,20 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir)libs\cef;$(SolutionDir)framework\lib;$(SolutionDir)framework\external\json\include;$(SolutionDir)\framework\external\curl\include\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)libs\cef;$(SolutionDir)framework\lib;$(SolutionDir)framework\external\json\include;$(SolutionDir)framework\external\curl\include\win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>wininet.lib;dnsapi.lib;version.lib;msimg32.lib;ws2_32.lib;usp10.lib;psapi.lib;dbghelp.lib;winmm.lib;shlwapi.lib;kernel32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;user32.lib;uuid.lib;odbc32.lib;odbccp32.lib;delayimp.lib;credui.lib;netapi32.lib;comctl32.lib;rpcrt4.lib;libcef.lib;libcef_dll_wrapper.lib;cef_sandbox.lib;libcurl_imp.lib;XLatte.obj;XScheduler.obj;XUpdater.obj;XDownloader.obj;XUtilsFile.obj;XUtilsMath.obj;XApplication.obj;XObserver.obj;XUtilsFormatter.obj;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)framework\obj\Debug;$(SolutionDir)framework\external\curl\prebuilt\win32</AdditionalLibraryDirectories>
+      <AdditionalDependencies>wininet.lib;dnsapi.lib;version.lib;msimg32.lib;ws2_32.lib;usp10.lib;psapi.lib;dbghelp.lib;winmm.lib;shlwapi.lib;kernel32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;user32.lib;uuid.lib;odbc32.lib;odbccp32.lib;delayimp.lib;credui.lib;netapi32.lib;comctl32.lib;rpcrt4.lib;libcef.lib;libcef_dll_wrapper.lib;cef_sandbox.lib;libcurl.lib;Latte.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)framework\bin\$(Configuration);$(SolutionDir)framework\external\curl\prebuilt\win32</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
     </Link>
+    <PreBuildEvent>
+      <Command>copy "$(SolutionDir)framework\bin\$(Configuration)\Latte.dll" "$(OutDir)"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

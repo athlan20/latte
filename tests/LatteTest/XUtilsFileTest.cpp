@@ -63,7 +63,7 @@ namespace LatteTest
 
 			XUtilsFile::deleteFile(deletFileName);
 			bool isExist = XUtilsFile::isFileExist(deletFileName);
-			Assert::AreEqual(false,isExist);
+			Assert::AreEqual(false, isExist);
 		}
 
 		TEST_METHOD_CLEANUP(cleanupMethod)

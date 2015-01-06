@@ -223,7 +223,8 @@ namespace LatteTest
 		TEST_METHOD(libTestDir)
 		{
 
-			std::vector<std::string> files = XUtilsFile::getFilesInDir(".\\resource\\*");
+			std::vector<std::string> files;
+			XUtilsFile::getFilesInDir(".\\resource\\*",files);
 			std::vector<std::string>::iterator iteratorFile = files.begin();
 			for (; iteratorFile != files.end(); ++iteratorFile)
 			{
@@ -233,7 +234,8 @@ namespace LatteTest
 
 		TEST_METHOD(libTestBuildVersionJson)
 		{
-			std::vector<std::string> files = XUtilsFile::getFilesInDir(".\\resource\\*");
+			std::vector<std::string> files;
+			XUtilsFile::getFilesInDir(".\\resource\\*",files);
 			std::vector<std::string>::iterator iteratorFile = files.begin();
 
 			Json::Value root;
@@ -245,7 +247,8 @@ namespace LatteTest
 			{
 				std::ifstream ifs(iteratorFile->c_str());
 				md5.update(ifs);
-				std::string formatUrl = XUtilsFile::formatPath(*iteratorFile);
+				std::string formatUrl = *iteratorFile;
+				XUtilsFile::formatPath(formatUrl);
 				filesArr[formatUrl.c_str()] = md5.toString();
 			}
 			root["files"] = filesArr;

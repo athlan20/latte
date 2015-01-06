@@ -61,7 +61,7 @@
       <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories);$(SolutionDir)framework\external\curl\include\win32;$(SolutionDir)framework\external\json\include;$(SolutionDir)samples\dllSample;$(SolutionDir)framework</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <CompileAsManaged>
       </CompileAsManaged>
     </ClCompile>
@@ -69,7 +69,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);$(VCInstallDir)UnitTest\lib;$(SolutionDir)framework\external\curl\prebuilt\win32;$(SolutionDir)framework\obj\Debug</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies);libcurl_imp.lib</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies);libcurl.lib</AdditionalDependencies>
     </Link>
     <ProjectReference>
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>

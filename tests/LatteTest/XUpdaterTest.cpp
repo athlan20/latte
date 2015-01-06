@@ -34,10 +34,10 @@ namespace LatteTest
 	public:
 		TEST_CLASS_INITIALIZE(init)
 		{
-			updater = std::shared_ptr<XUpdater>(new XUpdater(packageUrl.c_str(), versionUrl.c_str(), storagePath.c_str()));
 			XUtilsFile::init();
 			t_back_updater = std::shared_ptr<std::thread>(new std::thread(&XApplication::run, (XApplication::getInstance())));
 			t_back_updater->detach();
+			updater = std::shared_ptr<XUpdater>(new XUpdater(packageUrl.c_str(), versionUrl.c_str(), storagePath.c_str()));
 		}
 
 		TEST_METHOD(checkVersion)
@@ -50,6 +50,7 @@ namespace LatteTest
 		TEST_METHOD(renameFile)
 		{
 			//XUtilsFile::renameFile("tempMainVersion", "b");
+			//Assert::AreEqual(true, true);
 		}
 
 		TEST_METHOD(updateTestUpgrade)
@@ -60,7 +61,8 @@ namespace LatteTest
 			//1. 先随机删除或者更改md5文件
 			//拿到本地resource
 			std::string localResStr = XUtilsFile::getFileData("resource.json");
-			std::vector<std::string> files = XUtilsFile::getFilesInDir(".\\resource\\*");
+			std::vector<std::string> files;
+			XUtilsFile::getFilesInDir(".\\resource\\*", files);
 			Json::Reader jReader;
 			Json::Value root;
 			jReader.parse(localResStr, root);
@@ -75,7 +77,8 @@ namespace LatteTest
 				}
 				else if (rnd > 5)
 				{
-					root["files"][XUtilsFile::formatPath(*it)] = "1231312321312231";
+					XUtilsFile::formatPath(*it);
+					root["files"][*it] = "1231312321312231";
 					WIN32_FIND_DATA fd;
 					FindFirstFile(it->c_str(), &fd);
 					FILETIME ft = fd.ftLastWriteTime;
@@ -89,7 +92,7 @@ namespace LatteTest
 			XUtilsFile::writeFileData("resource.json", localResStr);
 
 			//2. 再算一下本地文件数量
-			files = XUtilsFile::getFilesInDir(".\\resource\\*");
+			XUtilsFile::getFilesInDir(".\\resource\\*", files);
 			int localFileSize = files.size();
 
 			//3. 下载服务端的资源文件
@@ -127,7 +130,7 @@ namespace LatteTest
 			}
 
 			//5. 在算一下本地文件数量
-			files = XUtilsFile::getFilesInDir(".\\resource\\*");
+			XUtilsFile::getFilesInDir(".\\resource\\*", files);
 			localFileSize = files.size();
 			Assert::AreEqual(localFileSize, serverFileSize);
 
@@ -151,8 +154,8 @@ namespace LatteTest
 
 		TEST_CLASS_CLEANUP(clean)
 		{
-			XUtilsFile::deleteFile("serverRes.json");
-			
+			std::string deleteFileName = "serverRes.json";
+			XUtilsFile::deleteFile(deleteFileName);
 		}
 
 	};

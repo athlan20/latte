@@ -4,7 +4,7 @@
 #include "Resource.h"
 #include "simple_app.h"
 #include "simple_handler.h"
-#include "include/cef_sandbox_win.h"
+//#include "include/cef_sandbox_win.h"
 #include "util.h"
 
 #include "base/global.h"
@@ -127,7 +127,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam,
 
 			::GetFullPathName(WEBAPP_PATH, buffSize, buffer, lppPart);
 			std::string openUrl = "file:///" + std::string(buffer);
-			openUrl = XUtilsFile::formatPath(openUrl);
+			XUtilsFile::formatPath(openUrl);
 			app->createBrowser(openUrl.c_str(), hWnd, rect);
 			return 0;
 		}
