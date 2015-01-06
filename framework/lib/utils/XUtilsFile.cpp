@@ -376,22 +376,20 @@ bool XUtilsFile::deleteFile(const std::string &path)
 	return false;
 }
 
-std::string XUtilsFile::getFileData(const std::string& filename, const char* mode)
+void XUtilsFile::getFileData(const std::string& filename, std::string& out_data, const char* mode)
 {
     XASSERT(!filename.empty() && mode != nullptr, "Invalid parameters.");
-	std::string data = "";
 	std::ifstream ifs(filename.c_str());
 	if (ifs)
 	{
 		std::stringstream buffer;
 		buffer << ifs.rdbuf();
-		data.assign(buffer.str());
+		out_data.assign(buffer.str());
 	}
 	else
 	{
 		XLOGP("%s file can not open",filename.c_str());
 	}
-	return data;
 }
 
 bool XUtilsFile::writeFileData(const std::string& fileName,const std::string& data)
