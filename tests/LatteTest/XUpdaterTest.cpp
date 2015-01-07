@@ -19,8 +19,8 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace LatteTest
 {
-	const std::string packageUrl = "http://www.latte.com/php/test/";
-	const std::string versionUrl = "http://www.latte.com/php/test/resource.json";
+	const std::string packageUrl = "http://www.latte.com/php/test/package/";
+	const std::string versionUrl = "http://www.latte.com/php/test/package/resource.json";
 	const std::string versionFilePath = "resource.json";
 	const std::string storagePath = "";
 	const std::string destVersion = "1.0.0";
@@ -43,8 +43,14 @@ namespace LatteTest
 		TEST_METHOD(checkVersion)
 		{
 			//版本正确
+			std::string localResStr = XUtilsFile::getFileData("resource.json");
+			Json::Reader jReader;
+			Json::Value root;
+			jReader.parse(localResStr, root);
+			root["version"] = "0.0000";			//让版本过期
+			XUtilsFile::writeFileData("resource.json", root.toStyledString());
 			bool isSame = updater->checkVersion(versionFilePath);
-			Assert::AreEqual(true, isSame);
+			Assert::AreEqual(false, isSame);
 		}
 
 		TEST_METHOD(renameFile)
@@ -75,7 +81,8 @@ namespace LatteTest
 				}
 				else if (rnd > 5)
 				{
-					root["files"][XUtilsFile::formatPath(*it)] = "1231312321312231";
+					std::string fileName = XUtilsFile::formatPath(*it, false);
+					root["files"][fileName]["key"] = "1231312321312231";
 					WIN32_FIND_DATA fd;
 					FindFirstFile(it->c_str(), &fd);
 					FILETIME ft = fd.ftLastWriteTime;
@@ -101,14 +108,14 @@ namespace LatteTest
 
 			//4. 去更新
 			int curDownloadNum = 0;
-			int needDownloadNum = updater->upgrade("", 
-			[=](int totalNum){
+			int needDownloadNum = updater->upgrade("",
+				[=](int totalNum){
 				XLOGP("totalNum:%d", totalNum);
-			}, 
-			[=](double totalToDownload, double nowDownloaded, const std::string & url, const std::string & customId){
+			},
+				[=](double totalToDownload, double nowDownloaded, const std::string & url, const std::string & customId){
 				XLOGP("loading:%d %d", (int)nowDownloaded, (int)totalToDownload);
 			},
-			[=, &hasLoaded, &needDownloadNum, &curDownloadNum](const std::string & url, const std::string & localPathName, const std::string & customId){
+				[=, &hasLoaded, &needDownloadNum, &curDownloadNum](const std::string & url, const std::string & localPathName, const std::string & customId){
 				++curDownloadNum;
 				if (needDownloadNum == curDownloadNum)
 				{
@@ -116,14 +123,17 @@ namespace LatteTest
 				}
 
 			},
-			[=, &hasLoaded](){
+				[=, &hasLoaded](){
 				XLOG("loading complete");
 				hasLoaded = true;
+
 			}
 			);
-
+			if (needDownloadNum == 0){
+				hasLoaded = true;
+			}
 			while (!hasLoaded){
-				continue;
+				Sleep(0);
 			}
 
 			//5. 在算一下本地文件数量
@@ -141,10 +151,13 @@ namespace LatteTest
 				time_t modifyTime = ct.GetTime();
 				time_t oldModifyTime = it->second;
 				
-				Assert::IsTrue(modifyTime>oldModifyTime);
+				Assert::IsTrue(modifyTime>=oldModifyTime);
 			}
+			//7. 检验一下大小是否一样
+			int retCheck = updater->checkPackage();
+			Assert::AreEqual(0, retCheck);
 
-			//7. 覆盖掉本地资源文件
+			//8. 覆盖掉本地资源文件
 			XUtilsFile::renameFile("tempMainVersion","resource.json");
 
 		}
