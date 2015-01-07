@@ -60,8 +60,7 @@ namespace LatteTest
 			bool hasLoaded = false;
 			//1. 先随机删除或者更改md5文件
 			//拿到本地resource
-			std::string localResStr = "";
-			XUtilsFile::getFileData("resource.json", localResStr);
+			std::string localResStr = XUtilsFile::getFileData("resource.json");
 			std::vector<std::string> files;
 			XUtilsFile::getFilesInDir(".\\resource\\*", files);
 			Json::Reader jReader;
@@ -99,8 +98,7 @@ namespace LatteTest
 			//3. 下载服务端的资源文件
 			std::shared_ptr<XDownloader> downloader = std::shared_ptr<XDownloader>(new XDownloader());
 			downloader->downloadSync(versionUrl,"serverRes.json");
-			std::string serverResStr = "";
-			XUtilsFile::getFileData("serverRes.json", serverResStr);
+			std::string serverResStr = XUtilsFile::getFileData("serverRes.json");
 			jReader.parse(serverResStr, root);
 			int serverFileSize = root["files"].size();
 

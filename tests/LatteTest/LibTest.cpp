@@ -185,8 +185,7 @@ namespace LatteTest
 		{
 			return;
 			//过滤城市控件的数据文件
-			std::string data = "";
-			XUtilsFile::getFileData("city.json", data);
+			std::string data = XUtilsFile::getFileData("city.json");
 			//json 文档
 			Json::Reader jReader;
 			Json::Value root;

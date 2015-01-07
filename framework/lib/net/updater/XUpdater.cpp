@@ -61,8 +61,7 @@ std::string XUpdater::getLocalMainVersion(std::string mainVersionUrl)		//»ñÈ¡±¾µ
 	mainVersionUrl = mainVersionUrl == "" ? "resource.json" : mainVersionUrl;
 	size_t size = 0;
 	std::string versionStr = "";
-	std::string versionData;
-	XUtilsFile::getFileData(mainVersionUrl, versionData);
+	std::string versionData = XUtilsFile::getFileData(mainVersionUrl);
 	if (versionData!="")
 	{
 		Json::Value root;
@@ -87,8 +86,7 @@ std::string XUpdater::getMainVersion(std::string mainVersionUrl)
 	//json ÎÄµµ
 	Json::Value root;
 	Json::Reader jReader;
-	std::string data;
-	XUtilsFile::getFileData(this->_storagePath + "tempMainVersion", data);
+	std::string data = XUtilsFile::getFileData(this->_storagePath + "tempMainVersion");
 	
 	if (data != "")
 	{
@@ -139,8 +137,7 @@ int XUpdater::upgrade(std::string resourcePath,
 	{
 		Json::Reader jReader;
 		Json::Value root;
-		std::string data;
-		XUtilsFile::getFileData(resourcePath, data);
+		std::string data = XUtilsFile::getFileData(resourcePath);
 		jReader.parse(data, root);
 		Json::Value localJson = root["files"];
 		

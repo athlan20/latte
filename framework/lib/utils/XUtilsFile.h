@@ -98,7 +98,7 @@ public:
 	*  @param[in]  filename The resource file name which contains the path.
 	*  @param[in]  pszMode The read mode of the file.
 	*/
-	static X_DLL void getFileData(const std::string& filename, std::string& out_data, const char* mode = "r");
+	static X_DLL std::string getFileData(const std::string& filename, const char* mode = "r");
 
 	/**
 	 * 判断是否是存在的目录

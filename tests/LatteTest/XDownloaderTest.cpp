@@ -120,8 +120,7 @@ namespace LatteTest
 		{
 			Json::Reader jReader;
 			Json::Value root;
-			std::string data;
-			XUtilsFile::getFileData("resource.json",data);
+			std::string data = XUtilsFile::getFileData("resource.json");
 			jReader.parse(data,root);
 			Json::Value files = root["files"];
 			Json::Value::Members member = files.getMemberNames();
