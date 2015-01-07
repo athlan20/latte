@@ -28,19 +28,17 @@ namespace XObserverTest
 		TEST_METHOD(observer_test_notify)
 		{
 			std::string resStr = "";
-			std::string keyName = "hello";
-			XOBSERVER->listen(keyName, [&resStr](void* str){ resStr = (std::string)(char*)(str); });
-			XOBSERVER->notify(keyName, "testStr");
+			XOBSERVER->listen("hello", [&resStr](void* str){ resStr = (std::string)(char*)(str); });
+			XOBSERVER->notify("hello","testStr");
 			Assert::IsTrue(resStr.compare("testStr") == 0);
 		}
 
 		TEST_METHOD(observer_test_notifyOnce)
 		{
 			std::string resStr = "";
-			std::string keyName = "hello";
-			XOBSERVER->listen(keyName, [&resStr](void* str){ resStr = (std::string)(char*)(str); });
+			XOBSERVER->listen("hello", [&resStr](void* str){ resStr = (std::string)(char*)(str); });
 			int size = 1;
-			XOBSERVER->notifyOnce(keyName, "testStr2");
+			XOBSERVER->notifyOnce("hello","testStr2");
 			size = XOBSERVER->getMapSize();
 			Assert::AreEqual(0, size);
 			Assert::IsTrue(resStr.compare("testStr2") == 0);
@@ -49,7 +47,6 @@ namespace XObserverTest
 		TEST_METHOD(observer_test_notify_object)
 		{
 			std::string resStr = "";
-			std::string keyName = "hello";
 			class Object{
 			public:
 				int call = 0;
@@ -59,8 +56,8 @@ namespace XObserverTest
 				}
 			};
 			std::shared_ptr<Object> obj = std::shared_ptr<Object>(new Object);
-			XOBSERVER->listen(keyName, std::bind(&Object::testCall, obj, std::placeholders::_1));
-			XOBSERVER->notify(keyName, "abc");
+			XOBSERVER->listen("hello", std::bind(&Object::testCall, obj, std::placeholders::_1));
+			XOBSERVER->notify("hello", "abc");
 			Assert::AreEqual(obj->call, 1);
 		}
 

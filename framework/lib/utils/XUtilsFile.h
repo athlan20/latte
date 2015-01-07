@@ -68,8 +68,6 @@ public:
 	*/
 	X_DLL static std::string XUtilsFile::getNewFilename(const std::string &filename);
 
-	X_DLL static size_t XUtilsFile::getFileSize(const std::string& filename);
-
 	/**
 	*  Gets full path for filename, resolution directory and search path.
 	*
@@ -112,7 +110,7 @@ public:
 	 * @param
 	 * @return
 	 */
-	X_DLL static void getFilesInDir(const std::string& dir, std::vector<std::string>& out_allFilePath);
+	X_DLL static std::vector<std::string> getFilesInDir(const std::string dir);
 
 	/**
 	 * 
@@ -127,7 +125,7 @@ public:
 	* 格式化路径字符串，使之变为合法路径表示方法
 	*
 	*/
-	X_DLL static void formatPath(std::string& out_path);
+	X_DLL static std::string formatPath(const std::string& path);
 
 	//检查路径目录是否存在，没有的话，就一级级创建好目录
 	X_DLL static void checkDirAndCreate(std::string path);

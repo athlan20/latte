@@ -20,12 +20,12 @@ XObserver* XObserver::getInstance()
 	return _instance;
 }
 
-bool XObserver::listen(std::string& name, std::function<void(void*)> callBack)
+bool XObserver::listen(std::string name, std::function<void(void*)> callBack)
 {
 	this->keyMap[name] = callBack;
 	return true;
 }
-bool XObserver::unListen(std::string& name)
+bool XObserver::unListen(std::string name)
 {
 	std::map<std::string, std::function<void(void*)>>::iterator it = this->keyMap.find(name);
 	if (it->first!="")
@@ -35,7 +35,7 @@ bool XObserver::unListen(std::string& name)
 	}
 	return false;
 }
-bool XObserver::notify(std::string& name, void* param)
+bool XObserver::notify(std::string name, void* param)
 {
 	std::map<std::string, std::function<void(void*)>>::iterator it = this->keyMap.find(name);
 	
@@ -47,7 +47,7 @@ bool XObserver::notify(std::string& name, void* param)
 	}
 	return false;
 }
-bool XObserver::notifyOnce(std::string& name, void* param)
+bool XObserver::notifyOnce(std::string name, void* param)
 {
 	bool res = this->notify(name,param);
 	this->unListen(name);

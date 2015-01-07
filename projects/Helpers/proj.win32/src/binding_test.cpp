@@ -72,10 +72,8 @@ class Handler : public CefMessageRouterBrowserSide::Handler{
 	Json::Value root;
 	if (message != ""){
 		Json::Reader jReader;
-		std::string formatterStr = "ab";
-		char szGBK[512] = {0};
-		XUtilsFormatter::UTF82GBK(message.c_str(), szGBK);
-		jReader.parse(szGBK, root);
+		std::string formatterStr = XUtilsFormatter::UTF82GBK(message.c_str());
+		jReader.parse(formatterStr, root);
 	}
 	if (!root.isNull()) {
       // Reverse the string and return.
@@ -101,9 +99,9 @@ class Handler : public CefMessageRouterBrowserSide::Handler{
 
 void CreateMessageHandlers(SimpleHandler::MessageHandlerSet& handlers) 
 {
-	std::string keyName = "selectDirectory";
+
 	//注册方法
-	XOBSERVER->listen(keyName, [](void* str){
+	XOBSERVER->listen("selectDirectory", [](void* str){
 		XLOG("selectDirectory");
 		BROWSEINFO bi;
 		::ZeroMemory(&bi, sizeof(bi));	//将bi结构清零  
@@ -128,11 +126,9 @@ void CreateMessageHandlers(SimpleHandler::MessageHandlerSet& handlers)
 				Json::Value root;
 				Json::Value param;
 				Json::FastWriter writer;
-				std::string szPathStr = std::string(szPath);
+
 				root["funcName"] = "selectDirectory";
-				param["path"] = "";
-				XUtilsFormatter::addslashes(szPathStr);
-				param["path"] = szPathStr;
+				param["path"] = XUtilsFormatter::addslashes(szPath);
 				root["param"] = param;
 				app->executeScript(writer.write(root));
 			}
@@ -142,8 +138,8 @@ void CreateMessageHandlers(SimpleHandler::MessageHandlerSet& handlers)
 			pMalloc->Free(pNetHoodIDL);   //释放资源 2
 		}
 	});
-	keyName = "submitPackage";
-	XOBSERVER->listen(keyName, [](void* str){
+
+	XOBSERVER->listen("submitPackage", [](void* str){
 		XLOG("submitPackage");
 		Json::Value* root = (Json::Value*)(str);
 		XLOG(root->toStyledString().c_str());
@@ -156,14 +152,12 @@ void CreateMessageHandlers(SimpleHandler::MessageHandlerSet& handlers)
 		std::string srcPath = (*root)["srcPath"].asString();
 		std::string destPath = (*root)["destPath"].isNull() ? srcPath : (*root)["destPath"].asString();
 
-		std::vector<std::string> files;
-		XUtilsFile::getFilesInDir(srcPath + "\\*", files);
+		std::vector<std::string> files = XUtilsFile::getFilesInDir(srcPath+"\\*");
 		std::vector<std::string>::iterator iteratorFile = files.begin();
 
 		Json::Value jsonData;
 		Json::Value filesArr;
 		Json::Value fileObj;
-		Json::Value dataObj;
 		jsonData["version"] = version;
 		std::string repStr = "";
 		MD5 md5;
@@ -172,17 +166,15 @@ void CreateMessageHandlers(SimpleHandler::MessageHandlerSet& handlers)
 			std::ifstream ifs(iteratorFile->c_str());
 			md5.update(ifs);
 			repStr = (*iteratorFile).replace(0, srcPath.size() + 1, ""); //+1 是为了过滤掉紧接着的\符号
-			XUtilsFile::formatPath(repStr);
-			dataObj["md5"] = md5.toString();
-			dataObj["size"] = XUtilsFile::getFileSize(srcPath+repStr);
-			filesArr[repStr.c_str()] = dataObj;
+			std::string formatUrl = XUtilsFile::formatPath(repStr);
+			filesArr[formatUrl.c_str()] = md5.toString();
 		}
 		jsonData["files"] = filesArr;
 
 		XUtilsFile::writeFileData(destPath + "\\resource.json", jsonData.toStyledString());
 	});
-	keyName = "update";
-	XOBSERVER->listen(keyName, [](void* param){
+
+	XOBSERVER->listen("update", [](void* param){
 		XLOG("update");
 		Json::Value* root = (Json::Value*)(param);
 		std::string updateSrcPath = (*root)["updateSrcPath"].asString()+"\\";

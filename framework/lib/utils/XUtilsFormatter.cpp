@@ -4,21 +4,21 @@
 #include <stdlib.h>
 
 
-void XUtilsFormatter::addslashes(std::string& out_str)
+std::string XUtilsFormatter::addslashes(std::string strIn)
 {
 	/* maximum string length, worst case situation */
 	std::string newStr="";
-	int length = out_str.size();
+	int length = strIn.size();
 	int sourceIndex = 0;
 	int newIndex = 0;
 	char word = '\0';
 
 	if (length == 0) {
-		return;
+		return strIn;
 	}
 
 	while (sourceIndex < length) {
-		word = out_str[sourceIndex];
+		word = strIn[sourceIndex];
 		switch (word) {
 			case '\0':
 				newStr += '\\';
@@ -35,17 +35,19 @@ void XUtilsFormatter::addslashes(std::string& out_str)
 			}
 			++sourceIndex;
 	}
-	out_str = newStr;
+	return newStr;
 }
 
 // 注释：多字节包括GBK和UTF-8  
-void XUtilsFormatter::GBK2UTF8(const char *szGbk, char* szUtf8)
+std::string XUtilsFormatter::GBK2UTF8(const char *szGbk)
 {
+	std::string returnStr = "";
 	// 先将多字节GBK（CP_ACP或ANSI）转换成宽字符UTF-16  
 	// 得到转换后，所需要的内存字符数  
 	int n = MultiByteToWideChar(CP_ACP, 0, szGbk, -1, NULL, 0);
 	// 字符数乘以 sizeof(WCHAR) 得到字节数  
 	WCHAR *str1 = new WCHAR[sizeof(WCHAR)* n];
+	char *szUtf8 = new char[sizeof(WCHAR)* n];
 	// 转换  
 	MultiByteToWideChar(CP_ACP,  // MultiByte的代码页Code Page  
 		0,            //附加标志，与音标有关  
@@ -60,27 +62,40 @@ void XUtilsFormatter::GBK2UTF8(const char *szGbk, char* szUtf8)
 
 	WideCharToMultiByte(CP_UTF8, 0, str1, -1, szUtf8, n, NULL, NULL);
 
+	returnStr.assign(szUtf8);
 
 	delete[]str1;
 	str1 = NULL;
+	delete[]szUtf8;
+	szUtf8 = NULL;
+
+	return returnStr;
 }
 
 //UTF-8 GBK  
-void XUtilsFormatter::UTF82GBK(const char *szUtf8,char* szGBK)
+std::string XUtilsFormatter::UTF82GBK(const char *szUtf8)
 {
 	int n = MultiByteToWideChar(CP_UTF8, 0, szUtf8, -1, NULL, 0);
 	WCHAR * wszGBK = new WCHAR[sizeof(WCHAR)* n];
-	//char *szGbk = new char[sizeof(WCHAR)* n];
+	char *szGbk = new char[sizeof(WCHAR)* n];
+	std::string returnStr = "";
 
 	memset(wszGBK, 0, sizeof(WCHAR)* n);
-	memset(szGBK, 0, sizeof(WCHAR)* n);
+	memset(szGbk, 0, sizeof(WCHAR)* n);
 
 	MultiByteToWideChar(CP_UTF8, 0, szUtf8, -1, wszGBK, n);
+
 	n = WideCharToMultiByte(CP_ACP, 0, wszGBK, -1, NULL, 0, NULL, NULL);
-	WideCharToMultiByte(CP_ACP, 0, wszGBK, -1, szGBK, n, NULL, NULL);
+
+	WideCharToMultiByte(CP_ACP, 0, wszGBK, -1, szGbk, n, NULL, NULL);
+	returnStr.assign(szGbk);
 
 	delete[]wszGBK;
 	wszGBK = NULL;
+	delete[]szGbk;
+	szGbk = NULL;
+
+	return returnStr;
 }
 
 XUtilsFormatter::XUtilsFormatter()

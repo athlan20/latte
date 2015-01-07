@@ -64,16 +64,18 @@ BOOL WStringToString(const std::wstring &wstr, std::string &str)
 #endif
 
 // D:\aaa\bbb\ccc\ddd\abc.txt --> D:/aaa/bbb/ccc/ddd/abc.txt
-static inline void convertPathFormatToUnixStyle(std::string& out_path)
+static inline std::string convertPathFormatToUnixStyle(const std::string& path)
 {
-	int len = out_path.length();
+	std::string ret = path;
+	int len = ret.length();
 	for (int i = 0; i < len; ++i)
 	{
-		if (out_path[i] == '\\')
+		if (ret[i] == '\\')
 		{
-			out_path[i] = '/';
+			ret[i] = '/';
 		}
 	}
+	return ret;
 }
 
 static inline void _checkPath()
@@ -85,8 +87,8 @@ static inline void _checkPath()
 
 		char utf8Path[X_MAX_PATH] = { 0 };
 		int nNum = WideCharToMultiByte(CP_UTF8, 0, utf16Path, -1, utf8Path, sizeof(utf8Path), nullptr, nullptr);
-		s_resourcePath = std::string(utf8Path);
-		convertPathFormatToUnixStyle(s_resourcePath);
+
+		s_resourcePath = convertPathFormatToUnixStyle(utf8Path);
 		s_resourcePath.append("/");
 	}
 }
@@ -111,14 +113,14 @@ bool XUtilsFile::isFileExistInternal(const std::string& strFilePath)
 	std::string strPath = strFilePath;
 	if (!XUtilsFile::isAbsolutePath(strPath))
 	{
+		std::string defaultResRootPath = "";
 		WCHAR utf16Path[X_MAX_PATH] = { 0 };
 		GetCurrentDirectoryW(sizeof(utf16Path)-1, utf16Path);
 		char utf8Path[X_MAX_PATH] = { 0 };
 		int nNum = WideCharToMultiByte(CP_UTF8, 0, utf16Path, -1, utf8Path, sizeof(utf8Path), nullptr, nullptr);
-		std::string str(utf8Path);
-		convertPathFormatToUnixStyle(str);
+		defaultResRootPath = convertPathFormatToUnixStyle(utf8Path);
 		// Not absolute path, add the default root path at the beginning.
-		strPath.insert(0, str);
+		strPath.insert(0, defaultResRootPath);
 	}
 
 	WCHAR utf16Buf[X_MAX_PATH] = { 0 };
@@ -201,24 +203,6 @@ std::string XUtilsFile::getPathForFilename(const std::string& filename, const st
 
 	//CCLOG("getPathForFilename, fullPath = %s", path.c_str());
 	return path;
-}
-
-size_t XUtilsFile::getFileSize(const std::string& filename)
-{
-	FILE * pFile;
-	size_t size;
-
-	fopen_s(&pFile,filename.c_str(), "rb");
-	if (pFile == NULL)
-		XLOG("Error opening file");
-	else
-	{
-		fseek(pFile, 0, SEEK_END);   ///将文件指针移动文件结尾
-		size = ftell(pFile); ///求出当前文件指针距离文件开始的字节数
-		fclose(pFile);
-		return size;
-	}
-	return 0;
 }
 
 std::string XUtilsFile::fullPathForFilename(const std::string &filename)
@@ -410,9 +394,9 @@ bool XUtilsFile::writeFileData(const std::string& fileName,const std::string& da
 	return false;
 }
 
-void XUtilsFile::getFilesInDir(const std::string& dir, std::vector<std::string>& out_allFilePath)
+std::vector<std::string> XUtilsFile::getFilesInDir(const std::string dir)
 {
-	std::vector<std::string>& allFilePath = out_allFilePath;
+	std::vector<std::string> allFilePath;
 
 	WIN32_FIND_DATA findFileData;
 	HANDLE hFind = ::FindFirstFile(dir.c_str(), &findFileData);
@@ -441,8 +425,7 @@ void XUtilsFile::getFilesInDir(const std::string& dir, std::vector<std::string>&
 				else
 				{
 
-					std::vector<std::string> bunchV;
-					XUtilsFile::getFilesInDir(rootDir + "\\" + str + "\\*", bunchV);
+					std::vector<std::string> bunchV = XUtilsFile::getFilesInDir(rootDir + "\\" + str + "\\*");
 					allFilePath.insert(allFilePath.end(), bunchV.begin(), bunchV.end());
 				}
 			}
@@ -455,25 +438,26 @@ void XUtilsFile::getFilesInDir(const std::string& dir, std::vector<std::string>&
 		}
 		::FindClose(hFind);
 	}
+	return allFilePath;
 }
 
-void XUtilsFile::formatPath(std::string& out_path)
+std::string XUtilsFile::formatPath(const std::string& path)
 {
-	convertPathFormatToUnixStyle(out_path);
+	std::string returnPath = convertPathFormatToUnixStyle(path);
 #ifdef WIN32
 	
-	if (out_path.find_first_of(":") != 1 && out_path.find_first_of(".\/") != 0 && out_path.find_first_of("file:") != 0)
+	if (path.find_first_of(":") != 1 && path.find_first_of(".\/") != 0 && path.find_first_of("file:") != 0)
 	{
-		out_path.insert(0, ".\/");
+		returnPath.insert(0, ".\/");
 	}
 
 #endif
+	return returnPath;
 }
 
 void XUtilsFile::checkDirAndCreate(std::string path)
 {
-	std::string formatPath = path;
-	convertPathFormatToUnixStyle(formatPath);
+	std::string formatPath = convertPathFormatToUnixStyle(path);
 	char *fileName = const_cast<char*>(formatPath.c_str()), *tag;
 	for (tag = fileName; *tag; tag++)
 	{

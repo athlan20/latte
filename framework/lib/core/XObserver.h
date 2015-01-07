@@ -19,10 +19,10 @@ public:
 
 	static X_DLL XObserver* getInstance();
 
-	X_DLL bool listen(std::string& name, std::function<void(void*)> callBack);
-	X_DLL bool unListen(std::string& name);
-	X_DLL bool notify(std::string& name, void* param = NULL);
-	X_DLL bool notifyOnce(std::string& name, void* param = NULL);
+	X_DLL bool listen(std::string name, std::function<void(void*)> callBack);
+	X_DLL bool unListen(std::string name);
+	X_DLL bool notify(std::string name, void* param = NULL);
+	X_DLL bool notifyOnce(std::string name, void* param = NULL);
 	X_DLL int getMapSize();
 
 private:

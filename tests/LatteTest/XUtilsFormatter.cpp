@@ -26,8 +26,8 @@ namespace LatteTest
 
 		TEST_METHOD(utilsFormatter_addslashes)
 		{
-			std::string res = "\a\\b\\\c\'ac\'bbbb\"dd\"";
-			XUtilsFormatter::addslashes(res);
+			std::string res = XUtilsFormatter::addslashes("\a\\b\\\c\'ac\'bbbb\"dd\"");
+
 			Assert::IsTrue(res.compare("\a\\\\b\\\\c\\\'ac\\\'bbbb\\\"dd\\\"")==0);
 		}
 	

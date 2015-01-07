@@ -152,9 +152,8 @@ bool SimpleApp::executeScript(std::string script)
 {
 	CefRefPtr<CefFrame> frame = this->getBrowser()->GetMainFrame();
 	script = script.substr(0, script.size() - 1);
-	char scriptUTF8[512] = {0};
-	XUtilsFormatter::GBK2UTF8(script.c_str(), scriptUTF8);
-	frame->ExecuteJavaScript("nativeCallJs('" + std::string(scriptUTF8)+ "');", frame->GetURL(), 0);
+	script = XUtilsFormatter::GBK2UTF8(script.c_str());
+	frame->ExecuteJavaScript("nativeCallJs('"+script+"');", frame->GetURL(), 0);
 
 	return true;
 }
