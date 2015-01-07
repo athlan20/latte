@@ -61,7 +61,7 @@
       <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories);$(SolutionDir)framework\external\curl\include\win32;$(SolutionDir)framework\external\json\include;$(SolutionDir)samples\dllSample;$(SolutionDir)framework</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <CompileAsManaged>
       </CompileAsManaged>
     </ClCompile>
@@ -75,7 +75,8 @@
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
     <PreBuildEvent>
-      <Command>copy "$(SolutionDir)framework\bin\$(Configuration)\Latte.dll" "$(OutDir)"</Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -101,6 +102,17 @@
     <ClInclude Include="..\..\framework\external\json\src\lib_json\json_batchallocator.h" />
     <ClInclude Include="..\..\framework\external\json\src\lib_json\json_tool.h" />
     <ClInclude Include="..\..\framework\external\md5\md5.h" />
+    <ClInclude Include="..\..\framework\lib\base\global.h" />
+    <ClInclude Include="..\..\framework\lib\base\macros.h" />
+    <ClInclude Include="..\..\framework\lib\core\XApplication.h" />
+    <ClInclude Include="..\..\framework\lib\core\XLatte.h" />
+    <ClInclude Include="..\..\framework\lib\core\XObserver.h" />
+    <ClInclude Include="..\..\framework\lib\core\XScheduler.h" />
+    <ClInclude Include="..\..\framework\lib\net\updater\XUpdater.h" />
+    <ClInclude Include="..\..\framework\lib\net\XDownloader.h" />
+    <ClInclude Include="..\..\framework\lib\utils\XUtilsFile.h" />
+    <ClInclude Include="..\..\framework\lib\utils\XUtilsFormatter.h" />
+    <ClInclude Include="..\..\framework\lib\utils\XUtilsMath.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
@@ -110,6 +122,15 @@
     <ClCompile Include="..\..\framework\external\json\src\lib_json\json_writer.cpp" />
     <ClCompile Include="..\..\framework\external\md5\md5.cpp" />
     <ClCompile Include="..\..\framework\external\md5\test.cpp" />
+    <ClCompile Include="..\..\framework\lib\core\XApplication.cpp" />
+    <ClCompile Include="..\..\framework\lib\core\XLatte.cpp" />
+    <ClCompile Include="..\..\framework\lib\core\XObserver.cpp" />
+    <ClCompile Include="..\..\framework\lib\core\XScheduler.cpp" />
+    <ClCompile Include="..\..\framework\lib\net\updater\XUpdater.cpp" />
+    <ClCompile Include="..\..\framework\lib\net\XDownloader.cpp" />
+    <ClCompile Include="..\..\framework\lib\utils\XUtilsFile.cpp" />
+    <ClCompile Include="..\..\framework\lib\utils\XUtilsFormatter.cpp" />
+    <ClCompile Include="..\..\framework\lib\utils\XUtilsMath.cpp" />
     <ClCompile Include="LibTest.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -119,17 +140,12 @@
     <ClCompile Include="XObserverTest.cpp" />
     <ClCompile Include="XUtilsFileTest.cpp" />
     <ClCompile Include="XUpdaterTest.cpp" />
-    <ClCompile Include="XUtilsFormatter.cpp" />
+    <ClCompile Include="XUtilsFormatterTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\framework\external\json\src\lib_json\json_internalarray.inl" />
     <None Include="..\..\framework\external\json\src\lib_json\json_internalmap.inl" />
     <None Include="..\..\framework\external\json\src\lib_json\json_valueiterator.inl" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\framework\Latte.vcxproj">
-      <Project>{cdd24b18-98c5-429c-b6a1-bad12bfc4e02}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

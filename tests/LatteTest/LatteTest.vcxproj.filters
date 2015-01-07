@@ -13,13 +13,16 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="源文件\libs">
+    <Filter Include="源文件\latte">
+      <UniqueIdentifier>{202e84dc-8772-4842-8789-4b5283f37f0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\external">
       <UniqueIdentifier>{d4342318-574f-4b7e-bb76-433a9eecae7e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\libs\json">
+    <Filter Include="源文件\external\json">
       <UniqueIdentifier>{ba27af44-3134-4ed3-9943-0ba4536feec9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\libs\md5">
+    <Filter Include="源文件\external\md5">
       <UniqueIdentifier>{e05db7af-3a3b-44c0-86b3-7ba696d46a6c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -31,13 +34,46 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\..\framework\external\md5\md5.h">
-      <Filter>源文件\libs\md5</Filter>
+      <Filter>源文件\external\md5</Filter>
     </ClInclude>
     <ClInclude Include="..\..\framework\external\json\src\lib_json\json_batchallocator.h">
-      <Filter>源文件\libs\json</Filter>
+      <Filter>源文件\external\json</Filter>
     </ClInclude>
     <ClInclude Include="..\..\framework\external\json\src\lib_json\json_tool.h">
-      <Filter>源文件\libs\json</Filter>
+      <Filter>源文件\external\json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\framework\lib\base\global.h">
+      <Filter>源文件\latte</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\framework\lib\base\macros.h">
+      <Filter>源文件\latte</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\framework\lib\core\XApplication.h">
+      <Filter>源文件\latte</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\framework\lib\core\XLatte.h">
+      <Filter>源文件\latte</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\framework\lib\core\XObserver.h">
+      <Filter>源文件\latte</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\framework\lib\core\XScheduler.h">
+      <Filter>源文件\latte</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\framework\lib\net\updater\XUpdater.h">
+      <Filter>源文件\latte</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\framework\lib\net\XDownloader.h">
+      <Filter>源文件\latte</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\framework\lib\utils\XUtilsFile.h">
+      <Filter>源文件\latte</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\framework\lib\utils\XUtilsFormatter.h">
+      <Filter>源文件\latte</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\framework\lib\utils\XUtilsMath.h">
+      <Filter>源文件\latte</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -59,34 +95,61 @@
     <ClCompile Include="XObserverTest.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="XUtilsFormatter.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\framework\external\md5\md5.cpp">
-      <Filter>源文件\libs\md5</Filter>
+      <Filter>源文件\external\md5</Filter>
     </ClCompile>
     <ClCompile Include="..\..\framework\external\md5\test.cpp">
-      <Filter>源文件\libs\md5</Filter>
+      <Filter>源文件\external\md5</Filter>
     </ClCompile>
     <ClCompile Include="..\..\framework\external\json\src\lib_json\json_reader.cpp">
-      <Filter>源文件\libs\json</Filter>
+      <Filter>源文件\external\json</Filter>
     </ClCompile>
     <ClCompile Include="..\..\framework\external\json\src\lib_json\json_value.cpp">
-      <Filter>源文件\libs\json</Filter>
+      <Filter>源文件\external\json</Filter>
     </ClCompile>
     <ClCompile Include="..\..\framework\external\json\src\lib_json\json_writer.cpp">
-      <Filter>源文件\libs\json</Filter>
+      <Filter>源文件\external\json</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\framework\lib\core\XApplication.cpp">
+      <Filter>源文件\latte</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\framework\lib\core\XLatte.cpp">
+      <Filter>源文件\latte</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\framework\lib\core\XObserver.cpp">
+      <Filter>源文件\latte</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\framework\lib\core\XScheduler.cpp">
+      <Filter>源文件\latte</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\framework\lib\net\updater\XUpdater.cpp">
+      <Filter>源文件\latte</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\framework\lib\net\XDownloader.cpp">
+      <Filter>源文件\latte</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\framework\lib\utils\XUtilsFile.cpp">
+      <Filter>源文件\latte</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\framework\lib\utils\XUtilsFormatter.cpp">
+      <Filter>源文件\latte</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\framework\lib\utils\XUtilsMath.cpp">
+      <Filter>源文件\latte</Filter>
+    </ClCompile>
+    <ClCompile Include="XUtilsFormatterTest.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\framework\external\json\src\lib_json\json_internalarray.inl">
-      <Filter>源文件\libs\json</Filter>
+      <Filter>源文件\external\json</Filter>
     </None>
     <None Include="..\..\framework\external\json\src\lib_json\json_internalmap.inl">
-      <Filter>源文件\libs\json</Filter>
+      <Filter>源文件\external\json</Filter>
     </None>
     <None Include="..\..\framework\external\json\src\lib_json\json_valueiterator.inl">
-      <Filter>源文件\libs\json</Filter>
+      <Filter>源文件\external\json</Filter>
     </None>
   </ItemGroup>
 </Project>

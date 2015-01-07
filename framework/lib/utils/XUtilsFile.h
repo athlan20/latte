@@ -111,7 +111,7 @@ public:
 	 * @return
 	 */
 	X_DLL static std::vector<std::string> getFilesInDir(const std::string dir);
-
+	X_DLL static size_t getFileSize(std::string filename);
 	/**
 	 * 
 	 * @param
@@ -125,7 +125,7 @@ public:
 	* 格式化路径字符串，使之变为合法路径表示方法
 	*
 	*/
-	X_DLL static std::string formatPath(const std::string& path);
+	X_DLL static std::string formatPath(const std::string& path, bool insertSlash=true);
 
 	//检查路径目录是否存在，没有的话，就一级级创建好目录
 	X_DLL static void checkDirAndCreate(std::string path);

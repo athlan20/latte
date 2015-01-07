@@ -132,7 +132,6 @@ int XUpdater::upgrade(std::string resourcePath,
 	resourcePath = resourcePath == "" ? "resource.json" : resourcePath;
 	bool isSame = this->checkVersion(resourcePath);
 	int loadedNum = 0;
-	std::vector<std::string> removeFiles;
 	if (!isSame)
 	{
 		Json::Reader jReader;
@@ -143,13 +142,15 @@ int XUpdater::upgrade(std::string resourcePath,
 		
 		Json::Value serverJson = this->_serverResJson["files"];
 		Json::Value::Members member = serverJson.getMemberNames();
+		Json::Value fileData;
 		std::unordered_map<std::string, XDownloader::XDownloadUnit> units;
 		for (Json::Value::Members::iterator iter = member.begin(); iter != member.end(); iter++)
 		{
 			std::string serverFileKey = *iter;
-			std::string serverFileMD5 = serverJson[serverFileKey].asString();
+			fileData = serverJson[serverFileKey];
+			std::string serverFileMD5 = fileData["key"].asString();
 			if (localJson[serverFileKey].isNull()
-				|| localJson[serverFileKey].asString().compare(serverFileMD5) != 0
+				|| localJson[serverFileKey]["key"].asString().compare(serverFileMD5) != 0
 				|| !XUtilsFile::isFileExist(serverFileKey))	//不存在或者不一样
 			{
 				XDownloader::XDownloadUnit unit;
@@ -163,11 +164,12 @@ int XUpdater::upgrade(std::string resourcePath,
 		for (Json::Value::Members::iterator iter = member.begin(); iter != member.end(); iter++)
 		{
 			std::string localFileKey = *iter;
-			std::string localFileMD5 = serverJson[localFileKey].asString();
+			fileData = serverJson[localFileKey];
+			std::string localFileMD5 = fileData["key"].asString();
 			if (serverJson[localFileKey].isNull()
 				&& XUtilsFile::isFileExist(localFileKey))	//server没有，但是本地有
 			{
-				removeFiles.push_back(localFileKey);
+				_removeFiles.push_back(localFileKey);
 			}
 		}
 
@@ -210,20 +212,53 @@ int XUpdater::upgrade(std::string resourcePath,
 			//this->_downloader->queueDownloadASync(units);
 			//测试时候不改名，方便重复下载
 			//XUtilsFile::renameFile("tempMainVersion", "resource.json", this->_storagePath);
-			auto tDelete = std::thread([=, &removeFiles](){
-				if (removeFiles.size() > 0){
-					std::vector<std::string>::iterator it = removeFiles.begin();
-					for (; it != removeFiles.end(); ++it)
-					{
-						XUtilsFile::deleteFile(*it);
+			if (_removeFiles.size() > 0)
+			{
+				auto tDelete = std::thread([=](){
+					if (this->_removeFiles.size() > 0){
+						std::vector<std::string>::iterator it = this->_removeFiles.begin();
+						for (; it != _removeFiles.end(); ++it)
+						{
+							XUtilsFile::deleteFile(*it);
+						}
+
 					}
-
-				}
-			});
-			tDelete.detach();
-
+				});
+				tDelete.detach();
+			}
 		}
 		
 	}
 	return loadedNum;
+}
+
+int XUpdater::checkPackage()
+{
+	if (this->_serverResJson.isNull())
+	{
+		return -1;
+	}
+
+	Json::Value rootFiles = this->_serverResJson["files"];
+	Json::Value::Members member = rootFiles.getMemberNames();
+	Json::Value fileData;
+	size_t serverFileSize = 0;
+	size_t fileSize = 0;
+	for (Json::Value::Members::iterator iter = member.begin(); iter != member.end(); iter++)
+	{
+		std::string serverFileKey = *iter;
+		fileData = rootFiles[serverFileKey];
+		std::string serverFileMD5 = fileData["key"].asString();
+		if (!XUtilsFile::isFileExist(serverFileKey))	//不存在或者不一样
+		{
+			return -2;
+		}
+		serverFileSize = fileData["size"].asInt();
+		fileSize = XUtilsFile::getFileSize(serverFileKey);
+		if (serverFileSize != fileSize)
+		{
+			return -3;
+		}
+	}
+	return 0;
 }

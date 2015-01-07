@@ -31,6 +31,7 @@ public:
 		std::function<void()> allCompleteCall = nullptr,
 		std::function<void(double, double, const std::string &, const std::string &)> errorCall = nullptr
 		);		//检查版本更新
+	X_DLL virtual int checkPackage();
 	X_DLL virtual void onStart();		//开始下载回调，已经拿到文件大小已经所有文件的总大小
 	X_DLL virtual void onError();		//错误回调
 	X_DLL virtual void onProgress(int percent);		//更新下载进度回调
@@ -50,6 +51,7 @@ private:
 	bool _isDownloading;
 
 	Json::Value  _serverResJson;
+	std::vector<std::string> _removeFiles;
 
 	std::shared_ptr<XDownloader> _downloader;		//下载器对象
 };

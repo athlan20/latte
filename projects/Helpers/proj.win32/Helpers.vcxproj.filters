@@ -16,6 +16,9 @@
     <Filter Include="external\md5">
       <UniqueIdentifier>{4e9b4e47-eb9d-46ea-967c-7ff68187eb40}</UniqueIdentifier>
     </Filter>
+    <Filter Include="latte">
+      <UniqueIdentifier>{58acef8f-8980-438d-8aab-fee193c732c5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\Helpers.rc">
@@ -68,6 +71,33 @@
     <ClCompile Include="..\..\..\framework\external\md5\test.cpp">
       <Filter>external\md5</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\framework\lib\core\XApplication.cpp">
+      <Filter>latte</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\framework\lib\core\XLatte.cpp">
+      <Filter>latte</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\framework\lib\core\XObserver.cpp">
+      <Filter>latte</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\framework\lib\core\XScheduler.cpp">
+      <Filter>latte</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\framework\lib\net\updater\XUpdater.cpp">
+      <Filter>latte</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\framework\lib\net\XDownloader.cpp">
+      <Filter>latte</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\framework\lib\utils\XUtilsFile.cpp">
+      <Filter>latte</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\framework\lib\utils\XUtilsFormatter.cpp">
+      <Filter>latte</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\framework\lib\utils\XUtilsMath.cpp">
+      <Filter>latte</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="res\resource.h" />
@@ -96,6 +126,39 @@
     </ClInclude>
     <ClInclude Include="..\..\..\framework\external\md5\md5.h">
       <Filter>external\md5</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\framework\lib\base\global.h">
+      <Filter>latte</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\framework\lib\base\macros.h">
+      <Filter>latte</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\framework\lib\core\XApplication.h">
+      <Filter>latte</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\framework\lib\core\XLatte.h">
+      <Filter>latte</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\framework\lib\core\XObserver.h">
+      <Filter>latte</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\framework\lib\core\XScheduler.h">
+      <Filter>latte</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\framework\lib\net\updater\XUpdater.h">
+      <Filter>latte</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\framework\lib\net\XDownloader.h">
+      <Filter>latte</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\framework\lib\utils\XUtilsFile.h">
+      <Filter>latte</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\framework\lib\utils\XUtilsFormatter.h">
+      <Filter>latte</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\framework\lib\utils\XUtilsMath.h">
+      <Filter>latte</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -148,9 +148,10 @@ void CreateMessageHandlers(SimpleHandler::MessageHandlerSet& handlers)
 			CallJSAlert("请选择源文件夹");
 			return;
 		}
-		std::string version = (*root)["version"].isNull() ? "0.001" : (*root)["version"].asString();
+		std::string version = (*root)["version"].isNull() || (*root)["version"].asString().empty() ? "0.001" : (*root)["version"].asString();
 		std::string srcPath = (*root)["srcPath"].asString();
 		std::string destPath = (*root)["destPath"].isNull() ? srcPath : (*root)["destPath"].asString();
+		std::string containerFolderName = srcPath.substr(srcPath.find_last_of("\\")+1,INT16_MAX);
 
 		std::vector<std::string> files = XUtilsFile::getFilesInDir(srcPath+"\\*");
 		std::vector<std::string>::iterator iteratorFile = files.begin();
@@ -166,8 +167,10 @@ void CreateMessageHandlers(SimpleHandler::MessageHandlerSet& handlers)
 			std::ifstream ifs(iteratorFile->c_str());
 			md5.update(ifs);
 			repStr = (*iteratorFile).replace(0, srcPath.size() + 1, ""); //+1 是为了过滤掉紧接着的\符号
-			std::string formatUrl = XUtilsFile::formatPath(repStr);
-			filesArr[formatUrl.c_str()] = md5.toString();
+			std::string formatUrl = srcPath+"\\" + repStr;
+			fileObj["key"] = md5.toString();
+			fileObj["size"] = XUtilsFile::getFileSize(formatUrl);
+			filesArr[(containerFolderName +"/"+ XUtilsFile::formatPath(repStr,false)).c_str()] = fileObj;
 		}
 		jsonData["files"] = filesArr;
 

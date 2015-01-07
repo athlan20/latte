@@ -1,4 +1,4 @@
-#include "XUtilsFile.h"
+ï»¿	#include "XUtilsFile.h"
 #include "../base/macros.h"
 #include "../base/macros.h"
 #include "../base/global.h"
@@ -101,7 +101,7 @@ void XUtilsFile::init()
 }
 
 /************************************************************************/
-/* ²é¿´ÎÄ¼þÊÇ·ñ´æÔÚ                                                     */
+/* æŸ¥çœ‹æ–‡ä»¶æ˜¯å¦å­˜åœ¨                                                     */
 /************************************************************************/
 bool XUtilsFile::isFileExistInternal(const std::string& strFilePath)
 {
@@ -165,6 +165,24 @@ std::string XUtilsFile::getNewFilename(const std::string &filename)
 		newFileName = iter->second;
 	}
 	return newFileName;
+}
+
+size_t XUtilsFile::getFileSize(std::string filename)
+{
+	FILE * pFile;
+	size_t size;
+
+	fopen_s(&pFile, filename.c_str(), "rb");
+	if (pFile == NULL)
+		XLOG("Error opening file");
+	else
+	{
+		fseek(pFile, 0, SEEK_END);
+		size = ftell(pFile);
+		fclose(pFile);
+		return size;
+	}
+	return 0;
 }
 
 
@@ -441,15 +459,25 @@ std::vector<std::string> XUtilsFile::getFilesInDir(const std::string dir)
 	return allFilePath;
 }
 
-std::string XUtilsFile::formatPath(const std::string& path)
+std::string XUtilsFile::formatPath(const std::string& path,bool insertSlash)
 {
 	std::string returnPath = convertPathFormatToUnixStyle(path);
 #ifdef WIN32
-	
-	if (path.find_first_of(":") != 1 && path.find_first_of(".\/") != 0 && path.find_first_of("file:") != 0)
+	if (insertSlash)
 	{
-		returnPath.insert(0, ".\/");
+		if (path.find_first_of(":") != 1 && path.find_first_of(".\/") != 0 && path.find_first_of("file:") != 0)
+		{
+			returnPath.insert(0, ".\/");
+		}
 	}
+	else
+	{
+		if (path.find_first_of(".\/") == 0)
+		{
+			returnPath = returnPath.substr(2, INT_MAX);
+		}
+	}
+
 
 #endif
 	return returnPath;

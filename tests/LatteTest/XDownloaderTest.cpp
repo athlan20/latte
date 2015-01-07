@@ -25,9 +25,9 @@ namespace LatteTest
 {
 	std::shared_ptr<XDownloader> downloader;
 	std::shared_ptr<std::thread> t_back;
-	const std::string localNetworkAddr = "http://116.236.150.110/test/resource.json";// "http://www.latte.com/php/test/github_xpgod.rar";// "http://116.236.150.110/test/web.zip";
+	const std::string localNetworkAddr = "http://www.latte.com/php/test/package/resource.json";// "http://www.latte.com/php/test/github_xpgod.rar";// "http://116.236.150.110/test/web.zip";
 	const std::string localNetworkErrAddr = "http://www.latte.com/php/test/cocos2dx-update-temp-package123.zip";
-	const std::string resServerRoot = "http://www.latte.com/php/test/";
+	const std::string resServerRoot = "http://www.latte.com/php/test/package/";
 	const std::string storagePathAddr = "./download_package.zip";
 	bool hasAsysFinish;
 	bool hasProcessCall;
@@ -84,7 +84,7 @@ namespace LatteTest
 			}
 		}
 
-		TEST_METHOD(processCall)
+		TEST_METHOD(downloadProcessCall)
 		{
 			downloader->setProgressCallback([](double a, double b, const std::string &c, const std::string &d){
 				hasProcessCall = true;
@@ -123,12 +123,14 @@ namespace LatteTest
 			std::string data = XUtilsFile::getFileData("resource.json");
 			jReader.parse(data,root);
 			Json::Value files = root["files"];
+			Json::Value fileObj;
 			Json::Value::Members member = files.getMemberNames();
 			std::unordered_map<std::string, XDownloader::XDownloadUnit> units;
 			for (Json::Value::Members::iterator iter = member.begin(); iter != member.end(); iter++)
 			{
 				std::string fileKey = *iter;
-				std::string fileMD5 = files[fileKey].asString();
+				fileObj = files[fileKey];
+				std::string fileMD5 = fileObj["key"].asString();
 
 				XDownloader::XDownloadUnit unit;
 				unit.srcUrl = resServerRoot + fileKey;
