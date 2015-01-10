@@ -82,11 +82,11 @@ std::string XUpdater::getMainVersion(std::string mainVersionUrl)
 {
 	mainVersionUrl = mainVersionUrl == "" ? this->_resVersionUrl : mainVersionUrl;
 	std::shared_ptr<XDownloader> downloader = std::shared_ptr<XDownloader>(new XDownloader);
-	downloader->downloadSync(mainVersionUrl.c_str(),this->_storagePath+"tempMainVersion");
+	downloader->downloadSync(mainVersionUrl.c_str(),this->_storagePath+"resource.json");
 	//json 文档
 	Json::Value root;
 	Json::Reader jReader;
-	std::string data = XUtilsFile::getFileData(this->_storagePath + "tempMainVersion");
+	std::string data = XUtilsFile::getFileData(this->_storagePath + "resource.json");
 	
 	if (data != "")
 	{
@@ -249,12 +249,12 @@ int XUpdater::checkPackage()
 		std::string serverFileKey = *iter;
 		fileData = rootFiles[serverFileKey];
 		std::string serverFileMD5 = fileData["key"].asString();
-		if (!XUtilsFile::isFileExist(serverFileKey))	//不存在或者不一样
+		if (!XUtilsFile::isFileExist(this->_storagePath+serverFileKey))	//不存在或者不一样
 		{
 			return -2;
 		}
 		serverFileSize = fileData["size"].asInt();
-		fileSize = XUtilsFile::getFileSize(serverFileKey);
+		fileSize = XUtilsFile::getFileSize(this->_storagePath + serverFileKey);
 		if (serverFileSize != fileSize)
 		{
 			return -3;

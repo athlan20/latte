@@ -22,7 +22,7 @@ namespace LatteTest
 	const std::string packageUrl = "http://www.latte.com/php/test/package/";
 	const std::string versionUrl = "http://www.latte.com/php/test/package/resource.json";
 	const std::string versionFilePath = "resource.json";
-	const std::string storagePath = "";
+	const std::string storagePath = "package/";
 	const std::string destVersion = "1.0.0";
 	std::shared_ptr<XUpdater> updater;
 	std::shared_ptr<std::thread> t_back_updater;
@@ -43,7 +43,12 @@ namespace LatteTest
 		TEST_METHOD(checkVersion)
 		{
 			//版本正确
-			std::string localResStr = XUtilsFile::getFileData("resource.json");
+			std::string localResStr = XUtilsFile::getFileData("package/resource.json");
+			if (localResStr.empty())
+			{
+				Assert::AreEqual(false, false);
+				return;
+			}
 			Json::Reader jReader;
 			Json::Value root;
 			jReader.parse(localResStr, root);
@@ -65,8 +70,8 @@ namespace LatteTest
 			bool hasLoaded = false;
 			//1. 先随机删除或者更改md5文件
 			//拿到本地resource
-			std::string localResStr = XUtilsFile::getFileData("resource.json");
-			std::vector<std::string> files = XUtilsFile::getFilesInDir(".\\resource\\*");
+			std::string localResStr = XUtilsFile::getFileData("package/resource.json");
+			std::vector<std::string> files = XUtilsFile::getFilesInDir(".\\package\\*");
 			Json::Reader jReader;
 			Json::Value root;
 			jReader.parse(localResStr, root);
@@ -74,6 +79,10 @@ namespace LatteTest
 			std::unordered_map<std::string, time_t> MD5DiffFiles;
 			for (std::vector<std::string>::iterator it = files.begin(); it != files.end(); ++it)
 			{
+				if ((*it).compare("resource.json") == 0)
+				{
+					continue;
+				}
 				int rnd = XUtilsMath::getRand(1, 10);
 				if (rnd > 8)
 				{
@@ -93,10 +102,10 @@ namespace LatteTest
 				}
 			}
 			localResStr = root.toStyledString();
-			XUtilsFile::writeFileData("resource.json", localResStr);
+			XUtilsFile::writeFileData("package/resource.json", localResStr);
 
 			//2. 再算一下本地文件数量
-			files = XUtilsFile::getFilesInDir(".\\resource\\*");
+			files = XUtilsFile::getFilesInDir(".\\package\\*");
 			int localFileSize = files.size();
 
 			//3. 下载服务端的资源文件
@@ -137,9 +146,9 @@ namespace LatteTest
 			}
 
 			//5. 在算一下本地文件数量
-			files = XUtilsFile::getFilesInDir(".\\resource\\*");
+			files = XUtilsFile::getFilesInDir(".\\package\\*");
 			localFileSize = files.size();
-			Assert::AreEqual(localFileSize, serverFileSize);
+			Assert::AreEqual(localFileSize, serverFileSize+1);
 
 			//6. 算一下MD5不一样文件的修改时间是否正确
 			for (std::unordered_map<std::string, time_t>::iterator it = MD5DiffFiles.begin(); it != MD5DiffFiles.end(); ++it)

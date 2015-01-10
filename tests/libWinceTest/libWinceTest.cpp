@@ -1,6 +1,7 @@
 #include "utils/XUtilsFile.h"
 #include "UtilsFileTest.hpp"
-#include "DownloaderTest.hpp"
+//#include "DownloaderTest.hpp"
+#include "UpdaterTest.hpp"
 
 #include <stdlib.h>
 #include <cstdlib>

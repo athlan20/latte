@@ -241,6 +241,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\UpdaterTest.hpp"
+				>
+			</File>
+			<File
 				RelativePath=".\UtilsFileTest.hpp"
 				>
 			</File>

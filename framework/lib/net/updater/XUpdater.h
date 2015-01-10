@@ -13,12 +13,10 @@
 class XUpdater
 {
 public:
+	
 	X_DLL XUpdater(const char* packageUrl/* =nullptr */, const char* resVersionUrl/* =nullptr */, const char* storagePath/* =nullptr */);
 	X_DLL virtual ~XUpdater();
 
-	
-
-	
 	X_DLL void reset();			//重置版本
 	X_DLL bool checkVersion(std::string localVersionPath = "");	//检查版本
 	X_DLL std::string getLocalMainVersion(std::string mainVersionUrl = "");		//获取本地app版本号

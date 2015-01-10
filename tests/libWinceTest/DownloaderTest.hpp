@@ -18,9 +18,9 @@
 
 
 
-const std::string localNetworkAddr = "http://116.236.150.110/test/resource.json";//"http://www.latte.com/php/test/github_xpgod.rar";// "http://116.236.150.110/test/web.zip";
+const std::string localNetworkAddr = "http://www.latte.com/php/test/package/resource.json";//"http://116.236.150.110/test/resource.json";//"http://www.latte.com/php/test/github_xpgod.rar";// "http://116.236.150.110/test/web.zip";
 const std::string localNetworkErrAddr = "http://www.latte.com/php/test/resource.json";
-const std::string resServerRoot = "http://116.236.150.110/test/";//"http://www.latte.com/php/test/";
+const std::string resServerRoot = "http://www.latte.com/php/test/package/";//"http://www.latte.com/php/test/";
 const std::string storagePathAddr = "package.json";
 bool hasAsysFinish = false;
 bool hasAsysProgreassCall = false;

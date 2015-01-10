@@ -503,6 +503,20 @@ void XUtilsFile::checkDirAndCreate(std::string path)
 	}
 }
 
+X_DLL bool XUtilsFile::copyFile(const std::string& srcPath, const std::string& destPath)
+{
+	std::string cmd = "copy " + srcPath + " "+destPath+" \/y";
+	system(cmd.c_str());
+	return true;
+}
+
+X_DLL bool XUtilsFile::moveFile(const std::string& srcPath, const std::string& destPath)
+{
+	XUtilsFile::copyFile(srcPath, destPath);
+	DeleteFile(srcPath.c_str());
+	return true;
+}
+
 XUtilsFile::XUtilsFile()
 {
 }

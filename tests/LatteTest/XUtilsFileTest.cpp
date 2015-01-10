@@ -66,6 +66,11 @@ namespace LatteTest
 			Assert::AreEqual(false,isExist);
 		}
 
+		TEST_METHOD(moveFiles)
+		{
+			XUtilsFile::copyFile("a\\*", "b\\");
+		}
+
 		TEST_METHOD_CLEANUP(cleanupMethod)
 		{
 			XUtilsFile::deleteFile(fileExistFileName);

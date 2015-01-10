@@ -128,7 +128,7 @@ int XDownloader::download(const std::string &srcUrl, const std::string &customId
 	curl_easy_setopt(curl, CURLOPT_PROGRESSDATA, &data);
 	curl_easy_setopt(curl, CURLOPT_FAILONERROR, true);
 	//curl_easy_setopt(curl, CURLOPT_MAX_RECV_SPEED_LARGE, (curl_off_t)1000);
-	if (_connectionTimeout) curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, timeout);
+	//if (_connectionTimeout) curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, timeout);
 	curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1L);
 	//curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1);
 	

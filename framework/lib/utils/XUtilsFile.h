@@ -136,6 +136,10 @@ public:
 	 * @return
 	 */
 	X_DLL static bool deleteFile(const std::string &path);
+
+	X_DLL static bool copyFile(const std::string& srcPath, const std::string& destPath);
+	
+	X_DLL static bool moveFile(const std::string& srcPath, const std::string& destPath);
 private:
 	/**
 	*  The full path cache. When a file is found, it will be added into this cache.

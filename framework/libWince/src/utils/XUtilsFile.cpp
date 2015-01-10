@@ -10,6 +10,7 @@
 
 #include <boost/unordered_map.hpp>
 #include <windows.h>
+#include <cstdlib>
 #include <stdio.h>
 #include <fstream>
 #include <sstream>
@@ -264,7 +265,6 @@ bool XUtilsFile::isAbsolutePath(const std::string& path)
 
 bool XUtilsFile::isFileExist(const std::string& filename)
 {
-	std::string filePath = _checkPath(filename);
 	return isFileExistInternal(filename);
 }
 
@@ -313,6 +313,59 @@ bool XUtilsFile::deleteFile(const std::string &path)
 	return false;
 }
 
+bool XUtilsFile::deleteDirectory(const std::string& strPath)
+{
+	TSTRING strDirPath = UT2WC_STR(strPath);  
+#ifdef _WIN32_WCE  
+    if(strDirPath[0] != TEXT('\\'))  
+    {  
+        return false;  
+    }  
+#endif  
+    if(strDirPath[strDirPath.size() - 1] == TEXT('\\'))  
+    {  
+        strDirPath += TEXT("*.*");  
+    }  
+    else  
+    {  
+        strDirPath += TEXT("\\*.*");  
+    }  
+  
+    WIN32_FIND_DATA fd;  
+    HANDLE hdFind;  
+    hdFind = FindFirstFile(strDirPath.c_str(),&fd);  
+    if(hdFind != INVALID_HANDLE_VALUE)  
+    {  
+        do{  
+            //At winXP system the "." means current directory, the ".."means parent directory.  
+            if(fd.dwFileAttributes == FILE_ATTRIBUTE_DIRECTORY && fd.cFileName[0] != TEXT('.'))  
+            {         
+                //It is directory     
+				TSTRING strNextDir = UT2WC_STR(strPath);  
+                if(strNextDir[strNextDir.size() -1] != TEXT('\\'))  
+                    strNextDir += TEXT("\\");  
+  
+                strNextDir += fd.cFileName;   
+                deleteDirectory(WC2UT_STR(strNextDir));  
+                RemoveDirectory(strNextDir.c_str());  
+            }  
+            else if(fd.dwFileAttributes != FILE_ATTRIBUTE_DIRECTORY)  
+            {     
+                //It is file   
+                TSTRING strPathFile = UT2WC_STR(strPath);  
+                if(strPathFile[strPathFile.size() - 1] !=TEXT( '\\'))  
+                    strPathFile += TEXT("\\");  
+  
+                strPathFile += fd.cFileName;  
+                DeleteFile(strPathFile.c_str());  
+            }  
+        }while(FindNextFile(hdFind,&fd));  
+    }  
+    FindClose(hdFind);  
+  
+    return RemoveDirectory(UT2WC_CHAR(strPath))!=0;  
+}
+
 std::string XUtilsFile::getFileData(const std::string& filename, const char* mode)
 {
     XASSERT(!filename.empty() && mode != NULL, "Invalid parameters.");
@@ -330,6 +383,24 @@ std::string XUtilsFile::getFileData(const std::string& filename, const char* mod
 		XLOGP("%s file can not open",filename.c_str());
 	}
 	return data;
+}
+
+size_t XUtilsFile::getFileSize(std::string filename)
+{
+	FILE * pFile;
+	size_t size;
+
+	pFile = fopen(filename.c_str(), "rb");
+	if (pFile == NULL)
+		XLOG("Error opening file");
+	else
+	{
+		fseek(pFile, 0, SEEK_END);
+		size = ftell(pFile);
+		fclose(pFile);
+		return size;
+	}
+	return 0;
 }
 
 bool XUtilsFile::writeFileData(const std::string& fileName,const std::string& data)
@@ -452,6 +523,11 @@ BOOL XUtilsFile::checkFolderExistOrNot(std::string strFolderPath)
 	}
 }
 
+std::string XUtilsFile::getRelativePath(std::string fileName)
+{
+	return getWorkPath()+fileName;
+}
+
 std::string XUtilsFile::getWorkPath()
 {
 	std::string returnPath = "";
@@ -466,6 +542,138 @@ std::string XUtilsFile::getWorkPath()
 
 
 	return returnPath;
+}
+
+bool XUtilsFile::checkDirectoryExist(const std::string& strPath)  
+{  
+	BOOL bReturn = FALSE;  
+	if(strPath.size() >= MAX_PATH)  
+	{  
+		return FALSE;  
+	}  
+	WIN32_FIND_DATA fd;  
+	HANDLE hdFind = FindFirstFile(XUtilsFormatter::UT2WC(strPath).c_str(),&fd);  
+	if(hdFind != INVALID_HANDLE_VALUE)  
+	{  
+		if(fd.dwFileAttributes == FILE_ATTRIBUTE_DIRECTORY)  
+		{  
+			bReturn = TRUE;  
+		}  
+	}  
+	FindClose(hdFind);  
+	return bReturn;  
+}  
+
+bool XUtilsFile::copyDirectory(std::string& srcPath, std::string& destPath)
+{
+	std::string strDirPath = srcPath;  
+    BOOL bResult = TRUE;  
+#ifdef _WIN32_WCE  
+    if(strDirPath[0] != '\\')  
+    {  
+        return FALSE;  
+    }  
+#endif  
+    if(strDirPath[strDirPath.size() - 1] == '\\')  
+    {  
+        strDirPath += "*.*";  
+    }  
+    else  
+    {  
+        strDirPath += "\\*.*";  
+    }  
+  
+    WIN32_FIND_DATA fd;  
+    HANDLE hdFind;  
+	hdFind = FindFirstFile(XUtilsFormatter::UT2WC(strDirPath).c_str(),&fd);  
+    if(hdFind != INVALID_HANDLE_VALUE)  
+    {  
+        do{  
+            if(!checkDirectoryExist(destPath))  
+            {  
+                CreateDirectory(UT2WC_CHAR(destPath),NULL);  
+  
+            }  
+  
+            //At winXP system the "." means current directory, the ".."means parent directory.  
+            if(fd.dwFileAttributes == FILE_ATTRIBUTE_DIRECTORY && fd.cFileName[0] != TEXT('.'))  
+            {         
+                //It is directory     
+                std::wstring strSourceNextDir = UT2WC_STR(srcPath);  
+                std::wstring strDestinationNextDir = UT2WC_STR(destPath);  
+  
+                if(strSourceNextDir[strSourceNextDir.size() -1] != TEXT('\\'))  
+                {  
+                    strSourceNextDir += TEXT("\\");  
+                }  
+  
+                if(strDestinationNextDir[strDestinationNextDir.size() -1] != TEXT('\\'))  
+                {  
+                    strDestinationNextDir += TEXT("\\");  
+                }  
+  
+                strSourceNextDir += fd.cFileName;  
+                strDestinationNextDir += fd.cFileName;  
+  
+                CreateDirectory(strSourceNextDir.c_str(),NULL);  
+  
+                copyDirectory(WC2UT_STR(strSourceNextDir.c_str()),WC2UT_STR(strDestinationNextDir.c_str()));
+            }  
+            else if(fd.dwFileAttributes != FILE_ATTRIBUTE_DIRECTORY)  
+            {     
+                //It is file   
+                std::wstring strSourceFilePath = UT2WC_STR(srcPath);  
+                std::wstring strDestinationFilePath = UT2WC_STR(destPath);  
+  
+                if(strSourceFilePath[strSourceFilePath.size() - 1] != TEXT('\\'))  
+                {  
+                    strSourceFilePath += TEXT("\\");  
+                }  
+  
+                if(strDestinationFilePath[strDestinationFilePath.size() - 1] != TEXT('\\'))  
+                {  
+                    strDestinationFilePath += TEXT("\\");  
+                }  
+  
+                strSourceFilePath += fd.cFileName;  
+                strDestinationFilePath += fd.cFileName;  
+  
+                //The file is read-only ,cancle the attributes of read-only  
+                if(GetFileAttributes(strSourceFilePath.c_str()) & FILE_ATTRIBUTE_READONLY)   
+                    SetFileAttributes(strSourceFilePath.c_str(), FILE_ATTRIBUTE_NORMAL);   
+  
+                if(GetFileAttributes(strDestinationFilePath.c_str()) &FILE_ATTRIBUTE_READONLY)   
+                    SetFileAttributes(strDestinationFilePath.c_str(), FILE_ATTRIBUTE_NORMAL);  
+  
+				if(CopyFile(strSourceFilePath.c_str(),strDestinationFilePath.c_str(),FALSE)==FALSE)  
+                {     
+#ifdef _WIN32_WCE  
+                    ASSERT(FALSE);  
+#else   
+                    std::string strInfo;  
+                    strInfo = TEXT("Copy File/" ");  
+                    strInfo += strSourceFilePath;  
+                    strInfo += TEXT("/"  Failed !");  
+                    OutputDebugString(strInfo.c_str());  
+#endif  
+                    return FALSE;  
+                }  
+            }  
+        }while(FindNextFile(hdFind,&fd));  
+    }  
+    else  
+    {  
+        bResult = FALSE;  
+    }  
+    FindClose(hdFind);  
+    return bResult;  
+}
+
+bool XUtilsFile::moveFile(std::string& srcPath, std::string& destPath)
+{
+	XUtilsFile::copyDirectory(srcPath, destPath);
+	XUtilsFile::deleteDirectory(srcPath);
+	return true;
 }
 
 XUtilsFile::XUtilsFile()

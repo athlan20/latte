@@ -41,7 +41,6 @@ bool XUpdater::checkVersion(std::string localVersionPath)
 	std::string serverVer = this->getMainVersion();
 	std::string localVer = this->getLocalMainVersion(localVersionPath);
 	
-	
 	bool isSame = false;
 	XASSERT(serverVer!="","serverVer get empty");
 	if (serverVer!="" || localVer!="")
@@ -80,11 +79,11 @@ std::string XUpdater::getMainVersion(std::string mainVersionUrl)
 {
 	mainVersionUrl = mainVersionUrl == "" ? this->_resVersionUrl : mainVersionUrl;
 	boost::shared_ptr<XDownloader> downloader = boost::shared_ptr<XDownloader>(new XDownloader);
-	downloader->downloadSync(mainVersionUrl.c_str(),this->_storagePath+"tempMainVersion");
+	downloader->downloadSync(mainVersionUrl.c_str(),this->_storagePath + "resource.json");
 	//json 文档
 	Json::Value root;
 	Json::Reader jReader;
-	std::string data = XUtilsFile::getFileData(this->_storagePath + "tempMainVersion");
+	std::string data = XUtilsFile::getFileData(this->_storagePath + "resource.json");
 	
 	if (data != "")
 	{
@@ -94,6 +93,37 @@ std::string XUpdater::getMainVersion(std::string mainVersionUrl)
 		return version;
 	}
 	return "";
+}
+
+int XUpdater::checkPackage(boost::unordered_map<std::string, XDownloader::XDownloadUnit>& units)
+{
+	if (this->_serverResJson.isNull())
+	{
+		return -1;
+	}
+	size_t serverFileSize = 0;
+	size_t fileSize = 0;
+	Json::Value fileData;
+	Json::Value rootFiles = this->_serverResJson["files"];
+	int workPathSize = this->_storagePath.size();
+	boost::unordered_map<std::string, XDownloader::XDownloadUnit>::iterator it = units.begin();
+	for (; it != units.end(); ++it)
+	{
+		std::string serverFileKey = it->second.storagePath.substr(workPathSize,INT_MAX);
+		fileData = rootFiles[serverFileKey];
+		std::string serverFileMD5 = fileData["key"].asString();
+		if (!XUtilsFile::isFileExist(it->second.storagePath))	//不存在或者不一样
+		{
+			return -2;
+		}
+		serverFileSize = fileData["size"].asInt();
+		fileSize = XUtilsFile::getFileSize(it->second.storagePath);
+		if (serverFileSize != fileSize)
+		{
+			return -3;
+		}
+	}
+	return 0;
 }
 
 /************************************************************************/
@@ -120,35 +150,38 @@ void XUpdater::reset()
 
 }
 
-int XUpdater::upgrade(std::string resourcePath,
+int XUpdater::upgrade(std::string localPackagePath,std::string localVersionPath,
 	boost::function<void(int)> startLoad,
 	boost::function<void(double, double, const std::string &, const std::string &)> progressCall,
 	boost::function<void(const std::string &, const std::string &, const std::string &)> successCall,
 	boost::function<void()> allCompleteCall,
 	boost::function<void(double, double, const std::string &, const std::string &)> errorCall)
 {
-	resourcePath = resourcePath == "" ? "resource.json" : resourcePath;
-	bool isSame = this->checkVersion(resourcePath);
+	localVersionPath = localVersionPath == "" ? "resource.json" : localVersionPath;
+	bool isSame = this->checkVersion(localVersionPath);
 	int loadedNum = 0;
 	std::vector<std::string> removeFiles;
 	if (!isSame)
 	{
 		Json::Reader jReader;
 		Json::Value root;
-		std::string data = XUtilsFile::getFileData(resourcePath);
+		std::string data = XUtilsFile::getFileData(localVersionPath);
 		jReader.parse(data, root);
 		Json::Value localJson = root["files"];
 		
 		Json::Value serverJson = this->_serverResJson["files"];
 		Json::Value::Members member = serverJson.getMemberNames();
+		Json::Value dataObj;
 		boost::unordered_map<std::string, XDownloader::XDownloadUnit> units;
 		for (Json::Value::Members::iterator iter = member.begin(); iter != member.end(); iter++)
 		{
 			std::string serverFileKey = *iter;
-			std::string serverFileMD5 = serverJson[serverFileKey].asString();
-			if (localJson[serverFileKey].isNull()
-				|| localJson[serverFileKey].asString().compare(serverFileMD5) != 0
-				|| !XUtilsFile::isFileExist(serverFileKey))	//不存在或者不一样
+			dataObj =  serverJson[serverFileKey];
+			std::string serverFileMD5 = dataObj["key"].asString();
+			dataObj = localJson[serverFileKey];
+			if (dataObj.isNull()
+				|| dataObj["key"].asString().compare(serverFileMD5) != 0
+				|| !XUtilsFile::isFileExist(localPackagePath+serverFileKey))	//不存在或者不一样
 			{
 				XDownloader::XDownloadUnit unit;
 				unit.srcUrl = this->_packageUrl + serverFileKey;
@@ -161,9 +194,10 @@ int XUpdater::upgrade(std::string resourcePath,
 		for (Json::Value::Members::iterator iter = member.begin(); iter != member.end(); iter++)
 		{
 			std::string localFileKey = *iter;
-			std::string localFileMD5 = serverJson[localFileKey].asString();
+			dataObj =  localJson[localFileKey];
+			std::string localFileMD5 = dataObj["key"].asString();
 			if (serverJson[localFileKey].isNull()
-				&& XUtilsFile::isFileExist(localFileKey))	//server没有，但是本地有
+				&& XUtilsFile::isFileExist(localPackagePath+localFileKey))	//server没有，但是本地有
 			{
 				removeFiles.push_back(localFileKey);
 			}
@@ -178,49 +212,12 @@ int XUpdater::upgrade(std::string resourcePath,
 			}
 			int curLoadedNum = 0;
 			this->_downloader = boost::shared_ptr<XDownloader>(new XDownloader());
-			//this->_downloader->setProgressCallback([=](double totalToDownload, double nowDownloaded, const std::string & url, const std::string & customId){
-			//	//this->
-			//	//XLOGP("totalToDownload:%f,nowDownloaded:%f",totalToDownload,nowDownloaded);
-			//	if (progressCall)
-			//	{
-			//		progressCall(totalToDownload, nowDownloaded,url,customId);
-			//	}
-			//});
-			//this->_downloader->setSuccessCallback([=, &curLoadedNum](const std::string & url, const std::string & localPathName, const std::string & customId){
-			//	//XLOGP("url:%s success", url.c_str());
-			//	if (successCall)
-			//	{
-			//		successCall(url, localPathName, customId);
-			//	}
-			//	++curLoadedNum;
-			//	if (curLoadedNum == loadedNum)
-			//	{
-			//		if (allCompleteCall)
-			//		{
-			//			allCompleteCall();
-			//		}
-			//	}
-			//});
-			//这里需要分线程出去,不然会卡住调用线程
-			
-			//boost::thread t = boost::thread(&XDownloader::queueDownloadSync, this->_downloader, units);
-			//t.detach();
-			//this->_downloader->queueDownloadSync(units);
-			//this->_downloader->queueDownloadASync(units);
-			//测试时候不改名，方便重复下载
-			//XUtilsFile::renameFile("tempMainVersion", "resource.json", this->_storagePath);
-			//auto tDelete = std::thread([=, &removeFiles](){
-			//	if (removeFiles.size() > 0){
-			//		std::vector<std::string>::iterator it = removeFiles.begin();
-			//		for (; it != removeFiles.end(); ++it)
-			//		{
-			//			XUtilsFile::deleteFile(*it);
-			//		}
-
-			//	}
-			//});
-			//tDelete.detach();
-
+			this->_downloader->queueDownloadSync(units);
+			int ret = checkPackage(units);
+			if(ret==0)
+			{
+				XUtilsFile::moveFile(XUtilsFile::getRelativePath("tmpPackage\\"),XUtilsFile::getRelativePath("package\\"));
+			}
 		}
 		
 	}

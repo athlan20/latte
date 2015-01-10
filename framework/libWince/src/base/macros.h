@@ -55,3 +55,18 @@ _ASSERT(cond);	\
 #else         /* use a DLL library */
 #define X_DLL     
 #endif
+
+//encode
+#define UT2WC_CHAR(str) (XUtilsFormatter::UT2WC(str)).c_str()
+#define UT2WC_STR(str) XUtilsFormatter::UT2WC(str)
+#define WC2UT_STR(str) XUtilsFormatter::WC2UT(str)
+
+#ifdef UNICODE  
+#ifndef TSTRING  
+#define TSTRING std::wstring  
+#endif  
+#else  
+#ifndef TSTRING  
+#define TSTRING std::string  
+#endif  
+#endif  

@@ -111,6 +111,11 @@ std::wstring XUtilsFormatter::UT2WC(const char* buf)
 	return std::wstring(&unicode[0]);
 }
 
+std::wstring XUtilsFormatter::UT2WC(const std::string& str)
+{
+	return UT2WC(str.c_str());
+}
+
 std::string XUtilsFormatter::WC2UT(const wchar_t* buf)
 {
 	int len = WideCharToMultiByte(CP_UTF8, 0, buf, -1, NULL, 0, NULL, NULL);
@@ -120,6 +125,11 @@ std::string XUtilsFormatter::WC2UT(const wchar_t* buf)
 	WideCharToMultiByte(CP_UTF8, 0, buf, -1, &utf8[0], len, NULL, NULL);
 
 	return std::string(&utf8[0]);
+}
+std::string XUtilsFormatter::WC2UT(std::wstring& str)
+{
+
+	return XUtilsFormatter::WC2UT(str.c_str());
 }
 
 std::wstring XUtilsFormatter::MB2WC(const char* buf)

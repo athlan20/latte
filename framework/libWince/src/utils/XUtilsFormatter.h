@@ -16,7 +16,9 @@ public:
 	X_DLL static std::string GBK2UTF8(const char *szGbk);
 	X_DLL static std::string UTF82GBK(const char *szUtf8);
 	X_DLL static std::wstring UT2WC(const char* buf);
+	X_DLL static std::wstring UT2WC(const std::string& str);
 	X_DLL static std::string WC2UT(const wchar_t* buf);
+	X_DLL static std::string WC2UT(std::wstring& str);
 	X_DLL static std::wstring MB2WC(const char* buf);
 	X_DLL static std::string WC2MB(const wchar_t* buf);
 

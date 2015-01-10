@@ -87,8 +87,8 @@ public:
 	*  @param[in]  filename The resource file name which contains the path.
 	*  @param[in]  pszMode The read mode of the file.
 	*/
-	static X_DLL std::string getFileData(const std::string& filename, const char* mode = "r");
-
+	X_DLL static std::string getFileData(const std::string& filename, const char* mode = "r");
+	X_DLL static size_t getFileSize(std::string filename);
 	/**
 	 * 判断是否是存在的目录
 	 * @param
@@ -134,8 +134,13 @@ public:
 	 * @return
 	 */
 	X_DLL static bool deleteFile(const std::string &path);
+	X_DLL static bool deleteDirectory(const std::string &path);
 
+	X_DLL static std::string getRelativePath(std::string fileName);
 	X_DLL static std::string getWorkPath();
+	X_DLL bool static XUtilsFile::checkDirectoryExist(const std::string& strPath);
+	X_DLL bool static XUtilsFile::copyDirectory(std::string& srcPath, std::string& destPath);
+	X_DLL bool static XUtilsFile::moveFile(std::string& srcPath, std::string& destPath);
 private:
 	/**
 	*  The full path cache. When a file is found, it will be added into this cache.
