@@ -84,7 +84,7 @@ int downloadProgressFunc(XDownloader::ProgressData *ptr, double totalToDownload,
 	if (ptr->downloaded != nowDownloaded)
 	{
 		ptr->downloaded = nowDownloaded;
-		std::cout << int(ptr->downloaded/ptr->totalToDownload*100) << std::endl;
+		//std::cout << int(ptr->downloaded/ptr->totalToDownload*100) << std::endl;
 		XLatte::getInstance()->getScheduler()->performFunctionInLatteThread(boost::bind(&XDownloader::processCall,ptr->downloader,*ptr));
 		//XDownloader::ProgressData data = *ptr;
 		//XLatte::getInstance()->getScheduler()->performFunctionInLatteThread(()());
@@ -211,7 +211,7 @@ DWORD XDownloader::doanloadAsyncProc(LPVOID pParam)
 
 void XDownloader::notifyError(const std::string &msg)
 {
-	std::cout << " message:" << msg << std::endl;
+	//std::cout << " message:" << msg << std::endl;
 }
 
 void XDownloader::notifyError(int curle_code/* = CURLE_OK*/,const ProgressData &data)

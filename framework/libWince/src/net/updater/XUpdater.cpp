@@ -151,7 +151,7 @@ void XUpdater::reset()
 }
 
 int XUpdater::upgrade(std::string localPackagePath,std::string localVersionPath,
-	boost::function<void(int)> startLoad,
+	boost::function<void(boost::unordered_map<std::string, XDownloader::XDownloadUnit>& )> startLoad,
 	boost::function<void(double, double, const std::string &, const std::string &)> progressCall,
 	boost::function<void(const std::string &, const std::string &, const std::string &)> successCall,
 	boost::function<void()> allCompleteCall,
@@ -208,15 +208,22 @@ int XUpdater::upgrade(std::string localPackagePath,std::string localVersionPath,
 		{
 			if (startLoad)
 			{
-				startLoad(loadedNum);
+				startLoad(units);
 			}
 			int curLoadedNum = 0;
 			this->_downloader = boost::shared_ptr<XDownloader>(new XDownloader());
+			this->_downloader->setProgressCallback(progressCall);
+			this->_downloader->setSuccessCallback(successCall);
+
 			this->_downloader->queueDownloadSync(units);
 			int ret = checkPackage(units);
 			if(ret==0)
 			{
 				XUtilsFile::moveFile(XUtilsFile::getRelativePath("tmpPackage\\"),XUtilsFile::getRelativePath("package\\"));
+				if (allCompleteCall)
+				{
+					allCompleteCall();
+				}
 			}
 		}
 		

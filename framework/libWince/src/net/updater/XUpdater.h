@@ -24,7 +24,7 @@ public:
 
 	X_DLL virtual bool init();
 	X_DLL virtual int upgrade(std::string localPackagePath="package\\",std::string localVersionPath = "package\\resource.json",
-		boost::function<void(int)> startLoad = NULL,
+		boost::function<void(boost::unordered_map<std::string, XDownloader::XDownloadUnit>& )> startLoad = NULL,
 		boost::function<void(double, double, const std::string &, const std::string &)> progressCall = NULL,
 		boost::function<void(const std::string &, const std::string &, const std::string &)> successCall = NULL,
 		boost::function<void()> allCompleteCall = NULL,

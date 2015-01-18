@@ -28,7 +28,7 @@ public:
 		
 		int len = vsprintf(logStr, format, args);
 
-		std::cout<<logStr<<std::endl;
+		//std::cout<<logStr<<std::endl;
 		va_end(args);
 		
 

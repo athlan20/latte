@@ -231,3 +231,8 @@ $RECYCLE.BIN/
 *.msi
 *.msm
 *.msp
+
+
+# other project
+projects/idScanner
+projects/updater
